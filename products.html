@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  
+<style>
+    
+header, footer, .widget, .post {
+  display: none !important;
+}
+
+/* default = desktop */
+.mobile-menu {
+  display: none;
+}
+  
+#navbar-iframe {
+  display: none !important;
+}
+
+/* === BG MODE (VIDEO OFF) === */
+#bg-video,
+.overlay {
+  display: none !important;
+}
+
+body {
+  background: #f5f6fa; /* default putih */
+  /* kalau mau pakai gambar:
+  background: url('URL_GAMBAR_LO') no-repeat center/cover;
+  */
+  font-family: 'Inter', Arial, sans-serif;
+
+}
+
+/* LOGO */
+.logo img {
+    height: 12vw;
+    width: auto;
+    object-fit: contain;
+}
+.center {
+  display: none !important;
+}
+
+/* VIDEO */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* TOPBAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 12.5vh;
+  min-height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 20000;
+
+  /* ✨ GLASS BASE */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+  transition: 0.3s ease;
+}
+
+.topbar.scrolled {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 6.5vh;
+}
+
+.menu-btn {
+  font-size: 4.5vh;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  gap: 15px;
+  margin-left: auto;
+}
+
+/* BUTTON */
+.right a {
+  text-decoration: none;
+  color: black !important;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 999px;
+}
+
+.login {
+  background: red;
+}
+
+.buyer {
+  background: #eee;
+  color: black !important;
+}
+  
+/* SIDEBAR (CLICK ONLY, NO HOVER NGINTIP) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100vh; /* FULL HIDE */
+  width: 50vh;
+  height: 100%;
+
+  /* 🔥 GRADIENT */
+  background: linear-gradient(
+    to bottom right,
+    #76869F,
+    rgb(31, 33, 54)
+  );
+
+  padding-top: 13vh;
+  z-index: 10000;
+
+  transition: 0.3s ease;
+}
+
+.sidebar.active {
+  left: 0;
+}
+  
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 30px;
+}
+
+.center a {
+  text-decoration: none;
+  color: white;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 20px;
+
+}
+
+/* MENU STYLE */
+.sidebar a {
+  display: block;
+  padding: 16px 30px;
+  color: white;
+  text-decoration: none;
+  font-size: 32px;
+
+  position: relative;
+  transition: 0.25s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.05);
+  padding-left: 40px;
+}
+
+/* 🔥 GARIS BAWAH */
+.sidebar a::after {
+  content: "";
+  position: absolute;
+  left: 30px;          /* ikut padding */
+  bottom: 10px;
+
+  width: calc(100% - 60px); /* biar gak nabrak kanan */
+  height: 2px;
+
+  background: white;
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 0.3s ease;
+}
+
+/* hover → muncul */
+.sidebar a:hover::after {
+  transform: scaleX(1);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  #bg-video {
+    object-position: center 30%;
+    height: 100%;
+  }
+
+  .center,
+  .right {
+    display: none !important;
+  }
+    .mobile-menu {
+    display: block;
+  }
+
+
+  .topbar {
+    height: 10vh;
+    min-height: 60px;
+z-index: 15000 !important;
+  }
+  
+  .menu-btn {
+    font-size: 26px;
+  }
+  
+  .sidebar {
+  width: 35vh;
+  height: 100%;
+  padding-top: 12vh;
+z-index: 14000 !important;
+
+}
+  
+  .sidebar a {
+    display: block;
+    padding: 16px 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 2vh;
+    position: relative;
+    transition: 0.25s ease;
+}
+
+  
+  .left {
+    gap: 1.5vh;
+}
+
+  .logo img {
+    height: 12vh;
+  }
+  
+  .menu-btn {
+    font-size: 3.5vh;
+    cursor: pointer;
+}
+  .login, .buyer {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .overlay {
+    backdrop-filter: blur(2px);
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.2) 40%,
+      rgba(0,0,0,0.8) 100%
+    );
+  }
+}
+
+/* === MODEL GRID === */
+.model-container {
+  margin-top: 15vh;
+  padding: 40px;
+}
+
+.filter-bar {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.filter-bar button {
+  border: 2px solid #ddd;
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-bar button:hover,
+.filter-bar .active {
+  background: red;
+  color: white;
+  border-color: red;
+}
+
+.main-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  
+}
+
+.sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  
+}
+
+
+
+button,
+a,
+p {
+  font-family: 'Inter', sans-serif;
+}
+
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  position: relative;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  aspect-ratio: 4 / 5; /* bisa lo ubah */
+}
+
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* 🔥 INI KUNCI */
+  object-position: center; /* fokus ke atas (muka biasanya di atas) */
+
+  display: block;
+}
+
+.product-card:hover img {
+  transform: scale(1.05); /* zoom dikit biar feel premium */
+}
+
+.model-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}  
+
+/* base image */
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.25s ease;
+}
+
+/* ACTIVE = normal */
+.model-link[data-team="aktip"] .product-card img {
+  filter: none;
+}
+
+/* NON AKTIF = BW */
+.model-link[data-team="nonaktip"] .product-card img {
+  filter: grayscale(100%) brightness(0.75) contrast(0.9);
+}
+  
+.page-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.sub-title {
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #888;
+  margin: 0;
+}
+
+.main-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 6px 0 6px;
+  background: linear-gradient(90deg, red, hotpink);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desc-text {
+  font-size: 13px;
+  color: #888;
+  margin: 0 auto;
+  max-width: 420px;
+  line-height: 1.4;
+}
+
+.desc-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px auto 0;
+  max-width: 420px;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.desc-list li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+}
+
+/* bullet custom kecil biar premium */
+.desc-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #aaa;
+}
+  
+  
+.product-card p {
+  padding: 10px;
+  font-weight: bold;
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: 0.3s;
+  margin: 0;
+  padding: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.product-card:hover .main-img {
+  opacity: 0;
+}
+
+.product-card:hover .hover-img {
+  opacity: 1;
+}
+
+.product-link {
+  display: block;
+}
+
+#searchBox {
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  margin-left: 10px;
+}
+
+.img-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-img,
+.hover-img {
+  position: absolute;
+inset: 0; /* lebih clean dari top left width height */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hover-img {
+  opacity: 0;
+}
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+.sidebar .buyer-login {
+  display: block;
+  margin: 30px 20px 0;
+  padding: 12px 16px;
+
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  color: white;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ffffff20, #ffffff05);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  transition: 0.25s ease;
+}
+
+.sidebar .buyer-login:hover {
+  background: white;
+  color: black;
+  transform: translateY(-2px);
+}
+
+  .model-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .model-container {
+    padding: 16px;
+  }
+  
+   .main-title {
+    font-size: 24px;
+  }
+
+  .sub-title {
+    font-size: 12px;
+  }
+
+}
+
+.layout {
+  display: flex;
+  gap: 20px;
+}
+
+/* sidebar kiri */
+.member-sidebar {
+  width: 250px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  height: 500px;
+  overflow: hidden;
+}
+
+#memberList {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.member-item {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.member-item:hover {
+  background: #eee;
+}
+
+.member-item.active {
+  color: red;
+  font-weight: bold;
+}
+
+/* modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 20000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  width: 90vw;
+  height: 85vh;
+  margin: 5vh auto;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#checkout-container {
+  width: 100%;
+  height: 100%;
+overflow: auto; /* 🔥 biar bisa scroll */
+}
+
+.modal-left img {
+  width: 540px;
+  border-radius: 10px;
+}
+
+.modal-right {
+  flex: 1;
+}
+
+/* tombol biar oval */
+.subscribe-btn {
+  border-radius: 999px !important;
+}
+
+#close {
+  font-size: 26px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+
+/* responsive */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999999; /* 🔥 biar gak ketiban */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+  .modal-content {
+    height: 85vh;
+  }
+
+  #checkout-container {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+
+.modal.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal-left img {
+  width: 200px;
+}
+
+#close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;   /* 🔥 gedein */
+  cursor: pointer;
+  z-index: 12000;
+}
+
+  .member-sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .subscribe-btn {
+    width: 100%;         /* full lebar */
+    text-align: center;
+    padding: 12px;
+  }
+}  
+
+.subscribe-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  text-decoration: none;   /* 🔥 ilangin underline */
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ff2d2d, #ff6a6a);
+  color: white !important;
+box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
+  transition: 0.25s ease;
+}
+
+/* hover effect */
+.subscribe-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.3);
+}
+
+/* klik feel */
+.subscribe-btn:active {
+  transform: scale(0.96);
+}
+  
+</style>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="left">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <a href="index.html" class="logo" target="_blank" rel="noopener noreferrer">
+  <img src="https://files.catbox.moe/vpqdr9.png">
+</a>
+  </div>
+  
+
+  <div class="right">
+  <a href="https://javai.myr.id/m/ytta" class="login" target="_blank" rel="noopener noreferrer">MEMBERSHIP</a>
+  <a href="https://javai.myr.id/portal" class="buyer" target="_blank" rel="noopener noreferrer">BUYER LOGIN ▼</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <a href="https://javai.myr.id/m/ytta" target="_blank" rel="noopener noreferrer">Membership</a>
+  <a href="https://javai.myr.id/pl/parody-by-request/" target="_blank" rel="noopener noreferrer">Private Order</a>
+  <a href="products.html">Products</a>
+  <a href="models.html">FAP Models</a>
+  
+    <!-- MOBILE MENU -->
+  <div class="menu mobile-menu">
+  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" target="_blank" rel="noopener noreferrer">ABOUT US</a> 
+    <br><br><br><br>
+  <a href="https://javai.myr.id/portal" class="buyer-login" target="_blank" rel="noopener noreferrer">
+  Buyer Login
+</a>
+  </div>
+</div> <!-- ⬅️ INI PENUTUP SIDEBAR -->
+
+<!-- CONTENT -->
+<div class="model-container">
+
+<div class="page-header">
+  <h1 class="main-title">YTTA PRODUCTS</h1>
+  </div>
+</div>
+
+<div class="filter-bar">
+<button data-filter="all">Semua</button>
+<button data-filter="Photobook">Photobook</button>
+<button data-filter="Photoset">Photoset</button>
+<button data-filter="Video">Video</button>
+<button data-filter="Story">Story</button>
+<input type="text" id="searchBox" placeholder="Cari produk...">
+</div>
+
+
+<div class="layout">
+
+<div class="model-grid">
+  
+<a href='#' class='product-link' data-id='1' data-category='Photobook' data-name='PEMBENIHAN CINTA' data-link='https://javai.myr.id/pl/48magazinah-edisi-3-pembenihan-cinta-76538' data-img='https://media.mayar.id/images/cf004164-bc9d-4e42-a65b-d51277fd0b50.jpeg' data-hover='https://framerusercontent.com/images/tkC6XLqgLQ3bbueEzHU7qEPSwKY.jpg?scale-down-to=512&width=1498&height=2000'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media.mayar.id/images/cf004164-bc9d-4e42-a65b-d51277fd0b50.jpeg'><img class='hover-img' src='https://framerusercontent.com/images/tkC6XLqgLQ3bbueEzHU7qEPSwKY.jpg?scale-down-to=512&width=1498&height=2000'></div><p>PEMBENIHAN CINTA</p></div></a>
+<a href='#' class='product-link' data-id='2' data-category='Photoset' data-name='FASHION LEAKS' data-link='https://javai.myr.id/pl/fashion-leaks-vol-1' data-img='https://framerusercontent.com/images/qmOQkNmAS8VQUkf8WSir8lNgbgY.png?scale-down-to=512&width=643&height=544%20512w,https://framerusercontent.com/images/qmOQkNmAS8VQUkf8WSir8lNgbgY.png?width=643&height=544%20643w' data-hover='https://framerusercontent.com/images/qybh2W0sCoYf6aFLcdlVZ05QCHk.png?width=382&height=376'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/qmOQkNmAS8VQUkf8WSir8lNgbgY.png?scale-down-to=512&width=643&height=544%20512w,https://framerusercontent.com/images/qmOQkNmAS8VQUkf8WSir8lNgbgY.png?width=643&height=544%20643w'><img class='hover-img' src='https://framerusercontent.com/images/qybh2W0sCoYf6aFLcdlVZ05QCHk.png?width=382&height=376'></div><p>FASHION LEAKS</p></div></a>
+<a href='#' class='product-link' data-id='3' data-category='Story' data-name='VANA IN LOVE' data-link='https://javai.myr.id/comic/vana-in-love-55985' data-img='https://framerusercontent.com/images/h6yIK2237SdHXcNcInCaIez85DE.png?width=358&height=519%20358w' data-hover='https://framerusercontent.com/images/cFtrhWjzI0YcEneBamIuDApu98.png?scale-down-to=512&width=420&height=624'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/h6yIK2237SdHXcNcInCaIez85DE.png?width=358&height=519%20358w'><img class='hover-img' src='https://framerusercontent.com/images/cFtrhWjzI0YcEneBamIuDApu98.png?scale-down-to=512&width=420&height=624'></div><p>VANA IN LOVE</p></div></a>
+<a href='#' class='product-link' data-id='4' data-category='Video' data-name='SI UTUN PUNYA SIAPA' data-link='https://javai.myr.id/pl/ai-mv-parody/' data-img='https://media-myr.b-cdn.net/images/resized/1440/7faac2d6-3a3c-4b98-a3bb-aafe2fb1f51a.webp' data-hover='https://framerusercontent.com/images/ms34sDOOyWw8zyQwnZkow9TJXI.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/7faac2d6-3a3c-4b98-a3bb-aafe2fb1f51a.webp'><img class='hover-img' src='https://framerusercontent.com/images/ms34sDOOyWw8zyQwnZkow9TJXI.gif?width=240&height=320'></div><p>SI UTUN PUNYA SIAPA</p></div></a>
+  
+</div> <!-- model-grid -->
+</div> <!-- layout -->
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+
+    <span id="close">&times;</span>
+
+    <div id="checkout-container"></div>
+
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+window.addEventListener("scroll", function () {
+  const topbar = document.querySelector(".topbar");
+
+  if (window.scrollY > 10) {
+    topbar.classList.add("scrolled");
+  } else {
+    topbar.classList.remove("scrolled");
+  }
+});
+
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+
+
+
+// modal
+function openModal(card) {
+  const modal = document.getElementById("modal");
+  const container = document.getElementById("checkout-container");
+
+  container.innerHTML = `
+    <iframe 
+      src="${card.dataset.link}" 
+      style="width:100%; height:100%; border:0;"
+      allowfullscreen
+      allowpaymentrequest
+      scrolling="no"
+      data-hide-merchant-logo="true"
+      data-hide-badge-secure="true"
+      data-hide-language="true"
+    ></iframe>
+  `;
+
+  modal.style.display = "block";
+
+  // reload mayar script
+  setTimeout(() => {
+    const oldScript = document.querySelector('script[src*="mayarEmbed"]');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement("script");
+    script.src = "https://mayarembed.r2.mayar.id/mayarEmbed.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, 100);
+}
+
+// close
+document.getElementById("close").onclick = () => {
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("checkout-container").innerHTML = "";
+};
+
+
+
+// filter & search
+const buttons = document.querySelectorAll(".filter-bar button");
+const cards = document.querySelectorAll(".product-link");
+document.addEventListener("click", function(e) {
+  const card = e.target.closest(".product-link");
+
+  if (card) {
+    e.preventDefault();
+    openModal(card);
+  }
+});
+const searchBox = document.getElementById("searchBox");
+
+let currentFilter = "all";
+
+// klik tombol filter
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+// search input
+searchBox.addEventListener("input", applyFilter);
+
+// fungsi utama filter + search
+function applyFilter() {
+  const keyword = searchBox.value.toLowerCase();
+
+  cards.forEach(card => {
+    const category = card.dataset.category;
+    const name = card.dataset.name.toLowerCase();
+
+    const matchFilter = (currentFilter === "all" || category === currentFilter);
+    const matchSearch = name.includes(keyword);
+
+    card.style.display = (matchFilter && matchSearch) ? "block" : "none";
+  });
+}
+
+window.onclick = function(e) {
+  const modal = document.getElementById("modal");
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+cards.forEach(card => {
+  const mainImg = card.querySelector(".main-img");
+  const hoverImg = card.querySelector(".hover-img");
+
+  card.addEventListener("mouseenter", () => {
+    if (hoverImg) {
+      mainImg.style.opacity = "0";
+      hoverImg.style.opacity = "1";
+    }
+  });
+
+  card.addEventListener("mouseleave", () => {
+    mainImg.style.opacity = "1";
+    hoverImg.style.opacity = "0";
+  });
+});
+document.getElementById("close").onclick = () => {
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("checkout-container").innerHTML = "";
+};
+
+
+function openModal(card) {
+  const modal = document.getElementById("modal");
+  const container = document.getElementById("checkout-container");
+
+  container.innerHTML = `
+    <iframe 
+      src="${card.dataset.link}" 
+      style="width:100%; height:100%; border:0;"
+      allowfullscreen
+      allowpaymentrequest
+      scrolling="yes"
+      data-hide-merchant-logo="true"
+      data-hide-badge-secure="true"
+      data-hide-language="true"
+    ></iframe>
+  `;
+
+  modal.style.display = "block";
+
+  // reload mayar script
+  setTimeout(() => {
+    const oldScript = document.querySelector('script[src*="mayarEmbed"]');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement("script");
+    script.src = "https://mayarembed.r2.mayar.id/mayarEmbed.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, 100);
+}
+</script>
+
+ </body>
+<script src="https://mayarembed.r2.mayar.id/mayarEmbed.min.js"></script>
+</html>

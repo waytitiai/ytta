@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  
+<style>
+    
+header, footer, .widget, .post {
+  display: none !important;
+}
+
+/* default = desktop */
+.mobile-menu {
+  display: none;
+}
+  
+#navbar-iframe {
+  display: none !important;
+}
+
+/* === BG MODE (VIDEO OFF) === */
+#bg-video,
+.overlay {
+  display: none !important;
+}
+
+body {
+  background: #f5f6fa; /* default putih */
+  /* kalau mau pakai gambar:
+  background: url('URL_GAMBAR_LO') no-repeat center/cover;
+  */
+  font-family: 'Inter', Arial, sans-serif;
+
+}
+
+/* LOGO */
+.logo img {
+    height: 12vw;
+    width: auto;
+    object-fit: contain;
+}
+.center {
+  display: none !important;
+}
+
+/* VIDEO */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* TOPBAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 12.5vh;
+  min-height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 20000;
+
+  /* ✨ GLASS BASE */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+  transition: 0.3s ease;
+}
+
+.topbar.scrolled {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 6.5vh;
+}
+
+.menu-btn {
+  font-size: 4.5vh;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  gap: 15px;
+  margin-left: auto;
+}
+
+/* BUTTON */
+.right a {
+  text-decoration: none;
+  color: black !important;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 999px;
+}
+
+.login {
+  background: red;
+}
+
+.buyer {
+  background: #eee;
+  color: black !important;
+}
+  
+/* SIDEBAR (CLICK ONLY, NO HOVER NGINTIP) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100vh; /* FULL HIDE */
+  width: 50vh;
+  height: 100%;
+
+  /* 🔥 GRADIENT */
+  background: linear-gradient(
+    to bottom right,
+    #76869F,
+    rgb(31, 33, 54)
+  );
+
+  padding-top: 13vh;
+  z-index: 10000;
+
+  transition: 0.3s ease;
+}
+
+.sidebar.active {
+  left: 0;
+}
+  
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 30px;
+}
+
+.center a {
+  text-decoration: none;
+  color: white;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 20px;
+
+}
+
+/* MENU STYLE */
+.sidebar a {
+  display: block;
+  padding: 16px 30px;
+  color: white;
+  text-decoration: none;
+  font-size: 32px;
+
+  position: relative;
+  transition: 0.25s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.05);
+  padding-left: 40px;
+}
+
+/* 🔥 GARIS BAWAH */
+.sidebar a::after {
+  content: "";
+  position: absolute;
+  left: 30px;          /* ikut padding */
+  bottom: 10px;
+
+  width: calc(100% - 60px); /* biar gak nabrak kanan */
+  height: 2px;
+
+  background: white;
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 0.3s ease;
+}
+
+/* hover → muncul */
+.sidebar a:hover::after {
+  transform: scaleX(1);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  #bg-video {
+    object-position: center 30%;
+    height: 100%;
+  }
+
+  .center,
+  .right {
+    display: none !important;
+  }
+    .mobile-menu {
+    display: block;
+  }
+
+
+  .topbar {
+    height: 10vh;
+    min-height: 60px;
+z-index: 15000 !important;
+  }
+  
+  .menu-btn {
+    font-size: 26px;
+  }
+  
+  .sidebar {
+  width: 35vh;
+  height: 100%;
+  padding-top: 12vh;
+z-index: 14000 !important;
+
+}
+  
+  .sidebar a {
+    display: block;
+    padding: 16px 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 2vh;
+    position: relative;
+    transition: 0.25s ease;
+}
+
+  
+  .left {
+    gap: 1.5vh;
+}
+
+  .logo img {
+    height: 12vh;
+  }
+  
+  .menu-btn {
+    font-size: 3.5vh;
+    cursor: pointer;
+}
+  .login, .buyer {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .overlay {
+    backdrop-filter: blur(2px);
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.2) 40%,
+      rgba(0,0,0,0.8) 100%
+    );
+  }
+}
+
+/* === MODEL GRID === */
+.model-container {
+  margin-top: 15vh;
+  padding: 40px;
+}
+
+.filter-bar {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.filter-bar button {
+  border: 2px solid #ddd;
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-bar button:hover,
+.filter-bar .active {
+  background: red;
+  color: white;
+  border-color: red;
+}
+
+.main-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  
+}
+
+.sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  
+}
+
+
+
+button,
+a,
+p {
+  font-family: 'Inter', sans-serif;
+}
+
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.model-card {
+  position: relative;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  aspect-ratio: 4 / 5; /* bisa lo ubah */
+}
+
+.model-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}  
+
+/* base image */
+.model-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.25s ease;
+}
+
+/* ACTIVE = normal */
+.model-link[data-team="aktip"] .model-card img {
+  filter: none;
+}
+
+/* NON AKTIF = BW */
+.model-link[data-team="nonaktip"] .model-card img {
+  filter: grayscale(100%) brightness(0.75) contrast(0.9);
+}
+  
+.page-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.sub-title {
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #888;
+  margin: 0;
+}
+
+.main-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 6px 0 6px;
+  background: linear-gradient(90deg, red, hotpink);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desc-text {
+  font-size: 13px;
+  color: #888;
+  margin: 0 auto;
+  max-width: 420px;
+  line-height: 1.4;
+}
+
+.desc-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px auto 0;
+  max-width: 420px;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.desc-list li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+}
+
+/* bullet custom kecil biar premium */
+.desc-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #aaa;
+}
+  
+  
+.model-card p {
+  padding: 10px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: 0.3s;
+  margin: 0;
+  padding: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+
+  z-index: 2;
+}
+
+#searchBox {
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  margin-left: 10px;
+}
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .model-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .model-container {
+    padding: 16px;
+  }
+  
+   .main-title {
+    font-size: 24px;
+  }
+
+  .sub-title {
+    font-size: 12px;
+  }
+
+}
+
+.layout {
+  display: flex;
+  gap: 20px;
+}
+
+/* sidebar kiri */
+.member-sidebar {
+  width: 250px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  height: 500px;
+  overflow: hidden;
+}
+
+#memberList {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.member-item {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.member-item:hover {
+  background: #eee;
+}
+
+.member-item.active {
+  color: red;
+  font-weight: bold;
+}
+
+/* modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 20000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background: white;
+  margin: 5% auto;
+  padding: 20px;
+  width: 50vw;
+  max-width: 700px;
+  border-radius: 12px;
+
+  display: flex;           /* 🔥 */
+  gap: 20px;
+  align-items: flex-start;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-left img {
+  width: 540px;
+  border-radius: 10px;
+}
+
+.modal-right {
+  flex: 1;
+}
+
+/* tombol biar oval */
+.subscribe-btn {
+  border-radius: 999px !important;
+}
+
+#close {
+  font-size: 26px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+
+/* responsive */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+.modal {
+  padding-top: 80px; /* biar gak ketiban topbar */
+}
+
+.modal-content {
+  position: relative;
+  flex-direction: column; /* 🔥 jadi vertikal */
+  width: 90vw;            /* biar gak kepotong */
+  max-width: 90vw;
+  max-height: 75vh;       /* biar bisa scroll */
+  overflow-y: auto;       /* 🔥 scroll vertikal */
+
+}
+
+.modal-left img {
+  width: 200px;
+}
+
+#close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;   /* 🔥 gedein */
+  cursor: pointer;
+  z-index: 12000;
+}
+
+  .member-sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .subscribe-btn {
+    width: 100%;         /* full lebar */
+    text-align: center;
+    padding: 12px;
+  }
+}  
+
+.subscribe-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  text-decoration: none;   /* 🔥 ilangin underline */
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ff2d2d, #ff6a6a);
+  color: white !important;
+box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
+  transition: 0.25s ease;
+}
+
+/* hover effect */
+.subscribe-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.3);
+}
+
+/* klik feel */
+.subscribe-btn:active {
+  transform: scale(0.96);
+}
+
+
+
+.sidebar .buyer-login {
+  display: block;
+  margin: 30px 20px 0;
+  padding: 12px 16px;
+
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  color: white;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ffffff20, #ffffff05);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  transition: 0.25s ease;
+}
+
+.sidebar .buyer-login:hover {
+  background: white;
+  color: black;
+  transform: translateY(-2px);
+}  
+</style>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="left">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <a href="index.html" class="logo" target="_blank" rel="noopener noreferrer">
+  <img src="https://files.catbox.moe/vpqdr9.png">
+</a>
+  </div>
+  
+
+  <div class="right">
+  <a href="https://javai.myr.id/m/ytta" class="login" target="_blank" rel="noopener noreferrer">MEMBERSHIP</a>
+  <a href="https://javai.myr.id/portal" class="buyer" target="_blank" rel="noopener noreferrer">BUYER LOGIN ▼</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <a href="https://javai.myr.id/m/ytta" target="_blank" rel="noopener noreferrer">Membership</a>
+  <a href="https://javai.myr.id/pl/parody-by-request/" target="_blank" rel="noopener noreferrer">Private Order</a>
+  <a href="products.html">Products</a>
+  <a href="models.html">FAP Models</a>
+  
+    <!-- MOBILE MENU -->
+  <div class="menu mobile-menu">
+  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" target="_blank" rel="noopener noreferrer">ABOUT US</a> 
+    <br><br><br><br>
+  <a href="https://javai.myr.id/portal" class="buyer-login" target="_blank" rel="noopener noreferrer">
+  Buyer Login
+</a>
+  </div>
+</div> <!-- ⬅️ INI PENUTUP SIDEBAR -->
+
+<!-- CONTENT -->
+<div class="model-container">
+
+<div class="page-header">
+  <p class="sub-title">DATA BASE STATUS</p>
+  <h1 class="main-title">YTTA MODELS FAP</h1>
+  <p class="desc-text">
+Jumlah Gallery Konten akan terus berubah dan diupdate per bulan.<br><br><br>
+<ul class="desc-list">
+  <li>Active: Model memiliki subscriber</li>
+  <li>Inactive: Model tak memiliki subscriber (Locked)</li>
+  <li>Jumlah gallery adalah total data base dari model di seluruh tahun pembuatan</li>
+  <li>Kami mempersilahkan bila ingin Subscribe/Berlangganan model yang tak tersedia di list ini ataupun publik figur di luar dunia Idol</li>
+  <li>Seluruh inactive model tetap tersedia di database arsip lama, dapat diakses dengan mengambil tier Passion</li>
+</ul>
+</div>
+</div>
+
+<div class="filter-bar">
+  <button class="active" data-filter="all">Semua Model</button>
+  <button data-filter="aktip">Active</button>
+  <button data-filter="nonaktip">Inactive</button>
+<input type="text" id="searchBox" placeholder="Cari model...">
+</div>
+
+
+<div class="layout">
+
+<div class="model-grid">
+  
+<a href='#' class='model-link' data-name='ADEL' data-img='https://images4.imagebam.com/10/57/71/ME1CF8BJ_o.jpg' data-info='6' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/10/57/71/ME1CF8BJ_o.jpg'><p>6 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ANIN' data-img='https://images4.imagebam.com/ec/d9/db/ME1CF8R2_o.jpg' data-info='23' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ec/d9/db/ME1CF8R2_o.jpg'><p>23 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ANINDYA' data-img='https://images4.imagebam.com/71/4c/83/ME1CF8BN_o.jpg' data-info='12' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/71/4c/83/ME1CF8BN_o.jpg'><p>12 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ARALIE' data-img='https://images4.imagebam.com/69/7f/af/ME1CF8R7_o.jpg' data-info='27' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/69/7f/af/ME1CF8R7_o.jpg'><p>27 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ASHEL' data-img='https://images4.imagebam.com/5c/e5/11/ME1CF8BO_o.jpg' data-info='35' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/5c/e5/11/ME1CF8BO_o.jpg'><p>35 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CELINE' data-img='https://images4.imagebam.com/db/d6/b9/ME1CF8BR_o.jpg' data-info='54' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/db/d6/b9/ME1CF8BR_o.jpg'><p>54 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CHIKA' data-img='https://images4.imagebam.com/a9/86/d3/ME1CF8XV_o.jpg' data-info='408' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a9/86/d3/ME1CF8XV_o.jpg'><p>408 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CHRISELLE' data-img='https://images4.imagebam.com/e8/c1/ae/ME1CF8BT_o.jpg' data-info='6' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e8/c1/ae/ME1CF8BT_o.jpg'><p>6 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CHRISTY' data-img='https://images4.imagebam.com/4d/7a/8a/ME1CF8BW_o.jpg' data-info='108' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4d/7a/8a/ME1CF8BW_o.jpg'><p>108 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CYNTHIA' data-img='https://images4.imagebam.com/92/80/2a/ME1CF8R9_o.jpg' data-info='76' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/92/80/2a/ME1CF8R9_o.jpg'><p>76 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='DELYNN' data-img='https://images4.imagebam.com/de/18/4e/ME1CF8BZ_o.jpg' data-info='40' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/de/18/4e/ME1CF8BZ_o.jpg'><p>40 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='DEVI' data-img='https://images4.imagebam.com/8f/90/88/ME1CF8E5_o.jpg' data-info='29' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/8f/90/88/ME1CF8E5_o.jpg'><p>29 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ELIN' data-img='https://images4.imagebam.com/4a/5d/9b/ME1CF8E6_o.jpg' data-info='57' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/4a/5d/9b/ME1CF8E6_o.jpg'><p>57 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ERINE' data-img='https://images4.imagebam.com/18/3f/b2/ME1CF8E7_o.jpg' data-info='15' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/18/3f/b2/ME1CF8E7_o.jpg'><p>15 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FIONY' data-img='https://images4.imagebam.com/a2/bc/37/ME1CF8XW_o.jpg' data-info='207' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a2/bc/37/ME1CF8XW_o.jpg'><p>207 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FLORA' data-img='https://images4.imagebam.com/bf/10/d6/ME1CF8E8_o.jpg' data-info='30' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/bf/10/d6/ME1CF8E8_o.jpg'><p>30 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FREYA' data-img='https://images4.imagebam.com/44/09/94/ME1CF8E9_o.jpg' data-info='151' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/44/09/94/ME1CF8E9_o.jpg'><p>151 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FRITZY' data-img='https://images4.imagebam.com/51/8f/16/ME1CF8EA_o.jpg' data-info='151' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/51/8f/16/ME1CF8EA_o.jpg'><p>151 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GITA' data-img='https://images4.imagebam.com/36/67/2b/ME1CF8EB_o.jpg' data-info='53' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/36/67/2b/ME1CF8EB_o.jpg'><p>53 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GRACIA' data-img='https://images4.imagebam.com/56/1d/d2/ME1CF8XU_o.jpg' data-info='374' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/56/1d/d2/ME1CF8XU_o.jpg'><p>374 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GREESEL' data-img='https://images4.imagebam.com/ee/b9/e0/ME1CF8XT_o.jpg' data-info='93' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ee/b9/e0/ME1CF8XT_o.jpg'><p>93 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='INDAH' data-img='https://images4.imagebam.com/bd/9d/82/ME1CF8XR_o.jpg' data-info='209' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/bd/9d/82/ME1CF8XR_o.jpg'><p>209 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='INDIRA' data-img='https://images4.imagebam.com/a0/c8/1c/ME1CF8HS_o.jpg' data-info='18' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/c8/1c/ME1CF8HS_o.jpg'><p>18 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='JESSI' data-img='https://images4.imagebam.com/e7/3a/d3/ME1CF8HT_o.jpg' data-info='148' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e7/3a/d3/ME1CF8HT_o.jpg'><p>148 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='KATHRINA' data-img='https://images4.imagebam.com/57/75/34/ME1CF8HW_o.jpg' data-info='42' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/57/75/34/ME1CF8HW_o.jpg'><p>42 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='LANA' data-img='https://images4.imagebam.com/ea/e2/6a/ME1CF8HZ_o.jpg' data-info='30' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ea/e2/6a/ME1CF8HZ_o.jpg'><p>30 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='LULU' data-img='https://images4.imagebam.com/6a/12/9f/ME1CF8RC_o.jpg' data-info='110' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/6a/12/9f/ME1CF8RC_o.jpg'><p>110 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MARSHA' data-img='https://images4.imagebam.com/7b/b1/83/ME1CF8XY_o.jpg' data-info='208' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/7b/b1/83/ME1CF8XY_o.jpg'><p>208 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MELATI' data-img='https://images4.imagebam.com/fe/45/7b/ME1CF8I1_o.jpg' data-info='37' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/fe/45/7b/ME1CF8I1_o.jpg'><p>37 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MELODY' data-img='https://images4.imagebam.com/dd/3f/45/ME1CF8I3_o.jpg' data-info='100' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/dd/3f/45/ME1CF8I3_o.jpg'><p>100 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MICHIE' data-img='https://images4.imagebam.com/a6/97/00/ME1CF8HQ_o.jpg' data-info='34' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a6/97/00/ME1CF8HQ_o.jpg'><p>34 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MIRA' data-img='https://images4.imagebam.com/c5/a9/9b/ME1CF8QY_o.jpg' data-info='150' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/c5/a9/9b/ME1CF8QY_o.jpg'><p>150 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='NAOMI' data-img='https://images4.imagebam.com/3d/f7/5d/ME1CF8XX_o.jpg' data-info='249' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/3d/f7/5d/ME1CF8XX_o.jpg'><p>249 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ONIEL' data-img='https://images4.imagebam.com/a0/ec/79/ME1CF8XS_o.jpg' data-info='216' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/ec/79/ME1CF8XS_o.jpg'><p>216 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='SHANI' data-img='https://images4.imagebam.com/f2/3e/a0/ME1CF8R1_o.jpg' data-info='436' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/f2/3e/a0/ME1CF8R1_o.jpg'><p>436 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='TRISHA' data-img='https://images4.imagebam.com/07/19/94/ME1CF8XZ_o.jpg' data-info='73' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/07/19/94/ME1CF8XZ_o.jpg'><p>73 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='VERANDA' data-img='https://images4.imagebam.com/16/31/d3/ME1CF8R5_o.jpg' data-info='156' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/16/31/d3/ME1CF8R5_o.jpg'><p>156 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ZEE' data-img='https://images4.imagebam.com/0d/1b/5b/ME1CF8Y0_o.jpg' data-info='181' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/0d/1b/5b/ME1CF8Y0_o.jpg'><p>181 Galleries</p></div></a>
+  
+</div> <!-- model-grid -->
+</div> <!-- layout -->
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    
+    <span id="close">&times;</span>
+
+    <div class="modal-left">
+      <img id="m-img" src="">
+    </div>
+
+    <div class="modal-right">
+      <h2 id="m-name"></h2>
+
+      <p><b>Status:</b> <span id="m-status"></span></p>
+      <p><b>Total Gallery:</b> <span id="m-info"></span></p>
+
+      <a href="https://javai.myr.id/m/ytta" class="login subscribe-btn" target="_blank" rel="noopener noreferrer">
+        SUBSCRIBE
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+window.addEventListener("scroll", function () {
+  const topbar = document.querySelector(".topbar");
+
+  if (window.scrollY > 10) {
+    topbar.classList.add("scrolled");
+  } else {
+    topbar.classList.remove("scrolled");
+  }
+});
+
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+
+
+
+// modal
+function openModal(card) {
+  document.getElementById("m-name").innerText = card.dataset.name;
+  document.getElementById("m-img").src = card.dataset.img;
+  document.getElementById("m-info").innerText = card.dataset.info + " Galleries";
+  document.getElementById("m-status").innerText = card.dataset.status;
+
+  document.getElementById("modal").style.display = "block";
+}
+
+// close
+document.getElementById("close").onclick = () => {
+  document.getElementById("modal").style.display = "none";
+};
+
+
+
+// filter & search
+const buttons = document.querySelectorAll(".filter-bar button");
+const cards = document.querySelectorAll(".model-link");
+cards.forEach(card => {
+  card.addEventListener("click", (e) => {
+    e.preventDefault();
+    openModal(card);
+  });
+});
+const searchBox = document.getElementById("searchBox");
+
+let currentFilter = "all";
+
+// klik tombol filter
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+// search input
+searchBox.addEventListener("input", applyFilter);
+
+// fungsi utama filter + search
+function applyFilter() {
+  const keyword = searchBox.value.toLowerCase();
+
+  cards.forEach(card => {
+    const team = card.dataset.team;
+    const name = card.dataset.name.toLowerCase();
+
+    const matchFilter = (currentFilter === "all" || team === currentFilter);
+    const matchSearch = name.includes(keyword);
+
+    card.style.display = (matchFilter && matchSearch) ? "block" : "none";
+  });
+}
+
+window.onclick = function(e) {
+  const modal = document.getElementById("modal");
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
+</script>
+
+ </body>
+</html>

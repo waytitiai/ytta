@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  
+<style>
+    
+header, footer, .widget, .post {
+  display: none !important;
+}
+
+/* default = desktop */
+.mobile-menu {
+  display: none;
+}
+  
+#navbar-iframe {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+font-family: 'Inter', Arial, sans-serif;
+}
+
+button,
+a,
+p {
+  font-family: 'Inter', sans-serif;
+}
+
+/* LOGO */
+.logo img {
+  height: 20vh;
+  width: auto;
+}
+
+/* VIDEO */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.20),
+    rgba(0,0,0,0.75)
+  );
+
+  backdrop-filter: blur(1.8px);
+
+  pointer-events: none;
+  z-index: -1;
+
+}
+  
+
+.noise {
+  position: fixed;
+  inset: 0;
+
+  background: url("https://grainy-gradients.vercel.app/noise.png");
+  opacity: 0.05;
+
+  mix-blend-mode: overlay;
+  pointer-events: none;
+
+  z-index: 0;
+}
+  
+/* TOPBAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 12.5vh;
+  min-height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  z-index: 1000;
+  color: white;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 6.5vh;
+}
+
+.menu-btn {
+  font-size: 4.5vh;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  gap: 15px;
+  margin-left: auto;
+}
+
+/* BUTTON */
+.right a {
+  text-decoration: none;
+  color: white;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 20px;
+}
+
+.login {
+  background: red;
+}
+
+.buyer {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+}
+
+/* SIDEBAR (CLICK ONLY, NO HOVER NGINTIP) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100vh; /* FULL HIDE */
+  width: 50vh;
+  height: 100%;
+
+  /* 🔥 GRADIENT */
+  background: linear-gradient(
+    to bottom right,
+    #76869F,
+    rgb(31, 33, 54)
+  );
+
+  padding-top: 13vh;
+  z-index: 999;
+
+  transition: 0.3s ease;
+}
+
+.sidebar.active {
+  left: 0;
+}
+  
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 30px;
+}
+
+.center a {
+  text-decoration: none;
+  color: white;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 20px;
+
+}
+
+/* MENU STYLE */
+.sidebar a {
+  display: block;
+  padding: 16px 30px;
+  color: white;
+  text-decoration: none;
+  font-size: 32px;
+
+  position: relative;
+  transition: 0.25s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.05);
+  padding-left: 40px;
+}
+
+/* 🔥 GARIS BAWAH */
+.sidebar a::after {
+  content: "";
+  position: absolute;
+  left: 30px;          /* ikut padding */
+  bottom: 10px;
+
+  width: calc(100% - 60px); /* biar gak nabrak kanan */
+  height: 2px;
+
+  background: white;
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 0.3s ease;
+}
+
+/* hover → muncul */
+.sidebar a:hover::after {
+  transform: scaleX(1);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .bg-image {
+    transform: scale(1.15);
+    background-position: center 35%;
+    filter: contrast(1.1) brightness(1.08) saturate(1.05);
+
+  }
+
+
+  .center,
+  .right {
+    display: none !important;
+  }
+    .mobile-menu {
+    display: block;
+  }
+
+
+  .topbar {
+    height: 10vh;
+    min-height: 60px;
+    padding: 0 12px;
+  }
+  
+  .menu-btn {
+    font-size: 26px;
+  }
+  
+  .sidebar {
+  width: 35vh;
+  height: 100%;
+  padding-top: 12vh;
+
+}
+  
+  .sidebar a {
+    display: block;
+    padding: 16px 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 2vh;
+    position: relative;
+    transition: 0.25s ease;
+}
+
+  
+  .left {
+    gap: 1.5vh;
+}
+
+  .logo img {
+    height: 125px;
+  }
+  
+  .menu-btn {
+    font-size: 3.5vh;
+    cursor: pointer;
+}
+  .login, .buyer {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+ .overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.15),
+      rgba(0,0,0,0.65)
+    );
+
+    backdrop-filter: blur(1px);
+  }
+
+}
+  
+  
+.bg-image {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  background-image: url("https://cdn.designfast.io/image/2026-04-21/1d5db056-a526-405e-9f35-64baa8de06c6.webp"); /* ganti ke image background kamu https://images4.imagebam.com/6c/0a/3d/ME1CF5G9_o.gif*/
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: -2;
+
+  /* optional cinematic feel */
+    transform: scale(1.06);
+  filter: contrast(1.15) brightness(1.05) saturate(1.1);
+}
+
+
+.sidebar .buyer-login {
+  display: block;
+  margin: 30px 20px 0;
+  padding: 12px 16px;
+
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  color: white;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ffffff20, #ffffff05);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  transition: 0.25s ease;
+}
+
+.sidebar .buyer-login:hover {
+  background: white;
+  color: black;
+  transform: translateY(-2px);
+}
+</style>
+
+<body>
+
+<!-- VIDEO -->
+<div class="bg-image"></div>
+
+<div class="overlay"></div>
+
+<div class="noise"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="left">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <a href="index.html" class="logo" target="_blank" rel="noopener noreferrer">
+  <img src="https://files.catbox.moe/vpqdr9.png">
+</a>
+  </div>
+  
+    <!-- CENTER MENU -->
+  <div class="center">
+    <a href="products.html" class="login">PRODUCTS</a>
+    <a href="models.html" class="login">MODELS</a>
+    <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" class="login">ABOUT US</a>
+  </div>
+
+  <div class="right">
+  <a href="https://javai.myr.id/m/ytta" class="login" target="_blank" rel="noopener noreferrer">MEMBERSHIP</a>
+  <a href="https://javai.myr.id/portal" class="buyer" target="_blank" rel="noopener noreferrer">BUYER LOGIN ▼</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <a href="https://javai.myr.id/m/ytta" target="_blank" rel="noopener noreferrer">Membership</a>
+  <a href="https://javai.myr.id/pl/parody-by-request/" target="_blank" rel="noopener noreferrer">Private Order</a>
+  <a href="products.html">Products</a>
+  <a href="models.html">FAP Models</a>
+  
+    <!-- MOBILE MENU -->
+  <div class="menu mobile-menu">
+  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" target="_blank" rel="noopener noreferrer">ABOUT US</a> 
+    <br><br><br><br>
+  <a href="https://javai.myr.id/portal" class="buyer-login" target="_blank" rel="noopener noreferrer">
+  Buyer Login
+</a>
+  </div>
+</div> <!-- ⬅️ INI PENUTUP SIDEBAR -->
+
+<!-- SCRIPT -->
+<script>
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
