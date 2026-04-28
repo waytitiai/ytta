@@ -346,6 +346,131 @@ p {
   color: black;
   transform: translateY(-2px);
 }
+
+/* ===================== */
+/* ABOUT MODAL DARK */
+/* ===================== */
+
+.about-modal {
+  display: none; /* default hidden */
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* box */
+.about-modal-content {
+  background: linear-gradient(135deg, #111, #1c1c1c);
+  color: #eee;
+
+  width: 90%;
+  max-width: 700px;
+  height: 80vh;              /* 🔥 BATAS TINGGI */
+  
+  margin: auto;
+  border-radius: 16px;
+
+  display: flex;             /* 🔥 FLEX */
+  flex-direction: column;    /* 🔥 BIAR ISI KE BAWAH */
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  position: relative;
+
+  animation: fadeIn 0.3s ease;
+}
+
+.about-body {
+  padding: 25px;
+  overflow-y: auto;   /* 🔥 SCROLL DI DALAM */
+  flex: 1;            /* 🔥 NGISI SISA RUANG */
+}
+
+/* optional: scrollbar biar cakep */
+.about-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+/* animasi */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-content h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.about-content h1 span {
+  display: block;
+  font-size: 14px;
+  color: #888;
+}
+
+.about-content p {
+  color: #bbb;
+  margin-bottom: 16px;
+}
+
+.about-content .highlight {
+  color: white;
+  font-weight: bold;
+}
+
+.about-content .quote {
+  margin: 25px 0;
+  padding-left: 15px;
+  border-left: 3px solid #444;
+  font-style: italic;
+  color: #aaa;
+}
+
+.about-content .closing {
+  margin-top: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+/* CLOSE BTN */
+.about-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.2s;
+}
+
+.about-close:hover {
+  color: white;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .about-content {
+    width: 90vw;
+    padding: 25px;
+    margin-top: 20%;
+  }
+}
 </style>
 
 <body>
@@ -370,7 +495,7 @@ p {
   <div class="center">
     <a href="products.html" class="login">PRODUCTS</a>
     <a href="models.html" class="login">MODELS</a>
-    <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" class="login">ABOUT US</a>
+    <a href="#" class="login aboutBtn">ABOUT US</a>
   </div>
 
   <div class="right">
@@ -388,7 +513,7 @@ p {
   
     <!-- MOBILE MENU -->
   <div class="menu mobile-menu">
-  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" target="_blank" rel="noopener noreferrer">ABOUT US</a> 
+  <a href="#" class="aboutBtn">ABOUT US</a> 
     <br><br><br><br>
   <a href="https://javai.myr.id/portal" class="buyer-login" target="_blank" rel="noopener noreferrer">
   Buyer Login
@@ -396,11 +521,108 @@ p {
   </div>
 </div> <!-- ⬅️ INI PENUTUP SIDEBAR -->
 
+
+<!-- ABOUT MODAL -->
+<div id="aboutModal" class="about-modal">
+  <div class="about-modal-content">
+    <span class="about-close">&times;</span>
+
+    <div class="about-body">
+    <h1>
+      About 
+      <span>YTTA — Yang Tau Tau Aja</span>
+    </h1>
+
+    <p class="highlight">
+      YTTA bukan untuk semua orang—dan memang tidak pernah ditujukan untuk itu.
+    </p>
+
+    <p>
+      Kami adalah ruang kreatif independen bagi komunitas tertutup yang menikmati eksplorasi visual berbasis AI, 
+      dikemas dalam format image gallery, photobook, hingga cerita dalam bentuk komik dan tulisan. 
+      Di sini, imajinasi tidak dibatasi norma umum—tapi tetap dikendalikan oleh kesadaran akan batas.
+    </p>
+
+    <p>
+      Lahir dari minimnya ruang aman untuk berekspresi tanpa mengganggu realita, YTTA menjadi tempat di mana 
+      ide-ide absurd, liar, dan eksperimental bisa hidup tanpa harus “menjelaskan diri” ke publik. 
+      Setiap karya dibangun dengan rasa, konsistensi visual, dan keberanian dalam konsep—bukan sekadar asal jadi.
+    </p>
+
+    <div class="quote">
+      Kami paham garisnya.<br>
+      Fiksi tetap fiksi, realita tetap realita.
+    </div>
+
+    <p>
+      Karena itu, seluruh konten di sini ditujukan untuk konsumsi privat, dalam lingkup yang memahami konteksnya. 
+      Tidak untuk menyerang, merendahkan, atau merusak citra individu di dunia nyata—melainkan sebagai bentuk 
+      apresiasi dalam realitas alternatif yang kami ciptakan sendiri.
+    </p>
+
+    <p class="closing">
+      Ini bukan sekadar tempat konten.<br>
+      Ini adalah ruang dengan rasa, batas, dan cara mainnya sendiri.
+    </p>
+
+    <div class="footer">
+      Kalau kamu paham, kamu di tempat yang tepat.
+    </div>
+  </div>
+
+  </div>
+</div>
+
 <!-- SCRIPT -->
 <script>
 function toggleMenu() {
   document.getElementById("sidebar").classList.toggle("active");
 }
+
+
+// =====================
+// ABOUT MODAL
+// =====================
+const aboutModal = document.getElementById("aboutModal");
+const aboutClose = document.querySelector(".about-close");
+
+// 🔥 tombol trigger (pakai ID bebas)
+const aboutBtns = document.querySelectorAll(".aboutBtn");
+
+aboutBtns.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // tutup sidebar
+    document.getElementById("sidebar").classList.remove("active");
+
+    // buka modal
+    aboutModal.style.display = "flex"; // 🔥 pakai flex, bukan block
+  });
+});
+
+// close X
+if (aboutClose) {
+  aboutClose.onclick = () => {
+    aboutModal.style.display = "none";
+  };
+}
+
+// klik luar
+if (aboutModal) {
+  aboutModal.addEventListener("click", (e) => {
+    if (!e.target.closest(".about-content")) {
+      aboutModal.style.display = "none";
+    }
+  });
+}
+
+// ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    aboutModal.style.display = "none";
+  }
+});
 </script>
 
 </body>
