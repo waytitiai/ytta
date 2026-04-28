@@ -730,6 +730,132 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 .subscribe-btn:active {
   transform: scale(0.96);
 }
+
+
+/* ===================== */
+/* ABOUT MODAL DARK */
+/* ===================== */
+
+.about-modal {
+  display: none; /* default hidden */
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* box */
+.about-modal-content {
+  background: linear-gradient(135deg, #111, #1c1c1c);
+  color: #eee;
+
+  width: 90%;
+  max-width: 700px;
+  height: 80vh;              /* 🔥 BATAS TINGGI */
+  
+  margin: auto;
+  border-radius: 16px;
+
+  display: flex;             /* 🔥 FLEX */
+  flex-direction: column;    /* 🔥 BIAR ISI KE BAWAH */
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  position: relative;
+
+  animation: fadeIn 0.3s ease;
+}
+
+.about-body {
+  padding: 25px;
+  overflow-y: auto;   /* 🔥 SCROLL DI DALAM */
+  flex: 1;            /* 🔥 NGISI SISA RUANG */
+}
+
+/* optional: scrollbar biar cakep */
+.about-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+/* animasi */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-content h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.about-content h1 span {
+  display: block;
+  font-size: 14px;
+  color: #888;
+}
+
+.about-content p {
+  color: #bbb;
+  margin-bottom: 16px;
+}
+
+.about-content .highlight {
+  color: white;
+  font-weight: bold;
+}
+
+.about-content .quote {
+  margin: 25px 0;
+  padding-left: 15px;
+  border-left: 3px solid #444;
+  font-style: italic;
+  color: #aaa;
+}
+
+.about-content .closing {
+  margin-top: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+/* CLOSE BTN */
+.about-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.2s;
+}
+
+.about-close:hover {
+  color: white;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .about-content {
+    width: 90vw;
+    padding: 25px;
+    margin-top: 20%;
+  }
+}
   
 </style>
 
@@ -760,7 +886,7 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
   
     <!-- MOBILE MENU -->
   <div class="menu mobile-menu">
-  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" target="_blank" rel="noopener noreferrer">ABOUT US</a> 
+  <a href="#" id="aboutBtn">ABOUT US</a> 
     <br><br><br><br>
   <a href="https://javai.myr.id/portal" class="buyer-login" target="_blank" rel="noopener noreferrer">
   Buyer Login
@@ -792,7 +918,7 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 <div class="model-grid">
   
 <a href='#' class='product-link' data-id='1' data-category='Video' data-name='SI UTUN PUNYA SIAPA?' data-tags='fiony gracia aralie jkt48 freya marsha christy naomi lulu indah mira devi jessi michie shani greesel mv parody mp4 music video terbaru' data-link='https://javai.myr.id/pl/ai-mv-parody/?variant=2725666e-a6ee-4873-940a-188d55fd9d8e' data-img='https://framerusercontent.com/images/vNdvaWX153TiS6xeXk7cRzKV4I.png?width=504&height=683' data-hover='https://framerusercontent.com/images/ms34sDOOyWw8zyQwnZkow9TJXI.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/vNdvaWX153TiS6xeXk7cRzKV4I.png?width=504&height=683'><img class='hover-img' src='https://framerusercontent.com/images/ms34sDOOyWw8zyQwnZkow9TJXI.gif?width=240&height=320'></div><p>SI UTUN PUNYA SIAPA?</p></div></a>
-<a href='#' class='product-link' data-id='2' data-category='Photobook' data-name='OH MY WET PVSSY' data-tags='jkt48 marsha parody magazinah 48magazinah trainee allmember eli gendis kathrina chelsea cathy indah amanda anindya alya' data-link='https://javai.myr.id/comic/oh-my-wet-pvssy/' data-img='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'></div><p>OH MY WET PVSSY</p></div></a>
+<a href='#' class='product-link' data-id='2' data-category='Photobook' data-name='OH MY WET PVSSY' data-tags='jkt48 marsha parody magazinah 48magazinah trainee allmember eli gendis kathrina chelsea cathy indah amanda anindya alya terbaru' data-link='https://javai.myr.id/comic/oh-my-wet-pvssy/' data-img='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'></div><p>OH MY WET PVSSY</p></div></a>
 <a href='#' class='product-link' data-id='3' data-category='Video' data-name='KITTY get BLACKED' data-tags='christy gen7 parody video mv mp4 terbaru' data-link='https://javai.myr.id/pl/ai-video-frame-pack-ch12i5ty' data-img='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371' data-hover='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371'><img class='hover-img' src='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371'></div><p>KITTY get BLACKED</p></div></a>
 <a href='#' class='product-link' data-id='4' data-category='Video' data-name='K0NTOL CILIK' data-tags='fiony gracia jkt48 freya marsha christy mv parody mp4 music video terbaru' data-link='https://javai.myr.id/pl/ai-mv-parody/?variant=6e268301-5bf8-4936-8ce2-a9c5d3479e50' data-img='https://framerusercontent.com/images/xE5roomDqrD2pqPPAVrdZwCB0qo.png?width=537&height=719' data-hover='https://framerusercontent.com/images/ridZx8ddRBxPfrmHs2vvrOnjPM.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/xE5roomDqrD2pqPPAVrdZwCB0qo.png?width=537&height=719'><img class='hover-img' src='https://framerusercontent.com/images/ridZx8ddRBxPfrmHs2vvrOnjPM.gif?width=240&height=320'></div><p>K0NTOL CILIK</p></div></a>
 <a href='#' class='product-link' data-id='5' data-category='Video' data-name='FUNTASY' data-tags='fiony jkt48 freya marsha christy jessi mv parody mp4 music video terbaru' data-link='https://javai.myr.id/pl/ai-mv-parody/?variant=ecac931e-dfe9-4dcb-986a-66e6984fe2c0' data-img='https://framerusercontent.com/images/qfd1N6lF8RY8QxRzeKQGR6NQLc.png?width=483&height=648' data-hover='https://framerusercontent.com/images/pV5LH0OuVpmIFUMhTLzgKDM9U.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/qfd1N6lF8RY8QxRzeKQGR6NQLc.png?width=483&height=648'><img class='hover-img' src='https://framerusercontent.com/images/pV5LH0OuVpmIFUMhTLzgKDM9U.gif?width=240&height=320'></div><p>FUNTASY</p></div></a>
@@ -873,9 +999,9 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 <a href='#' class='product-link' data-id='80' data-category='Story' data-name='CHAT FOR CHEAT' data-tags='naomi comic sinka melody cerita fiksi gracia shani' data-link='https://javai.myr.id/comic/repost-chat-for-cheat-43738' data-img='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp'></div><p>CHAT FOR CHEAT</p></div></a>
 <a href='#' class='product-link' data-id='81' data-category='Story' data-name='FORTUNE CUCKING 1' data-tags='zee comic cerita fiksi cerpen sedarah' data-link='https://javai.myr.id/comic/repost-fortune-cucking' data-img='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp'></div><p>FORTUNE CUCKING 1</p></div></a>
 <a href='#' class='product-link' data-id='82' data-category='Story' data-name='FORTUNE CUCKING 2' data-tags='zee comic cerita fiksi cerpen sedarah' data-link='https://javai.myr.id/comic/repost-fortune-cucking-wipe-it' data-img='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp'></div><p>FORTUNE CUCKING 2</p></div></a>
-<a href='#' class='product-link' data-id='83' data-category='Photobook' data-name='CAKE & MEKI' data-tags='jkt48 freya marsha parody magazinah 48magazinah trainee allmember' data-link='https://javai.myr.id/comic/48magazinah-edisi-2-cake-m3k/' data-img='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'></div><p>CAKE & MEKI</p></div></a>
-<a href='#' class='product-link' data-id='84' data-category='Photobook' data-name='JERKING OFF' data-tags='jkt48 freya marsha parody magazinah 48magazinah trainee allmember' data-link='https://javai.myr.id/comic/48magazinah-jerking-off' data-img='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'></div><p>JERKING OFF</p></div></a>
-<a href='#' class='product-link' data-id='85' data-category='Photobook' data-name='PEMBENIHAN CINTA' data-tags='jkt48 freya marsha fiony parody magazinah 48magazinah trainee allmember' data-link='https://javai.myr.id/comic/48magazinah-edisi-3-pembenihan-cinta-76538' data-img='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'></div><p>PEMBENIHAN CINTA</p></div></a>
+<a href='#' class='product-link' data-id='83' data-category='Photobook' data-name='CAKE & MEKI' data-tags='jkt48 freya marsha parody magazinah 48magazinah trainee allmember terbaru' data-link='https://javai.myr.id/comic/48magazinah-edisi-2-cake-m3k/' data-img='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'></div><p>CAKE & MEKI</p></div></a>
+<a href='#' class='product-link' data-id='84' data-category='Photobook' data-name='JERKING OFF' data-tags='jkt48 freya marsha parody magazinah 48magazinah trainee allmember terbaru' data-link='https://javai.myr.id/comic/48magazinah-jerking-off' data-img='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'></div><p>JERKING OFF</p></div></a>
+<a href='#' class='product-link' data-id='85' data-category='Photobook' data-name='PEMBENIHAN CINTA' data-tags='jkt48 freya marsha fiony parody magazinah 48magazinah trainee allmember terbaru' data-link='https://javai.myr.id/comic/48magazinah-edisi-3-pembenihan-cinta-76538' data-img='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'></div><p>PEMBENIHAN CINTA</p></div></a>
 <a href='#' class='product-link' data-id='86' data-category='Photobook' data-name='CLASSIC PARODIES COLLECTION' data-tags='parody photoset photobooks classic pb' data-link='https://javai.myr.id/comic/classic-parodies-85633' data-img='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp'></div><p>CLASSIC PARODIES COLLECTION</p></div></a>
 <a href='#' class='product-link' data-id='87' data-category='Photoset' data-name='FASHION LEAKS (VOL 1)' data-tags='shani photoset ai terbaru softcore costume parody' data-link='https://javai.myr.id/catalog/fashion-leaks-vol-1' data-img='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587' data-hover='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587'><img class='hover-img' src='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587'></div><p>FASHION LEAKS (VOL 1)</p></div></a>
 <a href='#' class='product-link' data-id='88' data-category='Story' data-name='KURIR CINTA' data-tags='zee christy lesbian gangbang ojol cerbung cerita tulisan' data-link='https://javai.myr.id/comic/kurir-cinta-11831' data-img='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp'></div><p>KURIR CINTA</p></div></a>
@@ -912,74 +1038,174 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
   </div>
 </div>
 
+
+
+<!-- ABOUT MODAL -->
+<div id="aboutModal" class="about-modal">
+  <div class="about-modal-content">
+    <span class="about-close">&times;</span>
+
+    <div class="about-body">
+    <h1>
+      About Us
+      <span>YTTA — Yang Tau Tau Aja</span>
+    </h1>
+
+    <p class="highlight">
+      YTTA bukan untuk semua orang—dan memang tidak pernah ditujukan untuk itu.
+    </p>
+
+    <p>
+      Kami adalah ruang kreatif independen bagi komunitas tertutup yang menikmati eksplorasi visual berbasis AI, 
+      dikemas dalam format image gallery, photobook, hingga cerita dalam bentuk komik dan tulisan. 
+      Di sini, imajinasi tidak dibatasi norma umum—tapi tetap dikendalikan oleh kesadaran akan batas.
+    </p>
+
+    <p>
+      Lahir dari minimnya ruang aman untuk berekspresi tanpa mengganggu realita, YTTA menjadi tempat di mana 
+      ide-ide absurd, liar, dan eksperimental bisa hidup tanpa harus “menjelaskan diri” ke publik. 
+      Setiap karya dibangun dengan rasa, konsistensi visual, dan keberanian dalam konsep—bukan sekadar asal jadi.
+    </p>
+
+    <div class="quote">
+      Kami paham garisnya.<br>
+      Fiksi tetap fiksi, realita tetap realita.
+    </div>
+
+    <p>
+      Karena itu, seluruh konten di sini ditujukan untuk konsumsi privat, dalam lingkup yang memahami konteksnya. 
+      Tidak untuk menyerang, merendahkan, atau merusak citra individu di dunia nyata—melainkan sebagai bentuk 
+      apresiasi dalam realitas alternatif yang kami ciptakan sendiri.
+    </p>
+
+    <p class="closing">
+      Ini bukan sekadar tempat konten.<br>
+      Ini adalah ruang dengan rasa, batas, dan cara mainnya sendiri.
+    </p>
+
+    <div class="footer">
+      Kalau kamu paham, kamu di tempat yang tepat.
+    </div>
+  </div>
+
+  </div>
+</div>
+
 <!-- SCRIPT -->
 <script>
-
-document.addEventListener("DOMContentLoaded", () => {
-
-// ================== TOPBAR ==================
-window.addEventListener("scroll", () => {
+// =====================
+// TOPBAR SCROLL
+// =====================
+window.addEventListener("scroll", function () {
   const topbar = document.querySelector(".topbar");
   topbar.classList.toggle("scrolled", window.scrollY > 10);
 });
 
-// ================== SIDEBAR ==================
+// =====================
+// SIDEBAR TOGGLE
+// =====================
 function toggleMenu() {
   document.getElementById("sidebar").classList.toggle("active");
 }
 
-// ================== INIT ==================
-const buttons = document.querySelectorAll(".filter-bar button");
-const cards = document.querySelectorAll(".product-link");
-const searchBox = document.getElementById("searchBox");
+// =====================
+// INIT (biar aman)
+// =====================
+document.addEventListener("DOMContentLoaded", () => {
 
-let currentFilter = "all";
+  const buttons = document.querySelectorAll(".filter-bar button");
+  const cards = document.querySelectorAll(".product-link");
+  const searchBox = document.getElementById("searchBox");
+  const modal = document.getElementById("modal");
+  const closeBtn = document.getElementById("close");
 
-// ✅ DEFAULT ACTIVE
-document.querySelector('[data-filter="all"]').classList.add("active");
+  let currentFilter = "all";
 
-// ================== FILTER BUTTON ==================
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+  // =====================
+  // FILTER BUTTON
+  // =====================
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
-    currentFilter = btn.dataset.filter.toLowerCase();
-    applyFilter();
+      currentFilter = (btn.dataset.filter || "all").toLowerCase(); // 🔥 FIX
+      applyFilter();
+    });
   });
+
+
+  // =====================
+  // SEARCH
+  // =====================
+  if (searchBox) {
+    searchBox.addEventListener("input", applyFilter);
+  }
+
+  // =====================
+  // APPLY FILTER
+  // =====================
+  function applyFilter() {
+    const keyword = (searchBox?.value || "").toLowerCase();
+
+    cards.forEach(card => {
+      const category = (card.dataset.category || "").toLowerCase();
+      const name = (card.dataset.name || "").toLowerCase();
+      const tags = (card.dataset.tags || "").toLowerCase();
+
+      const matchFilter =
+        currentFilter === "all" ||
+        category === currentFilter ||
+        tags.includes(currentFilter);
+
+      const matchSearch =
+        name.includes(keyword) ||
+        tags.includes(keyword);
+
+      card.style.display = (matchFilter && matchSearch) ? "block" : "none";
+    });
+  }
+
+  // =====================
+  // MODAL OPEN (AMAN)
+  // =====================
+  cards.forEach(card => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal(card);
+    });
+  });
+
+  // =====================
+  // MODAL CLOSE
+  // =====================
+  function closeModal() {
+    modal.style.display = "none";
+    const container = document.getElementById("checkout-container");
+    if (container) container.innerHTML = "";
+  }
+
+  if (closeBtn) closeBtn.onclick = closeModal;
+
+  modal.addEventListener("click", (e) => {
+    if (!e.target.closest(".modal-content")) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
 });
 
-// ================== SEARCH ==================
-searchBox.addEventListener("input", applyFilter);
-
-// ================== FILTER LOGIC ==================
-function applyFilter() {
-  const keyword = searchBox.value.toLowerCase();
-
-  cards.forEach(card => {
-    const category = (card.dataset.category || "").toLowerCase();
-    const name = (card.dataset.name || "").toLowerCase();
-    const tags = (card.dataset.tags || "").toLowerCase();
-
-    const matchFilter =
-      currentFilter === "all" ||
-      category === currentFilter ||
-      tags.includes(currentFilter);
-
-    const matchSearch =
-      name.includes(keyword) ||
-      tags.includes(keyword);
-
-    card.style.display = (matchFilter && matchSearch) ? "" : "none";
-  });
-}
-
-// ================== MODAL ==================
-const modal = document.getElementById("modal");
-const closeBtn = document.getElementById("close");
-const container = document.getElementById("checkout-container");
-
+// =====================
+// OPEN MODAL FUNCTION
+// =====================
 function openModal(card) {
+  const modal = document.getElementById("modal");
+  const container = document.getElementById("checkout-container");
+
   container.innerHTML = `
     <iframe 
       src="${card.dataset.link}" 
@@ -997,60 +1223,63 @@ function openModal(card) {
   `;
 
   modal.style.display = "block";
+
+  // reload script mayar (optional)
+  setTimeout(() => {
+    const oldScript = document.querySelector('script[src*="mayarEmbed"]');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement("script");
+    script.src = "https://mayarembed.r2.mayar.id/mayarEmbed.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, 100);
 }
 
-function closeModal() {
-  modal.style.display = "none";
-  container.innerHTML = "";
-}
 
-// CLICK CARD
-document.addEventListener("click", (e) => {
-  const card = e.target.closest(".product-link");
+// =====================
+// ABOUT MODAL
+// =====================
+const aboutModal = document.getElementById("aboutModal");
+const aboutClose = document.querySelector(".about-close");
 
-  if (card) {
+// 🔥 tombol trigger (pakai ID bebas)
+const aboutBtn = document.getElementById("aboutBtn");
+
+if (aboutBtn) {
+  aboutBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    openModal(card);
-  }
-});
 
-// CLOSE
-closeBtn.onclick = closeModal;
+    // 🔥 tutup sidebar dulu (biar clean)
+    document.getElementById("sidebar").classList.remove("active");
 
-modal.addEventListener("click", (e) => {
-  if (!e.target.closest(".modal-content")) {
-    closeModal();
-  }
-});
+    // 🔥 buka modal
+    document.getElementById("aboutModal").style.display = "block";
+  });
+}
 
+// close X
+if (aboutClose) {
+  aboutClose.onclick = () => {
+    aboutModal.style.display = "none";
+  };
+}
+
+// klik luar
+if (aboutModal) {
+  aboutModal.addEventListener("click", (e) => {
+    if (!e.target.closest(".about-content")) {
+      aboutModal.style.display = "none";
+    }
+  });
+}
+
+// ESC
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeModal();
+  if (e.key === "Escape") {
+    aboutModal.style.display = "none";
+  }
 });
-
-// ================== HOVER ==================
-cards.forEach(card => {
-  const mainImg = card.querySelector(".main-img");
-  const hoverImg = card.querySelector(".hover-img");
-
-  if (!mainImg || !hoverImg) return;
-
-  card.addEventListener("mouseenter", () => {
-    mainImg.style.opacity = "0";
-    hoverImg.style.opacity = "1";
-  });
-
-  card.addEventListener("mouseleave", () => {
-    mainImg.style.opacity = "1";
-    hoverImg.style.opacity = "0";
-  });
-});
-
-// INIT
-applyFilter();
-
-});
-
 </script>
 
  </body>
