@@ -342,10 +342,33 @@ p {
 
 .model-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 16px;
 }
 
+.product-card {
+  position: relative;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  aspect-ratio: 4 / 5; /* bisa lo ubah */
+}
+
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* 🔥 INI KUNCI */
+  object-position: center; /* fokus ke atas (muka biasanya di atas) */
+
+  display: block;
+}
+
+.product-card:hover img {
+  transform: scale(1.05); /* zoom dikit biar feel premium */
+}
 
 .model-link {
   text-decoration: none;
@@ -354,7 +377,7 @@ p {
 }  
 
 /* base image */
-.model-card img {
+.product-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -363,12 +386,12 @@ p {
 }
 
 /* ACTIVE = normal */
-.model-link[data-team="aktip"] .model-card img {
+.model-link[data-team="aktip"] .product-card img {
   filter: none;
 }
 
 /* NON AKTIF = BW */
-.model-link[data-team="nonaktip"] .model-card img {
+.model-link[data-team="nonaktip"] .product-card img {
   filter: grayscale(100%) brightness(0.75) contrast(0.9);
 }
   
@@ -427,10 +450,12 @@ p {
 }
   
   
-.model-card p {
+.product-card p {
   padding: 10px;
   font-weight: bold;
-  position: absolute;
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -441,8 +466,19 @@ p {
   color: white;
   font-weight: bold;
   font-size: 14px;
-
   z-index: 2;
+}
+
+.product-card:hover .main-img {
+  opacity: 0;
+}
+
+.product-card:hover .hover-img {
+  opacity: 1;
+}
+
+.product-link {
+  display: block;
 }
 
 #searchBox {
@@ -452,253 +488,60 @@ p {
   margin-left: 10px;
 }
 
-ul > li {
-  list-style: none;
-}
-
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-ul ul {
-  list-style: disc;
-  padding-left: 20px;
-}
-
-/* =========================
-   MODEL CARD (GRID)
-========================= */
-
-.model-card {
+.img-wrap {
   position: relative;
-  border-radius: 15px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s ease;
-  aspect-ratio: 4 / 5;
-
-  /* 🔥 BACKGROUND GLOBAL */
-  background: url('https://images4.imagebam.com/27/ff/78/ME1CIX7S_o.jpg') center/cover no-repeat;
 }
 
-/* PNG IMAGE */
-.model-card img {
+.main-img,
+.hover-img {
+  position: absolute;
+inset: 0; /* lebih clean dari top left width height */
   width: 100%;
   height: 100%;
-  
-  display: block;
-  transition: 0.25s ease;
-  background-size: cover;        /* 🔥 isi penuh frame */
-  background-position: top center; /* 🔥 fokus ke atas */
-  background-repeat: no-repeat;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* ACTIVE */
-.model-link[data-team="aktip"] .model-card img {
-  filter: none;
-}
-
-/* NON ACTIVE */
-.model-link[data-team="nonaktip"] .model-card img {
-  filter: grayscale(100%) brightness(0.75) contrast(0.9);
-}
-
-/* TEXT OVERLAY */
-.model-card p {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  margin: 0;
-  padding: 10px;
-
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-
-  z-index: 3;
-}
-
-
-/* =========================
-   MODAL / POPUP
-========================= */
-
-/* BACKDROP BLUR */
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 20000;
-
-  display: none;
-  justify-content: center;
-  align-items: center;
-
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(3px);
-}
-
-/* CONTENT WRAPPER */
-.modal-content {
-  display: flex;
-  flex-direction: column;   /* 🔥 stack ke bawah */
-  align-items: center;
-  gap: 15px;                /* jarak frame & button */
-}
-
-/* FRAME */
-.modal-frame {
-  position: relative;
-
-  width: 60vw;
-  max-width: 600px;
-  min-width: 320px;
-
-  aspect-ratio: 4 / 5;
-  border-radius: 16px;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* isi ke bawah */
-}
-
-
-/* =========================
-   BACKGROUND LAYER
-========================= */
-
-.modal-custom-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  filter: none;
-  background: url('https://images4.imagebam.com/27/ff/78/ME1CIX7S_o.jpg') center/cover no-repeat;
-
-  z-index: 0;
-
-  /* 🔥 optional premium blur */
-  transform: scale(1.1);
-}
-
-
-/* =========================
-   IMAGE LAYER (PNG)
-========================= */
-
-.modal-bg {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  background-size: cover;        /* 🔥 isi penuh frame */
-  background-position: top center; /* 🔥 fokus ke atas */
-  background-repeat: no-repeat;
-
-  z-index: 1;
-}
-
-
-
-
-/* =========================
-   INFO PANEL
-========================= */
-
-.modal-info {
-  position: relative;
-  padding: 15px;
-  width: 100%;
-
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(6px);
-
-  color: black;
-  z-index: 2;
-
-  /* 🔥 biar kontras selalu aman */
-  box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
-}
-
-
-/* =========================
-   BUTTON
-========================= */
-
-.modal-action {
-  width: 60vw;
-  max-width: 600px;
-  min-width: 320px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-transform: translateY(-10px);
-
-  position: relative; /* 🔥 bukan absolute */
-  width: 100%;
-  padding: 10px 15px 20px; /* kasih jarak bawah */
-  flex-direction: column; /* 🔥 ini kunci */
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-}
-
-.subscribe-btn.alt {
-  background: linear-gradient(135deg, #a612e1, #222);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-
-/* =========================
-   CLOSE BUTTON
-========================= */
-
-#close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  cursor: pointer;
-  z-index: 3;
-  color: white;
-}
-
-
-/* =========================
-   MOBILE FIX
-========================= */
-
-@media (max-width: 768px) {
-
-  .modal {
-    padding: 20px;
-  }
-
-  .modal-content {
-    width: 100%;
-  }
-
-  .modal-frame {
-    width: 90vw;
-  }
-
-  #close {
-    top: 8px;
-    right: 12px;
-  }
+.hover-img {
+  opacity: 0;
 }
 
 
 /* MOBILE */
 @media (max-width: 768px) {
-  .modal-action {
-    width: 90vw;
-  }
+.sidebar .buyer-login {
+  display: block;
+  margin: 30px 20px 0;
+  padding: 12px 16px;
+
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  color: white;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ffffff20, #ffffff05);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  transition: 0.25s ease;
+}
+
+.sidebar .buyer-login:hover {
+  background: white;
+  color: black;
+  transform: translateY(-2px);
+}
 
   .model-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -760,112 +603,40 @@ transform: translateY(-10px);
 /* modal */
 .modal {
   display: none;
-padding-top: 10vh;
   position: fixed;
   z-index: 20000;
-  inset: 0;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  justify-content: center;
-  align-items: center;
 }
 
 .modal-content {
-  background: transparent;
-  box-shadow: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-height: 90vh;
-
-}
-
-/* FRAME 4:5 */
-.modal-frame {
-  position: relative;
-
-  width: 60vw;              /* 🔥 ini kunci (45–65% masuk sini) */
-  max-width: 600px;         /* biar gak kebablasan */
-  min-width: 320px;
-
-  aspect-ratio: 4 / 5;
-  border-radius: 16px;
+  width: 90vw;
+  height: 85vh;
+  margin: 5vh auto;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
 }
 
-/* BG IMAGE */
-
-
-/* layer ke-2 */
-.modal-bg.second {
-  opacity: 0;
-}
-
-.modal-frame {
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-
-
-
-.modal-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-}
-
-.modal-bg::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
+#checkout-container {
   width: 100%;
-  height: 50%;
-  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+  height: 100%;
+overflow: auto; /* 🔥 biar bisa scroll */
 }
 
-.modal-info,
-.modal-action,
-#close {
-  position: relative;
-  z-index: 10;
+.modal-left img {
+  width: 540px;
+  border-radius: 10px;
 }
 
-.modal-frame,
-#close {
-  pointer-events: auto; /* tapi isi popup tetap bisa diklik */
+.modal-right {
+  flex: 1;
 }
 
-/* INFO OVERLAY */
-.modal-info {
-  position: absolute;
-  bottom: 60px;
-  width: 100%;
-  padding: 15px;
-
-  background: linear-gradient(
-    to top,
-    rgba(255,255,255,0.85),
-    rgba(255,255,255,0.4),
-    transparent
-  );
-
-  backdrop-filter: blur(6px);
-
-  color: #111;
-}
-
-.modal-info h2,
-.modal-info p {
-  text-shadow: 0 1px 3px rgba(255,255,255,0.4);
-}
-
-/* BUTTON AREA */
-
+/* tombol biar oval */
 .subscribe-btn {
-  padding: 12px;
-  width: 100%;         /* full lebar */
-  text-align: center;
+  border-radius: 999px !important;
 }
 
 #close {
@@ -883,20 +654,28 @@ padding-top: 10vh;
     flex-direction: column;
   }
 .modal {
-  padding-top: 80px; /* biar gak ketiban topbar */
+  display: none;
+  position: fixed;
+  z-index: 999999; /* 🔥 biar gak ketiban */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
-
   .modal-content {
-    width: auto;
-    max-width: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 85vh;
   }
 
-  .modal-frame {
-    width: 90vw;
+  #checkout-container {
+    height: 100%;
+    overflow-y: auto;
   }
+
+
+.modal.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
 
 .modal-left img {
   width: 200px;
@@ -904,12 +683,11 @@ padding-top: 10vh;
 
 #close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 28px;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;   /* 🔥 gedein */
   cursor: pointer;
-  z-index: 10;
-  color: white;
+  z-index: 12000;
 }
 
   .member-sidebar {
@@ -917,7 +695,11 @@ padding-top: 10vh;
     height: auto;
   }
 
-
+  .subscribe-btn {
+    width: 100%;         /* full lebar */
+    text-align: center;
+    padding: 12px;
+  }
 }  
 
 .subscribe-btn {
@@ -948,38 +730,6 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 .subscribe-btn:active {
   transform: scale(0.96);
 }
-
-
-
-.sidebar .buyer-login {
-  display: block;
-  margin: 30px 20px 0;
-  padding: 12px 16px;
-
-  text-align: center;
-  text-decoration: none;
-
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-
-  color: white;
-  border-radius: 999px;
-
-  background: linear-gradient(135deg, #ffffff20, #ffffff05);
-  backdrop-filter: blur(6px);
-
-  border: 1px solid rgba(255,255,255,0.2);
-
-  transition: 0.25s ease;
-}
-
-.sidebar .buyer-login:hover {
-  background: white;
-  color: black;
-  transform: translateY(-2px);
-}  
-
 
 
 /* ===================== */
@@ -1106,6 +856,7 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
     margin-top: 20%;
   }
 }
+  
 </style>
 
 <body>
@@ -1114,7 +865,7 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 <div class="topbar">
   <div class="left">
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    <a href="index.html" class="logo" target="_blank" rel="noopener noreferrer">
+    <a href="index.html" class="logo">
   <img src="https://files.catbox.moe/vpqdr9.png">
 </a>
   </div>
@@ -1147,25 +898,18 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 <div class="model-container">
 
 <div class="page-header">
-  <p class="sub-title">DATA BASE STATUS</p>
-  <h1 class="main-title">YTTA MODELS FAP</h1>
-<ul class="desc-list">
-  <li>Active & Non Active: Adalah keterangan status Thread Gallery pada konten membership</li>
-    <ul>
-      <li>✔Active: Memiliki subscriber</li>
-      <li>✘Non Active: Model tak memiliki subscriber(Locked)</li>
-    </ul>
-    <li>Jumlah gallery adalah total "Cloud" data base dari model di seluruh tahun pembuatan</li>
-
-</ul>
-</div>
+  <h1 class="main-title">YTTA PRODUCTS</h1>
+  </div>
 </div>
 
 <div class="filter-bar">
-  <button class="active" data-filter="all">Semua Model</button>
-  <button data-filter="aktip">Active</button>
-  <button data-filter="nonaktip">Inactive</button>
-<input type="text" id="searchBox" placeholder="Cari model...">
+<button data-filter="all">Semua</button>
+<button data-filter="Terbaru">Terbaru</button>  
+<button data-filter="Photobook">Photobook</button>
+<button data-filter="Photoset">Photoset</button>
+<button data-filter="Video">Video</button>
+<button data-filter="Story">Story</button>
+<input type="text" id="searchBox" placeholder="Cari produk...">
 </div>
 
 
@@ -1173,99 +917,128 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 
 <div class="model-grid">
   
-<a href='#' class='model-link' data-name='ADEL' data-img='https://images4.imagebam.com/72/00/53/ME1CMD4V_o.png' data-img2='https://images4.imagebam.com/5a/da/0c/ME1CMD4W_o.png' data-info='105' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/72/00/53/ME1CMD4V_o.png'><p>105 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='AMANDA' data-img='https://images4.imagebam.com/f7/a5/62/ME1CMDKT_o.png' data-img2='https://images4.imagebam.com/97/d4/23/ME1CMDKW_o.png' data-info='11' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/f7/a5/62/ME1CMDKT_o.png'><p>11 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ANIN' data-img='https://images4.imagebam.com/15/ec/b8/ME1CMD4Y_o.png' data-img2='https://images4.imagebam.com/6b/6f/aa/ME1CMD51_o.png' data-info='57' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/15/ec/b8/ME1CMD4Y_o.png'><p>57 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ANINDYA' data-img='https://images4.imagebam.com/17/e5/44/ME1CMD52_o.png' data-img2='https://images4.imagebam.com/75/bd/3e/ME1CMD53_o.png' data-info='35' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/17/e5/44/ME1CMD52_o.png'><p>35 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ARALIE' data-img='https://images4.imagebam.com/20/aa/e2/ME1CMD54_o.png' data-img2='https://images4.imagebam.com/67/9b/80/ME1CMDAT_o.png' data-info='28' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/20/aa/e2/ME1CMD54_o.png'><p>28 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ASHEL' data-img='https://images4.imagebam.com/5e/7d/55/ME1CMD56_o.png' data-img2='https://images4.imagebam.com/e5/eb/42/ME1CMD57_o.png' data-info='65' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/5e/7d/55/ME1CMD56_o.png'><p>65 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CELINE' data-img='https://images4.imagebam.com/76/12/5f/ME1CMD58_o.png' data-img2='https://images4.imagebam.com/b5/55/35/ME1CMD59_o.png' data-info='85' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/76/12/5f/ME1CMD58_o.png'><p>85 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CHIKA' data-img='https://images4.imagebam.com/f1/2b/df/ME1CMD5A_o.png' data-img2='https://images4.imagebam.com/55/98/82/ME1CMD5B_o.png' data-info='453' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/f1/2b/df/ME1CMD5A_o.png'><p>453 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CHRISELLE' data-img='https://images4.imagebam.com/6d/8d/27/ME1CMDAU_o.png' data-img2='https://images4.imagebam.com/0c/e3/9c/ME1CMDAW_o.png' data-info='6' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/6d/8d/27/ME1CMDAU_o.png'><p>6 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CHRISTY' data-img='https://images4.imagebam.com/d5/24/35/ME1CMDAX_o.png' data-img2='https://images4.imagebam.com/f3/47/8c/ME1CMDAZ_o.png' data-info='157' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/d5/24/35/ME1CMDAX_o.png'><p>157 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CINHAP' data-img='https://images4.imagebam.com/38/bb/23/ME1CME5I_o.png' data-img2='https://images4.imagebam.com/39/43/bd/ME1CME5K_o.png' data-info='30' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/38/bb/23/ME1CME5I_o.png'><p>30 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CYNTHIA' data-img='https://images4.imagebam.com/8c/55/22/ME1CMDB0_o.png' data-img2='https://images4.imagebam.com/ad/54/6e/ME1CMDB1_o.png' data-info='99' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/8c/55/22/ME1CMDB0_o.png'><p>99 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='DELYNN' data-img='https://images4.imagebam.com/ed/48/51/ME1CMDB3_o.png' data-img2='https://images4.imagebam.com/b6/f7/f2/ME1CMDB4_o.png' data-info='57' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ed/48/51/ME1CMDB3_o.png'><p>57 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='DEVI' data-img='https://images4.imagebam.com/37/31/8e/ME1CMDB5_o.png' data-img2='https://images4.imagebam.com/b5/9a/17/ME1CMDB6_o.png' data-info='29' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/37/31/8e/ME1CMDB5_o.png'><p>29 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ELIN' data-img='https://images4.imagebam.com/cc/9c/3b/ME1CMDB7_o.png' data-img2='https://images4.imagebam.com/fc/fb/6f/ME1CMDB8_o.png' data-info='80' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/cc/9c/3b/ME1CMDB7_o.png'><p>80 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ELLA' data-img='https://images4.imagebam.com/a2/17/7c/ME1CME5F_o.png' data-img2='https://images4.imagebam.com/51/a3/0c/ME1CME5G_o.png' data-info='54' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a2/17/7c/ME1CME5F_o.png'><p>54 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ERINE' data-img='https://images4.imagebam.com/95/f0/ce/ME1CMDB9_o.png' data-img2='https://images4.imagebam.com/91/bc/8f/ME1CMDBB_o.png' data-info='19' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/95/f0/ce/ME1CMDB9_o.png'><p>19 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FENI' data-img='https://images4.imagebam.com/ae/7e/5f/ME1CME5A_o.png' data-img2='https://images4.imagebam.com/f5/54/3d/ME1CME5C_o.png' data-info='22' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ae/7e/5f/ME1CME5A_o.png'><p>22 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FIONY' data-img='https://images4.imagebam.com/a0/79/1a/ME1CMDBU_o.png' data-img2='https://images4.imagebam.com/09/8d/b0/ME1CMDBV_o.png' data-info='267' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/79/1a/ME1CMDBU_o.png'><p>267 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FLORA' data-img='https://images4.imagebam.com/07/d1/6d/ME1CMDBW_o.png' data-img2='https://images4.imagebam.com/26/f5/02/ME1CMDBX_o.png' data-info='33' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/07/d1/6d/ME1CMDBW_o.png'><p>33 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FREYA' data-img='https://images4.imagebam.com/23/89/25/ME1CMJVI_o.png' data-img2='https://images4.imagebam.com/b4/64/7e/ME1CMJVH_o.png' data-info='232' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/23/89/25/ME1CMJVI_o.png'><p>232 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FRIESKA' data-img='https://images4.imagebam.com/ca/0c/90/ME1CMJVG_o.png' data-img2='https://images4.imagebam.com/fa/8d/76/ME1CMJVF_o.png' data-info='16' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ca/0c/90/ME1CMJVG_o.png'><p>16 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FRITZY' data-img='https://images4.imagebam.com/b2/c9/93/ME1CMJVD_o.png' data-img2='https://images4.imagebam.com/5b/76/7e/ME1CMJVE_o.png' data-info='182' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/b2/c9/93/ME1CMJVD_o.png'><p>182 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GENDIS' data-img='https://images4.imagebam.com/ba/d4/25/ME1CMJVB_o.png' data-img2='https://images4.imagebam.com/a8/06/dc/ME1CMJV9_o.png' data-info='24' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ba/d4/25/ME1CMJVB_o.png'><p>24 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GITA' data-img='https://images4.imagebam.com/a9/70/66/ME1CNA4M_o.png' data-img2='https://images4.imagebam.com/d8/b8/a8/ME1CNA4Q_o.png' data-info='78' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a9/70/66/ME1CNA4M_o.png'><p>78 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GRACIA' data-img='https://images4.imagebam.com/0b/4f/72/ME1CMJVA_o.png' data-img2='https://images4.imagebam.com/3f/81/1c/ME1CMJVC_o.png' data-info='428' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/0b/4f/72/ME1CMJVA_o.png'><p>428 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GREESEL' data-img='https://images4.imagebam.com/87/b1/3f/ME1CMJV6_o.png' data-img2='https://images4.imagebam.com/93/4f/e9/ME1CMJV7_o.png' data-info='118' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/87/b1/3f/ME1CMJV6_o.png'><p>118 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='INDAH' data-img='https://images4.imagebam.com/c3/86/f4/ME1CNA4T_o.png' data-img2='https://images4.imagebam.com/6a/8a/9b/ME1CNA4O_o.png' data-info='230' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/c3/86/f4/ME1CNA4T_o.png'><p>230 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='INDIRA' data-img='https://images4.imagebam.com/ac/33/d9/ME1CNA4I_o.png' data-img2='https://images4.imagebam.com/6b/a5/af/ME1CNA4K_o.png' data-info='35' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ac/33/d9/ME1CNA4I_o.png'><p>35 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='JESSI' data-img='https://images4.imagebam.com/9d/09/76/ME1CNB6X_o.png' data-img2='https://images4.imagebam.com/39/32/ff/ME1CNB6W_o.png' data-info='183' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/9d/09/76/ME1CNB6X_o.png'><p>183 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='JINAN' data-img='https://images4.imagebam.com/7a/1a/d0/ME1CNCUI_o.png' data-img2='https://images4.imagebam.com/df/53/41/ME1CNCUJ_o.png' data-info='71' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/7a/1a/d0/ME1CNCUI_o.png'><p>71 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='KATHRINA' data-img='https://images4.imagebam.com/43/f4/86/ME1CNB6Q_o.png' data-img2='https://images4.imagebam.com/8b/c8/2b/ME1CNB6S_o.png' data-info='93' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/43/f4/86/ME1CNB6Q_o.png'><p>93 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='LANA' data-img='https://images4.imagebam.com/b3/cd/b1/ME1CNB6O_o.png' data-img2='https://images4.imagebam.com/1e/85/10/ME1CNB6N_o.png' data-info='38' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/b3/cd/b1/ME1CNB6O_o.png'><p>38 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='LULU' data-img='https://images4.imagebam.com/09/8e/4c/ME1CNB6G_o.png' data-img2='https://images4.imagebam.com/35/4a/6a/ME1CNB6L_o.png' data-info='130' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/09/8e/4c/ME1CNB6G_o.png'><p>130 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MARSHA' data-img='https://images4.imagebam.com/55/01/ec/ME1CNB6E_o.png' data-img2='https://images4.imagebam.com/fa/a0/46/ME1CNB6F_o.png' data-info='286' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/55/01/ec/ME1CNB6E_o.png'><p>286 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MELATI' data-img='https://images4.imagebam.com/7a/07/0a/ME1CNB6D_o.png' data-img2='https://images4.imagebam.com/84/f4/9c/ME1CNB6A_o.png' data-info='38' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/7a/07/0a/ME1CNB6D_o.png'><p>38 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MELODY' data-img='https://images4.imagebam.com/3f/ad/e3/ME1CNCV2_o.png' data-img2='https://images4.imagebam.com/c4/69/3d/ME1CNCV3_o.png' data-info='100' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/3f/ad/e3/ME1CNCV2_o.png'><p>100 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MICHIE' data-img='https://images4.imagebam.com/4b/7e/19/ME1CNCV0_o.png' data-img2='https://images4.imagebam.com/42/0e/db/ME1CNCV1_o.png' data-info='60' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4b/7e/19/ME1CNCV0_o.png'><p>60 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MIRA' data-img='https://images4.imagebam.com/67/f0/dc/ME1CNCUY_o.png' data-img2='https://images4.imagebam.com/e5/d1/9f/ME1CNCUZ_o.png' data-info='183' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/67/f0/dc/ME1CNCUY_o.png'><p>183 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MUTHE' data-img='https://images4.imagebam.com/62/32/1e/ME1CNCUU_o.png' data-img2='https://images4.imagebam.com/13/7f/3d/ME1CNCUX_o.png' data-info='39' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/62/32/1e/ME1CNCUU_o.png'><p>39 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='NACHIA' data-img='https://images4.imagebam.com/45/65/7c/ME1CNCUV_o.png' data-img2='https://images4.imagebam.com/7e/02/01/ME1CNCUW_o.png' data-info='23' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/45/65/7c/ME1CNCUV_o.png'><p>23 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='NADILA' data-img='https://images4.imagebam.com/d3/1e/ad/ME1CNCUS_o.png' data-img2='https://images4.imagebam.com/9b/df/ca/ME1CNCUT_o.png' data-info='93' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/d3/1e/ad/ME1CNCUS_o.png'><p>93 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='NAOMI' data-img='https://images4.imagebam.com/a8/f1/f5/ME1CNCUQ_o.png' data-img2='https://images4.imagebam.com/e1/55/80/ME1CNCUR_o.png' data-info='251' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a8/f1/f5/ME1CNCUQ_o.png'><p>251 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='OLLA' data-img='https://images4.imagebam.com/06/9a/f4/ME1CNCUO_o.png' data-img2='https://images4.imagebam.com/db/19/c6/ME1CNCUP_o.png' data-info='73' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/06/9a/f4/ME1CNCUO_o.png'><p>73 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ONIEL' data-img='https://images4.imagebam.com/40/4f/9e/ME1CNCUM_o.png' data-img2='https://images4.imagebam.com/1c/63/38/ME1CNCUN_o.png' data-info='263' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/40/4f/9e/ME1CNCUM_o.png'><p>263 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='PUCHI' data-img='https://images4.imagebam.com/7c/17/1e/ME1CNCUK_o.png' data-img2='https://images4.imagebam.com/94/1b/31/ME1CNCUL_o.png' data-info='59' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/7c/17/1e/ME1CNCUK_o.png'><p>59 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='RIBKA' data-img='https://images4.imagebam.com/ce/e4/a6/ME1CMDKY_o.png' data-img2='https://images4.imagebam.com/4f/1c/10/ME1CMDKR_o.png' data-info='23' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ce/e4/a6/ME1CMDKY_o.png'><p>23 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='SHANI' data-img='https://images4.imagebam.com/4f/46/d7/ME1CMDBZ_o.png' data-img2='https://images4.imagebam.com/d3/c0/ba/ME1CMDC1_o.png' data-info='480' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/4f/46/d7/ME1CMDBZ_o.png'><p>480 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='SINKA' data-img='https://images4.imagebam.com/e8/73/02/ME1CMDC3_o.png' data-img2='https://images4.imagebam.com/94/83/62/ME1CMDC5_o.png' data-info='13' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e8/73/02/ME1CMDC3_o.png'><p>13 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='SISCA' data-img='https://images4.imagebam.com/b3/b0/ad/ME1CMDC7_o.png' data-img2='https://images4.imagebam.com/ad/bd/45/ME1CMDC9_o.png' data-info='34' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/b3/b0/ad/ME1CMDC7_o.png'><p>34 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='TRISHA' data-img='https://images4.imagebam.com/0d/a6/bd/ME1CMDCD_o.png' data-img2='https://images4.imagebam.com/82/5a/a8/ME1CMDCF_o.png' data-info='80' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/0d/a6/bd/ME1CMDCD_o.png'><p>80 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='VERANDA' data-img='https://images4.imagebam.com/d5/7a/7f/ME1CMDCH_o.png' data-img2='https://images4.imagebam.com/52/22/32/ME1CMDCJ_o.png' data-info='184' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/d5/7a/7f/ME1CMDCH_o.png'><p>184 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='YUPI' data-img='https://images4.imagebam.com/a3/42/a4/ME1CMDCL_o.png' data-img2='https://images4.imagebam.com/76/cf/95/ME1CMDCS_o.png' data-info='109' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a3/42/a4/ME1CMDCL_o.png'><p>109 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ZEE' data-img='https://images4.imagebam.com/4d/d8/01/ME1CMDCV_o.png' data-img2='https://images4.imagebam.com/fb/b9/66/ME1CMDCX_o.png' data-info='204' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4d/d8/01/ME1CMDCV_o.png'><p>204 Galleries</p></div></a>
+<a href='#' class='product-link' data-id='1' data-category='Video' data-name='SI UTUN PUNYA SIAPA?' data-tags='fiony gracia aralie jkt48 freya marsha christy naomi lulu indah mira devi jessi michie shani greesel mv parody mp4 music video terbaru' data-link='https://javai.myr.id/pl/ai-mv-parody/?variant=2725666e-a6ee-4873-940a-188d55fd9d8e' data-img='https://framerusercontent.com/images/vNdvaWX153TiS6xeXk7cRzKV4I.png?width=504&height=683' data-hover='https://framerusercontent.com/images/ms34sDOOyWw8zyQwnZkow9TJXI.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/vNdvaWX153TiS6xeXk7cRzKV4I.png?width=504&height=683'><img class='hover-img' src='https://framerusercontent.com/images/ms34sDOOyWw8zyQwnZkow9TJXI.gif?width=240&height=320'></div><p>SI UTUN PUNYA SIAPA?</p></div></a>
+<a href='#' class='product-link' data-id='2' data-category='Photobook' data-name='OH MY WET PVSSY' data-tags='jkt48 marsha parody magazinah 48magazinah trainee allmember eli gendis kathrina chelsea cathy indah amanda anindya alya terbaru' data-link='https://javai.myr.id/comic/oh-my-wet-pvssy/' data-img='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1200/c0bbb264-4f62-43bd-8ec9-11ebde050ba8.webp'></div><p>OH MY WET PVSSY</p></div></a>
+<a href='#' class='product-link' data-id='3' data-category='Video' data-name='KITTY get BLACKED' data-tags='christy gen7 parody video mv mp4 terbaru' data-link='https://javai.myr.id/pl/ai-video-frame-pack-ch12i5ty' data-img='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371' data-hover='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371'><img class='hover-img' src='https://framerusercontent.com/images/lJtMHpUIbHa0qGtTBQcFnY04gKA.png?width=226&height=371'></div><p>KITTY get BLACKED</p></div></a>
+<a href='#' class='product-link' data-id='4' data-category='Video' data-name='K0NTOL CILIK' data-tags='fiony gracia jkt48 freya marsha christy mv parody mp4 music video terbaru' data-link='https://javai.myr.id/pl/ai-mv-parody/?variant=6e268301-5bf8-4936-8ce2-a9c5d3479e50' data-img='https://framerusercontent.com/images/xE5roomDqrD2pqPPAVrdZwCB0qo.png?width=537&height=719' data-hover='https://framerusercontent.com/images/ridZx8ddRBxPfrmHs2vvrOnjPM.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/xE5roomDqrD2pqPPAVrdZwCB0qo.png?width=537&height=719'><img class='hover-img' src='https://framerusercontent.com/images/ridZx8ddRBxPfrmHs2vvrOnjPM.gif?width=240&height=320'></div><p>K0NTOL CILIK</p></div></a>
+<a href='#' class='product-link' data-id='5' data-category='Video' data-name='FUNTASY' data-tags='fiony jkt48 freya marsha christy jessi mv parody mp4 music video terbaru' data-link='https://javai.myr.id/pl/ai-mv-parody/?variant=ecac931e-dfe9-4dcb-986a-66e6984fe2c0' data-img='https://framerusercontent.com/images/qfd1N6lF8RY8QxRzeKQGR6NQLc.png?width=483&height=648' data-hover='https://framerusercontent.com/images/pV5LH0OuVpmIFUMhTLzgKDM9U.gif?width=240&height=320'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/qfd1N6lF8RY8QxRzeKQGR6NQLc.png?width=483&height=648'><img class='hover-img' src='https://framerusercontent.com/images/pV5LH0OuVpmIFUMhTLzgKDM9U.gif?width=240&height=320'></div><p>FUNTASY</p></div></a>
+<a href='#' class='product-link' data-id='6' data-category='Video' data-name='FREYANA TOKTIK' data-tags='freya gen7 parody video mv mp4 terbaru' data-link='https://javai.myr.id/pl/ai-video-frame-pack-fr3y4' data-img='https://framerusercontent.com/images/YRlUUM47h9QhwHo1eQbC6mMOX8.png?width=229&height=414' data-hover='https://framerusercontent.com/images/YRlUUM47h9QhwHo1eQbC6mMOX8.png?width=229&height=414'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/YRlUUM47h9QhwHo1eQbC6mMOX8.png?width=229&height=414'><img class='hover-img' src='https://framerusercontent.com/images/YRlUUM47h9QhwHo1eQbC6mMOX8.png?width=229&height=414'></div><p>FREYANA TOKTIK</p></div></a>
+<a href='#' class='product-link' data-id='7' data-category='Photoset' data-name='A553l' data-tags='ashel gen9 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-a55el/?variant=b5ec7741-4bbc-4cac-ae5c-5192f08806cf' data-img='https://framerusercontent.com/images/zJo5uIXcmdOLWObAIHun7HZDf4.png?width=515&height=655' data-hover='https://framerusercontent.com/images/8bj3iDsJj9aj6Jm8lzRwP90G0gk.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/zJo5uIXcmdOLWObAIHun7HZDf4.png?width=515&height=655'><img class='hover-img' src='https://framerusercontent.com/images/8bj3iDsJj9aj6Jm8lzRwP90G0gk.png'></div><p>A553l</p></div></a>
+<a href='#' class='product-link' data-id='8' data-category='Photoset' data-name='Adel: FIGHT of FVCK' data-tags='adel gen8 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-reva/?variant=8e50893d-f6d8-4066-a18a-922cc8e4fb9a' data-img='https://media-myr.b-cdn.net/images/resized/1280/4563be7a-cb86-4647-91f5-8d3b7954aa76.webp' data-hover='https://framerusercontent.com/images/QdBnPsiOGy7ZzVMcHjrJhs44.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/4563be7a-cb86-4647-91f5-8d3b7954aa76.webp'><img class='hover-img' src='https://framerusercontent.com/images/QdBnPsiOGy7ZzVMcHjrJhs44.png'></div><p>Adel: FIGHT of FVCK</p></div></a>
+<a href='#' class='product-link' data-id='9' data-category='Photobook' data-name='Anin: THE 3NT0TABLE P3R3K' data-tags='anin gen3 bluealbum ba whitealbum parody photoset photobook pdf' data-link='https://javai.myr.id/pl/classic-ba?variant=58659539-77f5-4bc5-b680-a4598a128c6e' data-img='https://framerusercontent.com/images/z3SC9HAv0x6rcVBqvJsMDzXA1wY.png' data-hover='https://framerusercontent.com/images/z3SC9HAv0x6rcVBqvJsMDzXA1wY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/z3SC9HAv0x6rcVBqvJsMDzXA1wY.png'><img class='hover-img' src='https://framerusercontent.com/images/z3SC9HAv0x6rcVBqvJsMDzXA1wY.png'></div><p>Anin: THE 3NT0TABLE P3R3K</p></div></a>
+<a href='#' class='product-link' data-id='10' data-category='Photoset' data-name='ASADEL BREEDING TIME' data-tags='zee gen7 azizi asadel parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-asadel/?variant=13081d88-7b2c-44ee-8c3d-9dab69905c10' data-img='https://framerusercontent.com/images/ngjPsvg8dc4gIjmQ7OvOQF95aiE.png?width=513&height=708' data-hover='https://framerusercontent.com/images/5qqA9ZpR2UOvUj07PQq0pKjkIg.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/ngjPsvg8dc4gIjmQ7OvOQF95aiE.png?width=513&height=708'><img class='hover-img' src='https://framerusercontent.com/images/5qqA9ZpR2UOvUj07PQq0pKjkIg.png'></div><p>ASADEL BREEDING TIME</p></div></a>
+<a href='#' class='product-link' data-id='11' data-category='Photoset' data-name='Ashel: PERMUAS GUNUNG GEDE' data-tags='ashel gen9 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-a55el/?variant=3870ebbd-8900-4a06-b52b-d46f474ba69d' data-img='https://media-myr.b-cdn.net/images/resized/1279/b1f0c3d9-4875-4332-a0d9-022df1156e1f.webp' data-hover='https://framerusercontent.com/images/QRDp7sXmzEOdxRlgHrzbHuOFZCU.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1279/b1f0c3d9-4875-4332-a0d9-022df1156e1f.webp'><img class='hover-img' src='https://framerusercontent.com/images/QRDp7sXmzEOdxRlgHrzbHuOFZCU.png'></div><p>Ashel: PERMUAS GUNUNG GEDE</p></div></a>
+<a href='#' class='product-link' data-id='12' data-category='Photoset' data-name='AZZ 21ST' data-tags='zee gen7 azizi asadel parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-asadel/?variant=29b441fc-bf39-4e13-829b-45f63606a967' data-img='https://framerusercontent.com/images/dcQSvklsjwmQASLHNkn5hCfbU.png?width=516&height=717' data-hover='https://framerusercontent.com/images/dcQSvklsjwmQASLHNkn5hCfbU.png?width=516&height=717'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/dcQSvklsjwmQASLHNkn5hCfbU.png?width=516&height=717'><img class='hover-img' src='https://framerusercontent.com/images/dcQSvklsjwmQASLHNkn5hCfbU.png?width=516&height=717'></div><p>AZZ 21ST</p></div></a>
+<a href='#' class='product-link' data-id='13' data-category='Photoset' data-name='BLACK AND CHIKA' data-tags='chika yesica tamara gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-chika1/?variant=22cf4ba3-367b-48f7-8d63-601433ccd9a7' data-img='https://framerusercontent.com/images/537WkLgPby9RO58XKSRJlv93bU.png?width=523&height=778' data-hover='https://framerusercontent.com/images/3d0YOUGjzse3ZG7KOqmOG8vA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/537WkLgPby9RO58XKSRJlv93bU.png?width=523&height=778'><img class='hover-img' src='https://framerusercontent.com/images/3d0YOUGjzse3ZG7KOqmOG8vA.png'></div><p>BLACK AND CHIKA</p></div></a>
+<a href='#' class='product-link' data-id='14' data-category='Photoset' data-name='Celine: Once Upon A Time' data-tags='celin tanzhihui tan zhi hui gen4 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-zhewey/?variant=ead2ac79-19bb-4ab0-9d5c-fe346e3b4125' data-img='https://media-myr.b-cdn.net/images/resized/1280/c17b70f4-9ec2-4f8c-9a0d-26ff84e71a70.webp' data-hover='https://framerusercontent.com/images/KY7f75hMeGeNIqB7tfDQpVqwY.png?scale-down-to=512&width=969&height=858'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/c17b70f4-9ec2-4f8c-9a0d-26ff84e71a70.webp'><img class='hover-img' src='https://framerusercontent.com/images/KY7f75hMeGeNIqB7tfDQpVqwY.png?scale-down-to=512&width=969&height=858'></div><p>Celine: Once Upon A Time</p></div></a>
+<a href='#' class='product-link' data-id='15' data-category='Photoset' data-name='Chika: Meats for Great Cumming' data-tags='chika yesica tamara gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-chika1/?variant=c54e5565-5712-48b8-9925-04d038b5ce51' data-img='https://media-myr.b-cdn.net/images/resized/1280/00a455d5-16af-42fa-bc57-128dbadb2304.webp' data-hover='https://framerusercontent.com/images/CWB2XRrV93kGMmqjPewlCrj5TE.png?width=581&height=609'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/00a455d5-16af-42fa-bc57-128dbadb2304.webp'><img class='hover-img' src='https://framerusercontent.com/images/CWB2XRrV93kGMmqjPewlCrj5TE.png?width=581&height=609'></div><p>Chika: Meats for Great Cumming</p></div></a>
+<a href='#' class='product-link' data-id='16' data-category='Photobook' data-name='Cindy: HEAVENLY D!CKS' data-tags='cindy cinhap gen4 bluealbum ba whitealbum parody photoset photobook pdf' data-link='https://javai.myr.id/pl/classic-ba?variant=5ad62885-81ea-42cd-9ffd-15bee6aa212e' data-img='https://media.mayar.id/images/b7357dfe-33e3-4260-86d0-4e39bd5c121d.jpeg' data-hover='https://media.mayar.id/images/b7357dfe-33e3-4260-86d0-4e39bd5c121d.jpeg'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media.mayar.id/images/b7357dfe-33e3-4260-86d0-4e39bd5c121d.jpeg'><img class='hover-img' src='https://media.mayar.id/images/b7357dfe-33e3-4260-86d0-4e39bd5c121d.jpeg'></div><p>Cindy: HEAVENLY D!CKS</p></div></a>
+<a href='#' class='product-link' data-id='17' data-category='Photoset' data-name='Delynn: INsemeNATION CLASS' data-tags='delynn gen12 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-delyn/?variant=223cd6ca-975d-48ea-a5dd-f28b4827a9cb' data-img='https://media-myr.b-cdn.net/images/resized/1096/62b4adcc-ee4c-4cc1-8d8c-bc36845ca7fe.webp' data-hover='https://framerusercontent.com/images/wlFY0EEsNKbmB4MrwA6A3ZFsjSg.png?scale-down-to=512'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1096/62b4adcc-ee4c-4cc1-8d8c-bc36845ca7fe.webp'><img class='hover-img' src='https://framerusercontent.com/images/wlFY0EEsNKbmB4MrwA6A3ZFsjSg.png?scale-down-to=512'></div><p>Delynn: INsemeNATION CLASS</p></div></a>
+<a href='#' class='product-link' data-id='18' data-category='Photoset' data-name='Eli: LOVE BBC' data-tags='eli gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-ceu-eli/?variant=7d4e0fb9-71d7-44e7-81c5-18650c7ff2f5' data-img='https://media-myr.b-cdn.net/images/resized/1280/671352ba-e923-4fdc-97fb-9b1d7581f38f.webp' data-hover='https://framerusercontent.com/images/xUnowGKrgzzyNS0QAxT2K4KJQ.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/671352ba-e923-4fdc-97fb-9b1d7581f38f.webp'><img class='hover-img' src='https://framerusercontent.com/images/xUnowGKrgzzyNS0QAxT2K4KJQ.png'></div><p>Eli: LOVE BBC</p></div></a>
+<a href='#' class='product-link' data-id='19' data-category='Photoset' data-name='Fiony: BLACKED' data-tags='fiony gen8 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-cepio/?variant=800c37fe-9191-4220-800f-c5a233444196' data-img='https://framerusercontent.com/images/6sun1pNmxJYL7KeSqG1iMOhGOo.png?width=520&height=777' data-hover='https://framerusercontent.com/images/Gago79mduruYIcUM6YRXc3eC0A.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/6sun1pNmxJYL7KeSqG1iMOhGOo.png?width=520&height=777'><img class='hover-img' src='https://framerusercontent.com/images/Gago79mduruYIcUM6YRXc3eC0A.png'></div><p>Fiony: BLACKED</p></div></a>
+<a href='#' class='product-link' data-id='20' data-category='Photoset' data-name='Fiony: CREAMPIO' data-tags='fiony gen8 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-cepio/?variant=95ba322f-4b4e-4f58-b709-f47567676984' data-img='https://media-myr.b-cdn.net/images/resized/844/ab281f45-31d3-4873-8b10-69f3d5eee80a.webp' data-hover='https://framerusercontent.com/images/tzpwcDL1fJqUIedF8tqbx05Rg84.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/844/ab281f45-31d3-4873-8b10-69f3d5eee80a.webp'><img class='hover-img' src='https://framerusercontent.com/images/tzpwcDL1fJqUIedF8tqbx05Rg84.png'></div><p>Fiony: CREAMPIO</p></div></a>
+<a href='#' class='product-link' data-id='21' data-category='Photoset' data-name='Flora's Chocolatos' data-tags='flora gen8 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-flo/?variant=e15ea226-91b1-4eb9-9e42-c210e6242d2c' data-img='https://media-myr.b-cdn.net/images/resized/1280/0b9bc372-a573-4743-9d77-11f849d867b6.webp' data-hover='https://framerusercontent.com/images/NOLFfkv8wQOd7aks1J16qQB0UG8.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/0b9bc372-a573-4743-9d77-11f849d867b6.webp'><img class='hover-img' src='https://framerusercontent.com/images/NOLFfkv8wQOd7aks1J16qQB0UG8.png'></div><p>Flora's Chocolatos</p></div></a>
+<a href='#' class='product-link' data-id='22' data-category='Photoset' data-name='FUTANATION' data-tags='freya gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-freyaa/?variant=93f1607c-cafe-4b7a-95ad-8808ae4b2dcc' data-img='https://framerusercontent.com/images/h6YXpwrd2KBcxTrd8qL9xEVaJn0.png?width=513&height=756' data-hover='https://framerusercontent.com/images/0g9wEyQaltls9nRvvJVGMhr5KAk.png?scale-down-to=512'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/h6YXpwrd2KBcxTrd8qL9xEVaJn0.png?width=513&height=756'><img class='hover-img' src='https://framerusercontent.com/images/0g9wEyQaltls9nRvvJVGMhr5KAk.png?scale-down-to=512'></div><p>FUTANATION</p></div></a>
+<a href='#' class='product-link' data-id='23' data-category='Photoset' data-name='GANG ME!' data-tags='chika yesica tamara gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-chika1/?variant=c8714ce8-6a27-4475-8fb3-8d6d6799d20b' data-img='https://framerusercontent.com/images/Kois5HEJHZWCT5XuGvKJyKeUPK4.png?width=521&height=737' data-hover='https://framerusercontent.com/images/ucU8qzIoSBwq9cN8DF9SX1Znebw.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/Kois5HEJHZWCT5XuGvKJyKeUPK4.png?width=521&height=737'><img class='hover-img' src='https://framerusercontent.com/images/ucU8qzIoSBwq9cN8DF9SX1Znebw.png'></div><p>GANG ME!</p></div></a>
+<a href='#' class='product-link' data-id='24' data-category='Photobook' data-name='Gita: GAZE OF SLUT' data-tags='gita gen6 bluealbum ba whitealbum parody photoset photobook pdf' data-link='https://javai.myr.id/pl/classic-ba?variant=d382b078-8ab5-46b7-b16e-e671eacb6f85' data-img='https://framerusercontent.com/images/99rQhr8SvjnxDTFI7eskm0xYCY.png' data-hover='https://framerusercontent.com/images/99rQhr8SvjnxDTFI7eskm0xYCY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/99rQhr8SvjnxDTFI7eskm0xYCY.png'><img class='hover-img' src='https://framerusercontent.com/images/99rQhr8SvjnxDTFI7eskm0xYCY.png'></div><p>Gita: GAZE OF SLUT</p></div></a>
+<a href='#' class='product-link' data-id='25' data-category='Photoset' data-name='HOT CASTING' data-tags='cynthia yaputera gen11 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-cynthia/?variant=8a803431-f263-4f1f-a58e-8692a9668cbd' data-img='https://framerusercontent.com/images/xtBC5k02IsaQp6wvKihPWD5NII.png?width=501&height=679' data-hover='https://media-myr.b-cdn.net/images/resized/1279/5c2e3e06-cc5a-4e63-af0f-d7701b898da4.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/xtBC5k02IsaQp6wvKihPWD5NII.png?width=501&height=679'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1279/5c2e3e06-cc5a-4e63-af0f-d7701b898da4.webp'></div><p>HOT CASTING</p></div></a>
+<a href='#' class='product-link' data-id='26' data-category='Photoset' data-name='I WANT MORE' data-tags='freya gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-freyaa/?variant=38ffe3a2-d8e0-4da4-b40d-f569248bf3b3' data-img='https://framerusercontent.com/images/4FD4RFouzRSnekKbxPuTWaxMPeY.png?width=517&height=632' data-hover='https://framerusercontent.com/images/r9L7r0kMlF2HnP05H9TiKjgYl2o.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/4FD4RFouzRSnekKbxPuTWaxMPeY.png?width=517&height=632'><img class='hover-img' src='https://framerusercontent.com/images/r9L7r0kMlF2HnP05H9TiKjgYl2o.png'></div><p>I WANT MORE</p></div></a>
+<a href='#' class='product-link' data-id='27' data-category='Photobook' data-name='Jinan: FVCKZONE PRINCESS' data-tags='jinan gen4 bluealbum ba whitealbum parody photoset photobook pdf' data-link='https://javai.myr.id/pl/classic-ba?variant=7a58d012-1213-42ab-9fcd-a85787f376fa' data-img='https://framerusercontent.com/images/PxLjJhtCod31WIj43OirAUt8RA.png' data-hover='https://framerusercontent.com/images/PxLjJhtCod31WIj43OirAUt8RA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/PxLjJhtCod31WIj43OirAUt8RA.png'><img class='hover-img' src='https://framerusercontent.com/images/PxLjJhtCod31WIj43OirAUt8RA.png'></div><p>Jinan: FVCKZONE PRINCESS</p></div></a>
+<a href='#' class='product-link' data-id='28' data-category='Photoset' data-name='MAENG B DAY PHOTO' data-tags='marsha gen9 parody photoset photobook pdf terbaru' data-link='https://javai.myr.id/pl/b-day-maeng?variant=98b6178b-ceba-4c79-a130-37dacc89c032' data-img='https://media-myr.b-cdn.net/images/resized/1437/ebb249d5-3f65-4b47-8808-7b78829a6ad1.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1437/ebb249d5-3f65-4b47-8808-7b78829a6ad1.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1437/ebb249d5-3f65-4b47-8808-7b78829a6ad1.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1437/ebb249d5-3f65-4b47-8808-7b78829a6ad1.webp'></div><p>MAENG B DAY PHOTO</p></div></a>
+<a href='#' class='product-link' data-id='29' data-category='Video' data-name='MAENG B DAY VIDEO' data-tags='marsha gen9 parody mp4 mv music video terbaru' data-link='https://javai.myr.id/pl/b-day-maeng?variant=87200a4a-4c7f-4dc1-ba5a-c232ba54eaa3' data-img='https://media.mayar.id/images/8438a2bd-c14d-4eba-ba0a-e8ba9ea5d0e4.jpeg' data-hover='https://media.mayar.id/images/8438a2bd-c14d-4eba-ba0a-e8ba9ea5d0e4.jpeg'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media.mayar.id/images/8438a2bd-c14d-4eba-ba0a-e8ba9ea5d0e4.jpeg'><img class='hover-img' src='https://media.mayar.id/images/8438a2bd-c14d-4eba-ba0a-e8ba9ea5d0e4.jpeg'></div><p>MAENG B DAY VIDEO</p></div></a>
+<a href='#' class='product-link' data-id='30' data-category='Story' data-name='MAGIC TISSUE' data-tags='freya marsha gracia feni jessi muthe zee christy kathrina fiony melody shani gita cerita comic jkt48 parody fantasi futa romance' data-link='https://javai.myr.id/ebook/mgc-tssu' data-img='https://media-myr.b-cdn.net/images/resized/456/86a3cf38-2845-4503-99db-068e6db8dfdf.webp' data-hover='https://framerusercontent.com/images/mSWNqeEdLgoN8MmMjrsrlvSuOgs.png?scale-down-to=512&width=410&height=617'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/456/86a3cf38-2845-4503-99db-068e6db8dfdf.webp'><img class='hover-img' src='https://framerusercontent.com/images/mSWNqeEdLgoN8MmMjrsrlvSuOgs.png?scale-down-to=512&width=410&height=617'></div><p>MAGIC TISSUE</p></div></a>
+<a href='#' class='product-link' data-id='31' data-category='Photoset' data-name='MY NEW SEXDOLL' data-tags='chika yesica tamara gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-chika1/?variant=9d2a46b5-39eb-4076-b78f-72ab5f86ae14' data-img='https://framerusercontent.com/images/f5C2w6FgxFsAqVNV9QTMenIWk.png?width=520&height=569' data-hover='https://framerusercontent.com/images/84NVF0fKXisOKRMSTbMqEBMeKY4.png?scale-down-to=512'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/f5C2w6FgxFsAqVNV9QTMenIWk.png?width=520&height=569'><img class='hover-img' src='https://framerusercontent.com/images/84NVF0fKXisOKRMSTbMqEBMeKY4.png?scale-down-to=512'></div><p>MY NEW SEXDOLL</p></div></a>
+<a href='#' class='product-link' data-id='32' data-category='Photoset' data-name='PREGO TEEN' data-tags='freya gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-freyaa/?variant=8f0a8956-1961-4b26-85d6-65e0a3e0baf1' data-img='https://framerusercontent.com/images/ai7ewN3XOsPknxpT5oqhvw5yqHI.png?width=517&height=784' data-hover='https://framerusercontent.com/images/zMdPw10s0Fnb3k7TR50XcIoHmHo.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/ai7ewN3XOsPknxpT5oqhvw5yqHI.png?width=517&height=784'><img class='hover-img' src='https://framerusercontent.com/images/zMdPw10s0Fnb3k7TR50XcIoHmHo.png'></div><p>PREGO TEEN</p></div></a>
+<a href='#' class='product-link' data-id='33' data-category='Photoset' data-name='SALVE OF REGIME' data-tags='cinhap cindy hapsari gen4 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-chap/?variant=0c2ba622-c73a-4c0c-8340-b16f24bfb2f8' data-img='https://framerusercontent.com/images/qWSgwtfMp4dCl4rjh2iOOvW4hCU.png?width=487&height=776' data-hover='https://framerusercontent.com/images/R9fXHAP9fsk0YriDOd0U9X4Xw.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/qWSgwtfMp4dCl4rjh2iOOvW4hCU.png?width=487&height=776'><img class='hover-img' src='https://framerusercontent.com/images/R9fXHAP9fsk0YriDOd0U9X4Xw.png'></div><p>SALVE OF REGIME</p></div></a>
+<a href='#' class='product-link' data-id='34' data-category='Photobook' data-name='Sisca: L0NT3 AYU' data-tags='sisca gen3 bluealbum ba whitealbum parody photoset photobook pdf' data-link='https://javai.myr.id/pl/classic-ba/?variant=bcebef50-99cc-42f8-8afc-0435f97eb775' data-img='https://media.mayar.id/images/719565d3-44dc-4407-a1c5-d727a5bc2a21.jpeg' data-hover='https://media.mayar.id/images/719565d3-44dc-4407-a1c5-d727a5bc2a21.jpeg'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media.mayar.id/images/719565d3-44dc-4407-a1c5-d727a5bc2a21.jpeg'><img class='hover-img' src='https://media.mayar.id/images/719565d3-44dc-4407-a1c5-d727a5bc2a21.jpeg'></div><p>Sisca: L0NT3 AYU</p></div></a>
+<a href='#' class='product-link' data-id='35' data-category='Photoset' data-name='STREET GANGBANG' data-tags='feni fitriyanti gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-feni/?variant=9a3bf98a-6f4a-4a3b-832d-7a9ead5cecc5' data-img='https://media-myr.b-cdn.net/images/resized/1024/e73de01f-2ccc-49ac-a8ef-5ca30f933f47.webp' data-hover='https://framerusercontent.com/images/AUGfSYrEVySGsDA5EdjrmdgiyF4.png?width=507&height=344'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1024/e73de01f-2ccc-49ac-a8ef-5ca30f933f47.webp'><img class='hover-img' src='https://framerusercontent.com/images/AUGfSYrEVySGsDA5EdjrmdgiyF4.png?width=507&height=344'></div><p>STREET GANGBANG</p></div></a>
+<a href='#' class='product-link' data-id='36' data-category='Photoset' data-name='VANA's BATHROOM' data-tags='freya gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-freyaa/?variant=d2d69c4d-757f-4b39-816a-fe651ab7b122' data-img='https://framerusercontent.com/images/Z0v7zNCMzPikE0fmfDAkLZwOA.png?width=507&height=606' data-hover='https://framerusercontent.com/images/ZbGjG59J3CRABxdJ0fXYDclC2h8.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/Z0v7zNCMzPikE0fmfDAkLZwOA.png?width=507&height=606'><img class='hover-img' src='https://framerusercontent.com/images/ZbGjG59J3CRABxdJ0fXYDclC2h8.png'></div><p>VANA's BATHROOM</p></div></a>
+<a href='#' class='product-link' data-id='37' data-category='Photoset' data-name='Virgi: DF DEBUT' data-tags='virgi gen13 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-virgi/?variant=34b19d40-2556-454b-866a-513aee65ec75' data-img='https://media-myr.b-cdn.net/images/resized/1280/58d61f35-d317-4793-a1ff-703e37252eb7.webp' data-hover='https://framerusercontent.com/images/PRVtt1NIsXIEKEiMjW5gma5hjo.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/58d61f35-d317-4793-a1ff-703e37252eb7.webp'><img class='hover-img' src='https://framerusercontent.com/images/PRVtt1NIsXIEKEiMjW5gma5hjo.png'></div><p>Virgi: DF DEBUT</p></div></a>
+<a href='#' class='product-link' data-id='38' data-category='Photoset' data-name='ZEE: 422' data-tags='zee gen7 azizi asadel parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-asadel/?variant=d6a7478f-1f67-4a08-9890-701bf234d56f' data-img='https://framerusercontent.com/images/RYXsl4HNq7o7WXPCYvQ7w73oMVI.png?width=515&height=775' data-hover='https://framerusercontent.com/images/4iEHWKdAkBrZZy8nN00vLQE.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/RYXsl4HNq7o7WXPCYvQ7w73oMVI.png?width=515&height=775'><img class='hover-img' src='https://framerusercontent.com/images/4iEHWKdAkBrZZy8nN00vLQE.png'></div><p>ZEE: 422</p></div></a>
+<a href='#' class='product-link' data-id='39' data-category='Photoset' data-name='ZEEMALE' data-tags='zee gen7 azizi asadel parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-asadel/?variant=d53358ce-840f-491e-9fbc-43ca3919079c' data-img='https://media-myr.b-cdn.net/images/resized/1279/67b31db5-3a84-406d-bb2a-2fcbf407114f.webp' data-hover='https://framerusercontent.com/images/OUPWq8hSHJcqyF8A39W8imPgo.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1279/67b31db5-3a84-406d-bb2a-2fcbf407114f.webp'><img class='hover-img' src='https://framerusercontent.com/images/OUPWq8hSHJcqyF8A39W8imPgo.png'></div><p>ZEEMALE</p></div></a>
+<a href='#' class='product-link' data-id='40' data-category='Photoset' data-name='PHOTOSET: CELINE' data-tags='frieska gen1 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-fries/?variant=2e6c371a-d722-43df-b9c4-5bbabed552ec' data-img='https://media-myr.b-cdn.net/images/resized/1280/8211801c-dc76-4c7d-b6b8-482170f946ba.webp' data-hover='https://framerusercontent.com/images/PWeTjuKQgVAZ8jpCQ2w3NAOWig.png?width=445&height=554'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/8211801c-dc76-4c7d-b6b8-482170f946ba.webp'><img class='hover-img' src='https://framerusercontent.com/images/PWeTjuKQgVAZ8jpCQ2w3NAOWig.png?width=445&height=554'></div><p>PHOTOSET: CELINE</p></div></a>
+<a href='#' class='product-link' data-id='41' data-category='Photoset' data-name='I'm GROW' data-tags='fritzy gen12 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-frtz?variant=35d7ec68-e9fa-47fa-83d3-ce5818cf6470' data-img='https://media-myr.b-cdn.net/images/resized/1280/71057524-9701-4346-ab7e-67bcacbaa34b.webp' data-hover='https://framerusercontent.com/images/nGEuWxM2fOUKWmkwhhyx0M6QY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/71057524-9701-4346-ab7e-67bcacbaa34b.webp'><img class='hover-img' src='https://framerusercontent.com/images/nGEuWxM2fOUKWmkwhhyx0M6QY.png'></div><p>I'm GROW</p></div></a>
+<a href='#' class='product-link' data-id='42' data-category='Photoset' data-name='EXTRA SHOOT' data-tags='gita gen6 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-gita1/?variant=e5852450-4639-475e-a2c8-d00a4f89ef3d' data-img='https://media-myr.b-cdn.net/images/resized/1280/02e7b6ec-f6be-4b1b-9ff7-4929f68d7f77.webp' data-hover='https://framerusercontent.com/images/J8IXBOi6nlCOEPAwHWks1hoc7bI.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/02e7b6ec-f6be-4b1b-9ff7-4929f68d7f77.webp'><img class='hover-img' src='https://framerusercontent.com/images/J8IXBOi6nlCOEPAwHWks1hoc7bI.png'></div><p>EXTRA SHOOT</p></div></a>
+<a href='#' class='product-link' data-id='43' data-category='Photoset' data-name='HAIRY GITA' data-tags='gita gen6 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-gita1/?variant=72eb410d-4384-4406-8a09-86383c3d8544' data-img='https://media-myr.b-cdn.net/images/resized/1280/ff62fb11-8176-477c-a1c5-275484c572bd.webp' data-hover='https://framerusercontent.com/images/8cz5qFKKW7raUseJmN1oLkzXYkg.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/ff62fb11-8176-477c-a1c5-275484c572bd.webp'><img class='hover-img' src='https://framerusercontent.com/images/8cz5qFKKW7raUseJmN1oLkzXYkg.png'></div><p>HAIRY GITA</p></div></a>
+<a href='#' class='product-link' data-id='44' data-category='Photoset' data-name='MY PET LOVES GANGBANG' data-tags='gracia gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-gre1/?variant=91f1ef21-da4e-422b-a9f9-e20a9b15db38' data-img='https://framerusercontent.com/images/8zAsJouEYV0HytfjwZk08l78nA.png?width=493&height=621' data-hover='https://framerusercontent.com/images/eBpqLwvEnG9fJ53OcWiHMFKY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/8zAsJouEYV0HytfjwZk08l78nA.png?width=493&height=621'><img class='hover-img' src='https://framerusercontent.com/images/eBpqLwvEnG9fJ53OcWiHMFKY.png'></div><p>MY PET LOVES GANGBANG</p></div></a>
+<a href='#' class='product-link' data-id='45' data-category='Photoset' data-name='My Secret Ladyboy' data-tags='gracia gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-gre1/?variant=9e885989-9806-4c51-995a-f4cf7c92ea13' data-img='https://framerusercontent.com/images/wUDWing33pY5hrSOkhBAtN1k6Q.png?width=507&height=743' data-hover='https://framerusercontent.com/images/WLql95qNycTCan5U1fjj14Kb0Cw.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/wUDWing33pY5hrSOkhBAtN1k6Q.png?width=507&height=743'><img class='hover-img' src='https://framerusercontent.com/images/WLql95qNycTCan5U1fjj14Kb0Cw.png'></div><p>My Secret Ladyboy</p></div></a>
+<a href='#' class='product-link' data-id='46' data-category='Photoset' data-name='PPN 18+' data-tags='gracia gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-gre1/?variant=8eb4fd90-9135-4b21-bc8c-159d802a6392' data-img='https://framerusercontent.com/images/k2tS3lPUcNCPx1u4IMPRi0Qvlzo.png?width=509&height=631' data-hover='https://framerusercontent.com/images/tuCQin587ZtUk5LGNOQvXHmYRM.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/k2tS3lPUcNCPx1u4IMPRi0Qvlzo.png?width=509&height=631'><img class='hover-img' src='https://framerusercontent.com/images/tuCQin587ZtUk5LGNOQvXHmYRM.png'></div><p>PPN 18+</p></div></a>
+<a href='#' class='product-link' data-id='47' data-category='Photoset' data-name='PREGOSLUT' data-tags='gracia gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-gre1/?variant=8a3dd9b6-e5b6-44e2-80dd-7058c61a7f00' data-img='https://framerusercontent.com/images/9A9Ht9h8rIE3vhNyg30pMonYfY8.png?width=576&height=617' data-hover='https://framerusercontent.com/images/jjnsnjHnv7GDeMeTWXs6mNVzHWM.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/9A9Ht9h8rIE3vhNyg30pMonYfY8.png?width=576&height=617'><img class='hover-img' src='https://framerusercontent.com/images/jjnsnjHnv7GDeMeTWXs6mNVzHWM.png'></div><p>PREGOSLUT</p></div></a>
+<a href='#' class='product-link' data-id='48' data-category='Photoset' data-name='MY BRO INVESTMENT' data-tags='gracia gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-grc/?variant=a198a4ed-5ab3-4136-8bb9-c875b3ed68a5' data-img='https://media-myr.b-cdn.net/images/resized/1279/263c5131-7f52-4db9-a84f-f5f3a7f71264.webp' data-hover='https://framerusercontent.com/images/mAX9W6yMpjbjyvxQPffKMlF7eE.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1279/263c5131-7f52-4db9-a84f-f5f3a7f71264.webp'><img class='hover-img' src='https://framerusercontent.com/images/mAX9W6yMpjbjyvxQPffKMlF7eE.png'></div><p>MY BRO INVESTMENT</p></div></a>
+<a href='#' class='product-link' data-id='49' data-category='Photoset' data-name='ZEETY' data-tags='zee christy lesbian gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-zt/?variant=fb9dbd4d-d09c-467e-9d97-bf86f40ba630' data-img='https://media-myr.b-cdn.net/images/resized/1280/d76165be-c50b-4355-876d-86ac0f7c467e.webp' data-hover='https://framerusercontent.com/images/NATLnlTSgxBpg83JWPYEI3y8kg.jpg'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/d76165be-c50b-4355-876d-86ac0f7c467e.webp'><img class='hover-img' src='https://framerusercontent.com/images/NATLnlTSgxBpg83JWPYEI3y8kg.jpg'></div><p>ZEETY</p></div></a>
+<a href='#' class='product-link' data-id='50' data-category='Photoset' data-name='GreShan' data-tags='gracia shani lesbian gen3 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-zt/?variant=1872279d-3058-4414-9184-f9d54e3c7a6b' data-img='https://media-myr.b-cdn.net/images/resized/456/4099d1a9-62f6-488d-b254-569b40321e16.webp' data-hover='https://framerusercontent.com/images/hSKmvr5IVd89Ctj4kqAlyxRgwA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/456/4099d1a9-62f6-488d-b254-569b40321e16.webp'><img class='hover-img' src='https://framerusercontent.com/images/hSKmvr5IVd89Ctj4kqAlyxRgwA.png'></div><p>GreShan</p></div></a>
+<a href='#' class='product-link' data-id='51' data-category='Photoset' data-name='FUTA GURLFRIEND' data-tags='zee marsha lesbian futa futanari shemale gen7 gen9 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-zt/?variant=cfb53111-c068-49a7-b34c-ce7496ac0cdf' data-img='https://media-myr.b-cdn.net/images/resized/1280/3a8069cb-b88e-444f-9608-b1edb3ec034e.webp' data-hover='https://framerusercontent.com/images/whMWYfBEp6CTedoiqi8NnINLE.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/3a8069cb-b88e-444f-9608-b1edb3ec034e.webp'><img class='hover-img' src='https://framerusercontent.com/images/whMWYfBEp6CTedoiqi8NnINLE.png'></div><p>FUTA GURLFRIEND</p></div></a>
+<a href='#' class='product-link' data-id='52' data-category='Photoset' data-name='PRIVATE THEATER' data-tags='kathrina marsha lesbian gen9 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-zt/?variant=7cd3b44e-53dd-43ec-bea9-d59b49f598a7' data-img='https://media-myr.b-cdn.net/images/resized/1280/b2e59d83-eb6f-4f88-988a-46690301c484.webp' data-hover='https://framerusercontent.com/images/q0Hkx7ozWG0yOsmpnnKmD6NcFA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/b2e59d83-eb6f-4f88-988a-46690301c484.webp'><img class='hover-img' src='https://framerusercontent.com/images/q0Hkx7ozWG0yOsmpnnKmD6NcFA.png'></div><p>PRIVATE THEATER</p></div></a>
+<a href='#' class='product-link' data-id='53' data-category='Photoset' data-name='PHOTOSET: GREESEL' data-tags='greesel gen11 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-greesel/?variant=bc4b243a-9669-4720-871d-a6027cff87d7' data-img='https://media-myr.b-cdn.net/images/resized/1280/b44b20db-d913-4edd-bae2-974a9696d44d.webp' data-hover='https://framerusercontent.com/images/Khh7qWKcs5MIGpVA4fDT6likSW0.png?scale-down-to=512'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/b44b20db-d913-4edd-bae2-974a9696d44d.webp'><img class='hover-img' src='https://framerusercontent.com/images/Khh7qWKcs5MIGpVA4fDT6likSW0.png?scale-down-to=512'></div><p>PHOTOSET: GREESEL</p></div></a>
+<a href='#' class='product-link' data-id='54' data-category='Photoset' data-name='Just on My Mouth' data-tags='indah gen9 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-cahya/?variant=4bf11da5-48d8-42ff-b5d3-061fa9736783' data-img='https://media-myr.b-cdn.net/images/resized/1280/bd6af3a5-0d46-4c60-8f74-4d707cabdfa6.webp' data-hover='https://framerusercontent.com/images/oBNESMbp3E4vpt7HEqPOS0W3fFM.png?scale-down-to=512'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/bd6af3a5-0d46-4c60-8f74-4d707cabdfa6.webp'><img class='hover-img' src='https://framerusercontent.com/images/oBNESMbp3E4vpt7HEqPOS0W3fFM.png?scale-down-to=512'></div><p>Just on My Mouth</p></div></a>
+<a href='#' class='product-link' data-id='55' data-category='Photoset' data-name='Seruni On Black' data-tags='indira gen10 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-indira/?variant=2e56ad84-65ee-4cb8-a913-2b268c9da88b' data-img='https://media-myr.b-cdn.net/images/resized/1280/4f989fa4-87fd-419b-8adc-3467bd17f971.webp' data-hover='https://framerusercontent.com/images/vlFD562JZEplo9KJ37UjfFfqA9E.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/4f989fa4-87fd-419b-8adc-3467bd17f971.webp'><img class='hover-img' src='https://framerusercontent.com/images/vlFD562JZEplo9KJ37UjfFfqA9E.png'></div><p>Seruni On Black</p></div></a>
+<a href='#' class='product-link' data-id='56' data-category='Photoset' data-name='MULTIPLE SPLASH' data-tags='indira gen10 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-indira/?variant=3973eb95-dc0c-46d6-b130-fbcf9a3282b7' data-img='https://media-myr.b-cdn.net/images/resized/1280/195cbb2c-2648-4e45-a59d-efa8b172dbaf.webp' data-hover='https://framerusercontent.com/images/4E5XiN3YnuOJPZ3LyDzGfCApY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/195cbb2c-2648-4e45-a59d-efa8b172dbaf.webp'><img class='hover-img' src='https://framerusercontent.com/images/4E5XiN3YnuOJPZ3LyDzGfCApY.png'></div><p>MULTIPLE SPLASH</p></div></a>
+<a href='#' class='product-link' data-id='57' data-category='Photoset' data-name='I've to do (Prego)' data-tags='veranda gen1 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-jcvrnd19/?variant=3e9f0f05-eadf-48a4-93ff-1c50b60fe3f5' data-img='https://media-myr.b-cdn.net/images/resized/1280/17801087-bf0f-479a-ad71-d9e4d8672117.webp' data-hover='https://framerusercontent.com/images/05zg8XhkdikUY6kM9TBwxfucWK4.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/17801087-bf0f-479a-ad71-d9e4d8672117.webp'><img class='hover-img' src='https://framerusercontent.com/images/05zg8XhkdikUY6kM9TBwxfucWK4.png'></div><p>I've to do (Prego)</p></div></a>
+<a href='#' class='product-link' data-id='58' data-category='Photoset' data-name='Red Lady Veranda' data-tags='veranda gen1 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-jcvrnd19/?variant=3ecd6faa-aa66-4379-adc8-509bdb1cdd76' data-img='https://media-myr.b-cdn.net/images/resized/1280/df50ed19-21bf-4690-a645-b39f0f9a27cb.webp' data-hover='https://framerusercontent.com/images/PHgQMvGqOwrMRLjm33UMGdbMY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/df50ed19-21bf-4690-a645-b39f0f9a27cb.webp'><img class='hover-img' src='https://framerusercontent.com/images/PHgQMvGqOwrMRLjm33UMGdbMY.png'></div><p>Red Lady Veranda</p></div></a>
+<a href='#' class='product-link' data-id='59' data-category='Photoset' data-name='ANALECCY' data-tags='jessi gen7 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-jecylecy/?variant=59a79f76-7400-4cf7-9a39-8e49a7868cfa' data-img='https://media-myr.b-cdn.net/images/resized/1280/f2f37bc1-1ece-4a9b-9686-b9916d513fd4.webp' data-hover='https://framerusercontent.com/images/Vzx9sLLf4CiXbxKXJAaXnS8fsgo.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/f2f37bc1-1ece-4a9b-9686-b9916d513fd4.webp'><img class='hover-img' src='https://framerusercontent.com/images/Vzx9sLLf4CiXbxKXJAaXnS8fsgo.png'></div><p>ANALECCY</p></div></a>
+<a href='#' class='product-link' data-id='60' data-category='Photoset' data-name='Tak Suka Yang Muda' data-tags='jinan gen4 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-jinan/?variant=c0f32a18-a642-4afe-9e8e-2d8a618e1669' data-img='https://media-myr.b-cdn.net/images/resized/1275/04d1d72f-ccfd-4661-8c49-70e8dcb7b46e.webp' data-hover='https://framerusercontent.com/images/ivBPVAi80KGzpNjzcUGwELeXiac.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1275/04d1d72f-ccfd-4661-8c49-70e8dcb7b46e.webp'><img class='hover-img' src='https://framerusercontent.com/images/ivBPVAi80KGzpNjzcUGwELeXiac.png'></div><p>Tak Suka Yang Muda</p></div></a>
+<a href='#' class='product-link' data-id='61' data-category='Photoset' data-name='S3xation' data-tags='kathrina gen9 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-atin/?variant=c1513d3f-bf8f-4fe9-81b9-6cf0a41e46f7' data-img='https://media-myr.b-cdn.net/images/resized/1280/99afa51b-02bd-47f0-b7fa-ffc018f1f287.webp' data-hover='https://framerusercontent.com/images/kAi1RxhOLyQIuI1kaTASWJGDm0.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/99afa51b-02bd-47f0-b7fa-ffc018f1f287.webp'><img class='hover-img' src='https://framerusercontent.com/images/kAi1RxhOLyQIuI1kaTASWJGDm0.png'></div><p>S3xation</p></div></a>
+<a href='#' class='product-link' data-id='62' data-category='Photoset' data-name='FUTARINA IRENE' data-tags='kathrina gen9 parody photoset jpg image aiphoto java futanari' data-link='https://javai.myr.id/pl/ai-photoset-atin/?variant=6a44b2a0-f35a-47eb-955e-6e6d7bcb1e4b' data-img='https://media-myr.b-cdn.net/images/resized/1279/0f9f8de4-7854-4406-b478-8b039f23ad60.webp' data-hover='https://framerusercontent.com/images/dzxK5hqn7aVrijr4i0OIwj1J9kU.png?scale-down-to=512'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1279/0f9f8de4-7854-4406-b478-8b039f23ad60.webp'><img class='hover-img' src='https://framerusercontent.com/images/dzxK5hqn7aVrijr4i0OIwj1J9kU.png?scale-down-to=512'></div><p>FUTARINA IRENE</p></div></a>
+<a href='#' class='product-link' data-id='63' data-category='Photoset' data-name='DOUBLE JOBS' data-tags='christy gen7 parody photoset jpg image aiphoto java double penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-angelkity/?variant=d4864d83-dcad-44fd-993a-93bc6a8cc6da' data-img='https://framerusercontent.com/images/XJnWj6vUC4Sk9b97oU2RsnrIzBM.png?width=496&height=663' data-hover='https://framerusercontent.com/images/W5ppFiVUjfVHx7uRQ5RJAOj1xA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/XJnWj6vUC4Sk9b97oU2RsnrIzBM.png?width=496&height=663'><img class='hover-img' src='https://framerusercontent.com/images/W5ppFiVUjfVHx7uRQ5RJAOj1xA.png'></div><p>DOUBLE JOBS</p></div></a>
+<a href='#' class='product-link' data-id='64' data-category='Photoset' data-name='AM I HORNY?' data-tags='christy gen7 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-angelkity/?variant=490d21f0-0353-4c1e-a133-8f1d7cd6b3b1' data-img='https://media-myr.b-cdn.net/images/resized/1500/cb7d2fca-ae12-4512-947f-45c656af0f5d.webp' data-hover='https://framerusercontent.com/images/bd9ijQCoIlk4Kf2u3Trzfd84TY.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/cb7d2fca-ae12-4512-947f-45c656af0f5d.webp'><img class='hover-img' src='https://framerusercontent.com/images/bd9ijQCoIlk4Kf2u3Trzfd84TY.png'></div><p>AM I HORNY?</p></div></a>
+<a href='#' class='product-link' data-id='65' data-category='Photoset' data-name='BLACK & WHITE with MAENG' data-tags='marsha gen9 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-lenathea1/?variant=936bac8c-944f-4d30-ac74-4fd6c6fcce52' data-img='https://media-myr.b-cdn.net/images/resized/1279/1e67be1b-f9ad-4db4-858c-23dba9c0820d.webp' data-hover='https://framerusercontent.com/images/udoVhanwbQp1ACl5ia7rH7LfLn8.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1279/1e67be1b-f9ad-4db4-858c-23dba9c0820d.webp'><img class='hover-img' src='https://framerusercontent.com/images/udoVhanwbQp1ACl5ia7rH7LfLn8.png'></div><p>BLACK & WHITE with MAENG</p></div></a>
+<a href='#' class='product-link' data-id='66' data-category='Photoset' data-name='PRIVATE ROOMATE' data-tags='marsha gen9 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-lenathea1/?variant=13754a22-64fd-4577-8644-848bea414418' data-img='https://media-myr.b-cdn.net/images/resized/1280/18d2379a-44a6-448a-8b9f-d25a939abbac.webp' data-hover='https://framerusercontent.com/images/G4HKtOUeR2pYc7Y8i1qgdO6O6A.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/18d2379a-44a6-448a-8b9f-d25a939abbac.webp'><img class='hover-img' src='https://framerusercontent.com/images/G4HKtOUeR2pYc7Y8i1qgdO6O6A.png'></div><p>PRIVATE ROOMATE</p></div></a>
+<a href='#' class='product-link' data-id='67' data-category='Photoset' data-name='RAPE HER!' data-tags='mira gen8 parody photoset jpg image aiphoto java penetration hardcore onic evos' data-link='https://javai.myr.id/pl/ai-photoset-amirah1/?variant=40d55cbe-5a1f-4dd3-9497-20b13435f730' data-img='https://media-myr.b-cdn.net/images/resized/1280/c5851769-d871-4826-a5f3-15c391242ac0.webp' data-hover='https://framerusercontent.com/images/eWv32xKhyCsTZPyGlRkrvFQtHp8.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/c5851769-d871-4826-a5f3-15c391242ac0.webp'><img class='hover-img' src='https://framerusercontent.com/images/eWv32xKhyCsTZPyGlRkrvFQtHp8.png'></div><p>RAPE HER!</p></div></a>
+<a href='#' class='product-link' data-id='68' data-category='Photoset' data-name='MIRA VOL 1 (SOFTCORE )' data-tags='mira gen8 parody photoset jpg image aiphoto java penetration hardcore onic evos' data-link='https://javai.myr.id/pl/ai-photoset-amirah1/?variant=f4be7af1-92c9-4af9-b042-1059df45daa9' data-img='https://media-myr.b-cdn.net/images/resized/1280/9beccc04-5d30-410d-bd0d-5ad8784935f5.webp' data-hover='https://framerusercontent.com/images/kisoJRVOspEUP6rKYGODnY3d2WQ.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/9beccc04-5d30-410d-bd0d-5ad8784935f5.webp'><img class='hover-img' src='https://framerusercontent.com/images/kisoJRVOspEUP6rKYGODnY3d2WQ.png'></div><p>MIRA VOL 1 (SOFTCORE )</p></div></a>
+<a href='#' class='product-link' data-id='69' data-category='Photoset' data-name='SHUT UP!' data-tags='naomi gen2 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-naomi1/?variant=392cc763-28ad-4965-b61c-b3b30c6cf7ed' data-img='https://media-myr.b-cdn.net/images/resized/1280/d6eb2cad-7a28-4800-b69e-7c0343a8b19e.webp' data-hover='https://framerusercontent.com/images/W0GwQD0ITBHj8pJt9uU89O6SlRM.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/d6eb2cad-7a28-4800-b69e-7c0343a8b19e.webp'><img class='hover-img' src='https://framerusercontent.com/images/W0GwQD0ITBHj8pJt9uU89O6SlRM.png'></div><p>SHUT UP!</p></div></a>
+<a href='#' class='product-link' data-id='70' data-category='Photoset' data-name='AFTER ONanIEL' data-tags='oniel gen8 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-onyiel/?variant=c982205f-dfce-4996-9257-02ac8f309c84' data-img='https://media-myr.b-cdn.net/images/resized/1500/a7a2b718-e2de-41e7-8ab4-488c97a71c1e.webp' data-hover='https://framerusercontent.com/images/mydyiYLAE0ko21B5PVungj5Xv8.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/a7a2b718-e2de-41e7-8ab4-488c97a71c1e.webp'><img class='hover-img' src='https://framerusercontent.com/images/mydyiYLAE0ko21B5PVungj5Xv8.png'></div><p>AFTER ONanIEL</p></div></a>
+<a href='#' class='product-link' data-id='71' data-category='Photoset' data-name='SUSHAN' data-tags='shani gen3 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-sahniin/?variant=77ef9891-7118-4c9d-8628-69a8c5347325' data-img='https://media-myr.b-cdn.net/images/resized/1280/676f3089-ec56-4d64-8430-d505267f6d69.webp' data-hover='https://framerusercontent.com/images/XnsB9yFPa9jowp3V7fYJVyWPJA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/676f3089-ec56-4d64-8430-d505267f6d69.webp'><img class='hover-img' src='https://framerusercontent.com/images/XnsB9yFPa9jowp3V7fYJVyWPJA.png'></div><p>SUSHAN</p></div></a>
+<a href='#' class='product-link' data-id='72' data-category='Photoset' data-name='BACKSTAGE JOBDESK' data-tags='shani gen3 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-sahniin/?variant=cfadefe7-7a83-4397-b8ac-df53b33eabc8' data-img='https://media-myr.b-cdn.net/images/resized/1500/ad106892-46ed-4653-b2c6-1cab9ad52cba.webp' data-hover='https://framerusercontent.com/images/HNhaf5H991Ussrs4Xy07U14JrgM.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/ad106892-46ed-4653-b2c6-1cab9ad52cba.webp'><img class='hover-img' src='https://framerusercontent.com/images/HNhaf5H991Ussrs4Xy07U14JrgM.png'></div><p>BACKSTAGE JOBDESK</p></div></a>
+<a href='#' class='product-link' data-id='73' data-category='Photoset' data-name='PREGNANT SHN' data-tags='shani gen3 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-sahniin/?variant=b964032a-a5d1-49d4-930c-541700362b10' data-img='https://media-myr.b-cdn.net/images/resized/1280/f1322832-f303-4abb-8c74-5a492be5e805.webp' data-hover='https://framerusercontent.com/images/ksRxBXIAUXqFPwBivCr0R0axWE.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/f1322832-f303-4abb-8c74-5a492be5e805.webp'><img class='hover-img' src='https://framerusercontent.com/images/ksRxBXIAUXqFPwBivCr0R0axWE.png'></div><p>PREGNANT SHN</p></div></a>
+<a href='#' class='product-link' data-id='74' data-category='Photoset' data-name='SHN DAIRY' data-tags='shani gen3 parody photoset jpg image aiphoto java penetration hardcore' data-link='https://javai.myr.id/pl/ai-photoset-sahniin/?variant=f347bb3a-c32f-41e1-a1f0-51be1f720d91' data-img='https://media-myr.b-cdn.net/images/resized/1500/3680eef7-6171-4300-878d-3d09e226725a.webp' data-hover='https://framerusercontent.com/images/22yJ1f4O0MVSWTStZMh0Sqk.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/3680eef7-6171-4300-878d-3d09e226725a.webp'><img class='hover-img' src='https://framerusercontent.com/images/22yJ1f4O0MVSWTStZMh0Sqk.png'></div><p>SHN DAIRY</p></div></a>
+<a href='#' class='product-link' data-id='75' data-category='Photoset' data-name='INSHANITIL (SOFTCORE)' data-tags='shani gen3 parody photoset jpg image aiphoto java softcore' data-link='https://javai.myr.id/pl/ai-photoset-sahniin/?variant=212e0faa-9501-4ba2-a5f8-133be1e40e3b' data-img='https://media-myr.b-cdn.net/images/resized/1281/2e97e53e-6bb0-4de1-a878-1698c7d021b9.webp' data-hover='https://framerusercontent.com/images/YPUNY23NEGNQALbRsuRICUc8qk.jpg'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1281/2e97e53e-6bb0-4de1-a878-1698c7d021b9.webp'><img class='hover-img' src='https://framerusercontent.com/images/YPUNY23NEGNQALbRsuRICUc8qk.jpg'></div><p>INSHANITIL (SOFTCORE)</p></div></a>
+<a href='#' class='product-link' data-id='76' data-category='Photoset' data-name='TETEH GM: LAPAR' data-tags='melody gen1 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-teh-gm/?variant=d10b9c2b-52d5-45ec-b3dd-a83f1652143d' data-img='https://media-myr.b-cdn.net/images/resized/1280/34667720-0282-42d4-9a91-19003cc62214.webp' data-hover='https://framerusercontent.com/images/Dg9xeTfB1lEbJHqqyLnfrJg4Ec.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/34667720-0282-42d4-9a91-19003cc62214.webp'><img class='hover-img' src='https://framerusercontent.com/images/Dg9xeTfB1lEbJHqqyLnfrJg4Ec.png'></div><p>TETEH GM: LAPAR</p></div></a>
+<a href='#' class='product-link' data-id='77' data-category='Photoset' data-name='MY CUTE FvCK DOLL' data-tags='elin gen11 parody photoset jpg image aiphoto java' data-link='https://javai.myr.id/pl/ai-photoset-elin?variant=f6f9bda0-636d-42db-9ac6-30e894cb7326' data-img='https://media-myr.b-cdn.net/images/resized/1280/3fa99630-4b6d-4342-a967-3d50373954da.webp' data-hover='https://framerusercontent.com/images/XrngUhU02FJzcqL6I9gOSOY64oA.png'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/3fa99630-4b6d-4342-a967-3d50373954da.webp'><img class='hover-img' src='https://framerusercontent.com/images/XrngUhU02FJzcqL6I9gOSOY64oA.png'></div><p>MY CUTE FvCK DOLL</p></div></a>
+<a href='#' class='product-link' data-id='78' data-category='Story' data-name='MY OWN WORLD' data-tags='shani cerbung christy chika freya cerita fiksi melody' data-link='https://javai.myr.id/writing/mw' data-img='https://media-myr.b-cdn.net/images/resized/1280/ec2ee331-829c-465e-962b-9374d8cd8bc1.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1280/ec2ee331-829c-465e-962b-9374d8cd8bc1.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/ec2ee331-829c-465e-962b-9374d8cd8bc1.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1280/ec2ee331-829c-465e-962b-9374d8cd8bc1.webp'></div><p>MY OWN WORLD</p></div></a>
+<a href='#' class='product-link' data-id='79' data-category='Story' data-name='PUSARAN WAKTU REMAJA' data-tags='shani cerbung marsha chika cerita fiksi melody' data-link='https://javai.myr.id/writing/pusaran-waktu-remaja' data-img='https://media-myr.b-cdn.net/images/resized/1280/0098bed5-ae08-44b6-b012-bb4565023ba1.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1280/9def6000-76e1-444d-a0a6-92e65f7f56ec.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/0098bed5-ae08-44b6-b012-bb4565023ba1.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1280/9def6000-76e1-444d-a0a6-92e65f7f56ec.webp'></div><p>PUSARAN WAKTU REMAJA</p></div></a>
+<a href='#' class='product-link' data-id='80' data-category='Story' data-name='CHAT FOR CHEAT' data-tags='naomi comic sinka melody cerita fiksi gracia shani' data-link='https://javai.myr.id/comic/repost-chat-for-cheat-43738' data-img='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1165/93d4dd57-9c81-4010-a0f2-5cb60015ed39.webp'></div><p>CHAT FOR CHEAT</p></div></a>
+<a href='#' class='product-link' data-id='81' data-category='Story' data-name='FORTUNE CUCKING 1' data-tags='zee comic cerita fiksi cerpen sedarah' data-link='https://javai.myr.id/comic/repost-fortune-cucking' data-img='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1439/01311907-1b65-422e-9178-f15bb9ee3042.webp'></div><p>FORTUNE CUCKING 1</p></div></a>
+<a href='#' class='product-link' data-id='82' data-category='Story' data-name='FORTUNE CUCKING 2' data-tags='zee comic cerita fiksi cerpen sedarah' data-link='https://javai.myr.id/comic/repost-fortune-cucking-wipe-it' data-img='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1165/42f4d20a-d2da-4d17-9891-27aec13852c8.webp'></div><p>FORTUNE CUCKING 2</p></div></a>
+<a href='#' class='product-link' data-id='83' data-category='Photobook' data-name='CAKE & MEKI' data-tags='jkt48 freya marsha parody magazinah 48magazinah trainee allmember terbaru' data-link='https://javai.myr.id/comic/48magazinah-edisi-2-cake-m3k/' data-img='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/d3d31aaf-a57d-475a-a105-b44297bd705b.webp'></div><p>CAKE & MEKI</p></div></a>
+<a href='#' class='product-link' data-id='84' data-category='Photobook' data-name='JERKING OFF' data-tags='jkt48 freya marsha parody magazinah 48magazinah trainee allmember terbaru' data-link='https://javai.myr.id/comic/48magazinah-jerking-off' data-img='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/3d491f65-0842-4cd4-bb7f-35ce2dbb269a.webp'></div><p>JERKING OFF</p></div></a>
+<a href='#' class='product-link' data-id='85' data-category='Photobook' data-name='PEMBENIHAN CINTA' data-tags='jkt48 freya marsha fiony parody magazinah 48magazinah trainee allmember terbaru' data-link='https://javai.myr.id/comic/48magazinah-edisi-3-pembenihan-cinta-76538' data-img='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1437/cf004164-bc9d-4e42-a65b-d51277fd0b50.webp'></div><p>PEMBENIHAN CINTA</p></div></a>
+<a href='#' class='product-link' data-id='86' data-category='Photobook' data-name='CLASSIC PARODIES COLLECTION' data-tags='parody photoset photobooks classic pb' data-link='https://javai.myr.id/comic/classic-parodies-85633' data-img='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1440/f3dcaccc-009e-41d3-96c9-0af966933421.webp'></div><p>CLASSIC PARODIES COLLECTION</p></div></a>
+<a href='#' class='product-link' data-id='87' data-category='Photoset' data-name='FASHION LEAKS (VOL 1)' data-tags='shani photoset ai terbaru softcore costume parody' data-link='https://javai.myr.id/catalog/fashion-leaks-vol-1' data-img='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587' data-hover='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587'><img class='hover-img' src='https://framerusercontent.com/images/J6Dxw5I9RDyXlhHxUUPBLOj9jg.png?width=574&height=587'></div><p>FASHION LEAKS (VOL 1)</p></div></a>
+<a href='#' class='product-link' data-id='88' data-category='Story' data-name='KURIR CINTA' data-tags='zee christy lesbian gangbang ojol cerbung cerita tulisan' data-link='https://javai.myr.id/comic/kurir-cinta-11831' data-img='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1500/606b2499-5792-4749-b029-df91627baea7.webp'></div><p>KURIR CINTA</p></div></a>
+<a href='#' class='product-link' data-id='89' data-category='Story' data-name='MY OPPA' data-tags='greesel different ages oldman sugiono gangbang comic bersambung drama' data-link='https://javai.myr.id/comic/my-oppa' data-img='https://media-myr.b-cdn.net/images/resized/1357/6a29313e-eeca-4c84-8eeb-3df1fa607a6b.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1357/6a29313e-eeca-4c84-8eeb-3df1fa607a6b.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1357/6a29313e-eeca-4c84-8eeb-3df1fa607a6b.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1357/6a29313e-eeca-4c84-8eeb-3df1fa607a6b.webp'></div><p>MY OPPA</p></div></a>
+<a href='#' class='product-link' data-id='91' data-category='Story' data-name='TALK SHOW "PARODY" COLLECTION' data-tags='shani echa parody talkshow freya trisha podcast jkt48 tv comic bersambung' data-link='https://javai.myr.id/comic/talk-show-parody-collection' data-img='https://media-myr.b-cdn.net/images/resized/1280/27180b48-6486-4609-9775-4015f1834ffa.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1280/27180b48-6486-4609-9775-4015f1834ffa.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1280/27180b48-6486-4609-9775-4015f1834ffa.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1280/27180b48-6486-4609-9775-4015f1834ffa.webp'></div><p>TALK SHOW "PARODY" COLLECTION</p></div></a>
+<a href='#' class='product-link' data-id='92' data-category='Story' data-name='VANA IN LOVE' data-tags='freya comic futa zee shani gracia pregnant ashel agus bersambung' data-link='https://javai.myr.id/comic/vana-in-love-55985' data-img='https://media-myr.b-cdn.net/images/resized/800/42aa7d55-eba8-42f2-8be7-75a23d671952.webp' data-hover='https://media-myr.b-cdn.net/images/resized/800/42aa7d55-eba8-42f2-8be7-75a23d671952.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/800/42aa7d55-eba8-42f2-8be7-75a23d671952.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/800/42aa7d55-eba8-42f2-8be7-75a23d671952.webp'></div><p>VANA IN LOVE</p></div></a>
+<a href='#' class='product-link' data-id='93' data-category='Photobook' data-name='ZEE: H0RNY EQUISTRIAN' data-tags='zee bestiality bluealbum ba whitealbum parody photoset pdf horse' data-link='https://javai.myr.id/pl/ba-classic/?variant=8bd9d6e9-d921-4fd5-9453-aae5b235bbc7' data-img='https://media-myr.b-cdn.net/images/resized/508/60ecf264-bf0a-42ef-aab3-85387fa6b114.webp' data-hover='https://framerusercontent.com/images/AwG8rxfCGqqxFHnxPeiQUH7xyDE.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/508/60ecf264-bf0a-42ef-aab3-85387fa6b114.webp'><img class='hover-img' src='https://framerusercontent.com/images/AwG8rxfCGqqxFHnxPeiQUH7xyDE.gif'></div><p>ZEE: H0RNY EQUISTRIAN</p></div></a>
+<a href='#' class='product-link' data-id='94' data-category='Photobook' data-name='GRE: Route 69' data-tags='gracia bluealbum ba whitealbum parody photoset pdf car' data-link='https://javai.myr.id/pl/ba-classic/?variant=ffd6ce42-5a1d-4924-81e0-8cbdf8b44808' data-img='https://media-myr.b-cdn.net/images/resized/515/b02a188a-1cb4-4a79-9ac2-56dc7fe496c5.webp' data-hover='https://framerusercontent.com/images/D6xLGlOhV6NdQZig168pJ5flx6I.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/515/b02a188a-1cb4-4a79-9ac2-56dc7fe496c5.webp'><img class='hover-img' src='https://framerusercontent.com/images/D6xLGlOhV6NdQZig168pJ5flx6I.gif'></div><p>GRE: Route 69</p></div></a>
+<a href='#' class='product-link' data-id='95' data-category='Photobook' data-name='Celine: One Day of Passionate' data-tags='celine chinese ancient bluealbum ba whitealbum parody photoset pdf gangbang public tan zhi hui' data-link='https://javai.myr.id/pl/ba-classic/?variant=715893d8-a6c6-4dee-a6cf-3179e43ad414' data-img='https://media-myr.b-cdn.net/images/resized/448/dc737211-b13a-4465-a4f3-27264cfdac1e.webp' data-hover='https://framerusercontent.com/images/q1QcUBAETp83uhmrhFYdn4Aat4.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/448/dc737211-b13a-4465-a4f3-27264cfdac1e.webp'><img class='hover-img' src='https://framerusercontent.com/images/q1QcUBAETp83uhmrhFYdn4Aat4.gif'></div><p>Celine: One Day of Passionate</p></div></a>
+<a href='#' class='product-link' data-id='96' data-category='Photobook' data-name='Cara Ceroboh Lesbian' data-tags='shani feni lesbian bluealbum ba whitealbum parody photoset pdf softcore' data-link='https://javai.myr.id/pl/ba-classic/?variant=4ac2ba95-692c-4679-8c01-74f931cd962c' data-img='https://media-myr.b-cdn.net/images/resized/486/97077ad9-be01-4d66-b882-43a697d1a2a5.webp' data-hover='https://media-myr.b-cdn.net/images/resized/486/97077ad9-be01-4d66-b882-43a697d1a2a5.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/486/97077ad9-be01-4d66-b882-43a697d1a2a5.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/486/97077ad9-be01-4d66-b882-43a697d1a2a5.webp'></div><p>Cara Ceroboh Lesbian</p></div></a>
+<a href='#' class='product-link' data-id='97' data-category='Photobook' data-name='EVE: Slut Riding Hood' data-tags='eve gen5 classic bluealbum ba whitealbum parody photoset pdf bestiality' data-link='https://javai.myr.id/pl/ba-classic/?variant=25373e57-947a-4060-a43e-7f3902ce7c75' data-img='https://media-myr.b-cdn.net/images/resized/401/3dbc85e5-ba12-427e-8bc5-c60c959aa622.webp' data-hover='https://media.mayar.id/images/a38d695a-4cd4-4e93-8ff1-6d0fa09ba170.jpeg'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/401/3dbc85e5-ba12-427e-8bc5-c60c959aa622.webp'><img class='hover-img' src='https://media.mayar.id/images/a38d695a-4cd4-4e93-8ff1-6d0fa09ba170.jpeg'></div><p>EVE: Slut Riding Hood</p></div></a>
+<a href='#' class='product-link' data-id='98' data-category='Photobook' data-name='Strippers Fest' data-tags='classic softcore parody photobooks pdf jkt48 summer fest photocard' data-link='https://javai.myr.id/pl/reposted-parodies/?variant=bd4c5e15-2251-4437-a3ff-38aa61ab11fd' data-img='https://media-myr.b-cdn.net/images/resized/1293/5ee6ec5b-863c-44d1-9620-99624973318f.webp' data-hover='https://framerusercontent.com/images/XKA29CwXmIIRCU8ldMAYgFKv40A.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1293/5ee6ec5b-863c-44d1-9620-99624973318f.webp'><img class='hover-img' src='https://framerusercontent.com/images/XKA29CwXmIIRCU8ldMAYgFKv40A.gif'></div><p>Strippers Fest</p></div></a>
+<a href='#' class='product-link' data-id='99' data-category='Photobook' data-name='53X Party' data-tags='classic bukkake cums parody photobooks pdf jkt48 kathrina chika gracie ashel chelsea zee eli jessi flora' data-link='https://javai.myr.id/pl/reposted-parodies/?variant=fc3f9354-4cde-4c20-979f-678f02e03924' data-img='https://media-myr.b-cdn.net/images/resized/1082/8d0c4260-908f-4749-9576-355f6b543bad.webp' data-hover='https://framerusercontent.com/images/8iTeNbtuyZTWsOhe3fbqiB6SjAY.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1082/8d0c4260-908f-4749-9576-355f6b543bad.webp'><img class='hover-img' src='https://framerusercontent.com/images/8iTeNbtuyZTWsOhe3fbqiB6SjAY.gif'></div><p>53X Party</p></div></a>
+<a href='#' class='product-link' data-id='100' data-category='Photobook' data-name='SHOW PEE' data-tags='classic shopee parody photobooks pdf jkt48 zee christy gracia freya bbc' data-link='https://javai.myr.id/pl/reposted-parodies/?variant=c6fd8968-4a51-4752-a7d5-3c6f4191d69a' data-img='https://media-myr.b-cdn.net/images/resized/1344/c552ce30-ee03-4489-aed5-78e874138ca5.webp' data-hover='https://framerusercontent.com/images/dU8TDxAhYSQoMsuy4h6hVeue2c.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1344/c552ce30-ee03-4489-aed5-78e874138ca5.webp'><img class='hover-img' src='https://framerusercontent.com/images/dU8TDxAhYSQoMsuy4h6hVeue2c.gif'></div><p>SHOW PEE</p></div></a>
+<a href='#' class='product-link' data-id='101' data-category='Photobook' data-name='Airport Exhib' data-tags='classic softcore parody photobooks pdf jkt48 airport fashion photocard' data-link='https://javai.myr.id/pl/reposted-parodies/?variant=bf0ab539-c480-42dc-9b64-cc42aa7bed94' data-img='https://media-myr.b-cdn.net/images/resized/1439/7cfc282e-5c94-4ca8-9bb5-78a8b21dbfd3.webp' data-hover='https://framerusercontent.com/images/cwExgFrGeI3NZBOVG0x1TnmWNg.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1439/7cfc282e-5c94-4ca8-9bb5-78a8b21dbfd3.webp'><img class='hover-img' src='https://framerusercontent.com/images/cwExgFrGeI3NZBOVG0x1TnmWNg.gif'></div><p>Airport Exhib</p></div></a>
+<a href='#' class='product-link' data-id='102' data-category='Photobook' data-name='FANTASI & FETISH LIAR' data-tags='classic softcore parody photobooks pdf jkt48 airport fashion photocard' data-link='https://javai.myr.id/pl/ebook/reposted-parodies/?variant=8fe1f926-1230-436f-ade8-821f913b7fab' data-img='https://media-myr.b-cdn.net/images/resized/1439/e1d12ad1-54ed-4fb5-ace1-cdc4dff047da.webp' data-hover='https://framerusercontent.com/images/tD2dAN1F6B04i3n99kzHZJuA.gif'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1439/e1d12ad1-54ed-4fb5-ace1-cdc4dff047da.webp'><img class='hover-img' src='https://framerusercontent.com/images/tD2dAN1F6B04i3n99kzHZJuA.gif'></div><p>FANTASI & FETISH LIAR</p></div></a>
+<a href='#' class='product-link' data-id='103' data-category='Photobook' data-name='PEMUAS K3LAMIN' data-tags='classic softcore parody photobooks pdf jkt48 masturbation jkt48 photocard' data-link='https://javai.myr.id/pl/pemuas-kenikmatan' data-img='https://media-myr.b-cdn.net/images/resized/1439/31b48916-60a1-4c38-8c92-0d3831734fcc.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1439/31b48916-60a1-4c38-8c92-0d3831734fcc.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1439/31b48916-60a1-4c38-8c92-0d3831734fcc.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1439/31b48916-60a1-4c38-8c92-0d3831734fcc.webp'></div><p>PEMUAS K3LAMIN</p></div></a>
+<a href='#' class='product-link' data-id='104' data-category='Photobook' data-name='ONLY TODAY' data-tags='classic softcore parody photobooks pdf jkt48 flashing jkt48 photocard' data-link='https://media-myr.b-cdn.net/images/resized/1500/2317eba0-f7d9-43ce-bf1f-61ca3153607c.webp' data-img='https://media-myr.b-cdn.net/images/resized/1500/2317eba0-f7d9-43ce-bf1f-61ca3153607c.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1500/2317eba0-f7d9-43ce-bf1f-61ca3153607c.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1500/2317eba0-f7d9-43ce-bf1f-61ca3153607c.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1500/2317eba0-f7d9-43ce-bf1f-61ca3153607c.webp'></div><p>ONLY TODAY</p></div></a>
+<a href='#' class='product-link' data-id='105' data-category='Photobook' data-name='SSK: KIII' data-tags='classic kiii gracia gita christy jessi muthe eli kathrina indira callie lia lyn gracie parody photobooks pdf jkt48 ssk' data-link='https://javai.myr.id/pl/parody-ssk-campaign/?variant=0f181938-8b24-4ce4-ab52-3f4046c451a4' data-img='https://framerusercontent.com/images/eeX493bwZEz1ihxnknHBcFCI.png?width=584&height=481' data-hover='https://media-myr.b-cdn.net/images/resized/922/91ba578e-d29a-43f8-821d-ccc23bf20cd5.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/eeX493bwZEz1ihxnknHBcFCI.png?width=584&height=481'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/922/91ba578e-d29a-43f8-821d-ccc23bf20cd5.webp'></div><p>SSK: KIII</p></div></a>
+<a href='#' class='product-link' data-id='106' data-category='Photobook' data-name='SSK: J' data-tags='classic teamj parody photobooks pdf jkt48 ssk feni freya olla fiony flora oniel lulu indah marsha ella amanda raisha greesel' data-link='https://javai.myr.id/pl/parody-ssk-campaign/?variant=120c5812-e5c0-4497-ac66-2d1d20c14e29' data-img='https://framerusercontent.com/images/UO5ZEBKHHpz1XWFfaqUbKDQi8.png?width=590&height=483' data-hover='https://media-myr.b-cdn.net/images/resized/922/91ba578e-d29a-43f8-821d-ccc23bf20cd5.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://framerusercontent.com/images/UO5ZEBKHHpz1XWFfaqUbKDQi8.png?width=590&height=483'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/922/91ba578e-d29a-43f8-821d-ccc23bf20cd5.webp'></div><p>SSK: J</p></div></a>
+<a href='#' class='product-link' data-id='107' data-category='Story' data-name='KEBAYA MERAH' data-tags='comic gracia kebaya merah parody' data-link='https://javai.myr.id/pl/kebaya-merah-56809/' data-img='https://media-myr.b-cdn.net/images/resized/1242/bf78fb1c-a655-4430-8b0b-f48e1a0a6f5f.webp' data-hover='https://media-myr.b-cdn.net/images/resized/1242/bf78fb1c-a655-4430-8b0b-f48e1a0a6f5f.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/1242/bf78fb1c-a655-4430-8b0b-f48e1a0a6f5f.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/1242/bf78fb1c-a655-4430-8b0b-f48e1a0a6f5f.webp'></div><p>KEBAYA MERAH</p></div></a>
+<a href='#' class='product-link' data-id='108' data-category='Story' data-name='KUTUKAN KAMI' data-tags='cerita tulisan classic tamat futa lesbian femdom cerbung pdf' data-link='https://javai.myr.id/pl/kutukan-kami-25030' data-img='https://media-myr.b-cdn.net/images/resized/439/56fdf5a4-8453-45d3-9ec2-2ba9753727b3.webp' data-hover='https://media-myr.b-cdn.net/images/resized/439/56fdf5a4-8453-45d3-9ec2-2ba9753727b3.webp'><div class='product-card'><div class='img-wrap'><img class='main-img' src='https://media-myr.b-cdn.net/images/resized/439/56fdf5a4-8453-45d3-9ec2-2ba9753727b3.webp'><img class='hover-img' src='https://media-myr.b-cdn.net/images/resized/439/56fdf5a4-8453-45d3-9ec2-2ba9753727b3.webp'></div><p>KUTUKAN KAMI</p></div></a>
   
 </div> <!-- model-grid -->
 </div> <!-- layout -->
 
 <div id="modal" class="modal">
-<div class="modal-content">
+  <div class="modal-content">
 
-  <span id="close">&times;</span>
+    <span id="close">&times;</span>
 
-  <!-- FRAME FOTO -->
-  <div class="modal-frame">
-    <div class="modal-custom-bg"></div>
-    <div class="modal-bg second" id="m-bg2"></div>
-
-    <div class="modal-info">
-      <h2 id="m-name"></h2>
-      <p>Status: <span id="m-status"></span></p>
-      <p>Total: <span id="m-info"></span></p>
-    </div>
-  </div>
-
-  <!-- 🔥 PINDAH KE SINI -->
-  <div class="modal-action">
-    <a href="https://javai.myr.id/m/ytta" class="subscribe-btn" target="_blank">
-      SUBSCRIBE
-    </a>
-
-    <a href="https://javai.myr.id/pl/parody-by-request/" class="subscribe-btn alt" target="_blank">
-      MAKE A PRIVATE ORDER
-    </a>
-  </div>
-
-</div>
+    <div id="checkout-container"></div>
 
   </div>
+</div>
 
-</div>
-</div>
-</div>
+
 
 <!-- ABOUT MODAL -->
 <div id="aboutModal" class="about-modal">
@@ -1320,103 +1093,147 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 
 <!-- SCRIPT -->
 <script>
-
+// =====================
+// TOPBAR SCROLL
+// =====================
 window.addEventListener("scroll", function () {
   const topbar = document.querySelector(".topbar");
-
-  if (window.scrollY > 10) {
-    topbar.classList.add("scrolled");
-  } else {
-    topbar.classList.remove("scrolled");
-  }
+  topbar.classList.toggle("scrolled", window.scrollY > 10);
 });
 
+// =====================
+// SIDEBAR TOGGLE
+// =====================
 function toggleMenu() {
   document.getElementById("sidebar").classList.toggle("active");
 }
 
+// =====================
+// INIT (biar aman)
+// =====================
+document.addEventListener("DOMContentLoaded", () => {
 
-
-
-// modal
-
-// close
-document.getElementById("close").onclick = () => {
-  document.getElementById("modal").style.display = "none";
-};
-
-
-
-// filter & search
-const buttons = document.querySelectorAll(".filter-bar button");
-const cards = document.querySelectorAll(".model-link");
-cards.forEach(card => {
-  card.addEventListener("click", (e) => {
-    e.preventDefault();
-    openModal(card);
-  });
-});
-const searchBox = document.getElementById("searchBox");
-
-let currentFilter = "all";
-
-// klik tombol filter
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    currentFilter = btn.dataset.filter;
-    applyFilter();
-  });
-});
-
-// search input
-searchBox.addEventListener("input", applyFilter);
-
-// fungsi utama filter + search
-function applyFilter() {
-  const keyword = searchBox.value.toLowerCase();
-
-  cards.forEach(card => {
-    const team = card.dataset.team;
-    const name = card.dataset.name.toLowerCase();
-
-    const matchFilter = (currentFilter === "all" || team === currentFilter);
-    const matchSearch = name.includes(keyword);
-
-    card.style.display = (matchFilter && matchSearch) ? "block" : "none";
-  });
-}
-
-window.addEventListener("click", function(e) {
+  const buttons = document.querySelectorAll(".filter-bar button");
+  const cards = document.querySelectorAll(".product-link");
+  const searchBox = document.getElementById("searchBox");
   const modal = document.getElementById("modal");
+  const closeBtn = document.getElementById("close");
 
-  if (e.target.id === "modal") {
+  let currentFilter = "all";
+
+  // =====================
+  // FILTER BUTTON
+  // =====================
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      currentFilter = (btn.dataset.filter || "all").toLowerCase(); // 🔥 FIX
+      applyFilter();
+    });
+  });
+
+
+  // =====================
+  // SEARCH
+  // =====================
+  if (searchBox) {
+    searchBox.addEventListener("input", applyFilter);
+  }
+
+  // =====================
+  // APPLY FILTER
+  // =====================
+  function applyFilter() {
+    const keyword = (searchBox?.value || "").toLowerCase();
+
+    cards.forEach(card => {
+      const category = (card.dataset.category || "").toLowerCase();
+      const name = (card.dataset.name || "").toLowerCase();
+      const tags = (card.dataset.tags || "").toLowerCase();
+
+      const matchFilter =
+        currentFilter === "all" ||
+        category === currentFilter ||
+        tags.includes(currentFilter);
+
+      const matchSearch =
+        name.includes(keyword) ||
+        tags.includes(keyword);
+
+      card.style.display = (matchFilter && matchSearch) ? "block" : "none";
+    });
+  }
+
+  // =====================
+  // MODAL OPEN (AMAN)
+  // =====================
+  cards.forEach(card => {
+    card.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal(card);
+    });
+  });
+
+  // =====================
+  // MODAL CLOSE
+  // =====================
+  function closeModal() {
     modal.style.display = "none";
+    const container = document.getElementById("checkout-container");
+    if (container) container.innerHTML = "";
   }
+
+  if (closeBtn) closeBtn.onclick = closeModal;
+
+  modal.addEventListener("click", (e) => {
+    if (!e.target.closest(".modal-content")) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
 });
 
-document.addEventListener("keydown", function(e) {
-  if (e.key === "Escape") {
-    document.getElementById("modal").style.display = "none";
-  }
-});
-
-
-
+// =====================
+// OPEN MODAL FUNCTION
+// =====================
 function openModal(card) {
-  const bg = document.getElementById("m-bg2");
+  const modal = document.getElementById("modal");
+  const container = document.getElementById("checkout-container");
 
-  bg.style.opacity = "1";
-  bg.style.backgroundImage = `url(${card.dataset.img2})`;
+  container.innerHTML = `
+    <iframe 
+      src="${card.dataset.link}" 
+      style="width:100%; height:100%; border:0;"
+      allowfullscreen
+      allowpaymentrequest
+      scrolling="yes"
+      data-hide-merchant-logo="true" 
+      data-hide-product-images="true" 
+      data-hide-header="true" 
+      data-hide-badge-secure="true" 
+      data-hide-language="true" 
+      data-hide-desc-product="true"
+    ></iframe>
+  `;
 
-  document.getElementById("m-name").innerText = card.dataset.name;
-  document.getElementById("m-info").innerText = card.dataset.info + " Galleries";
-  document.getElementById("m-status").innerText = card.dataset.status;
+  modal.style.display = "block";
 
-  document.getElementById("modal").style.display = "flex";
+  // reload script mayar (optional)
+  setTimeout(() => {
+    const oldScript = document.querySelector('script[src*="mayarEmbed"]');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement("script");
+    script.src = "https://mayarembed.r2.mayar.id/mayarEmbed.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, 100);
 }
 
 
@@ -1466,4 +1283,5 @@ document.addEventListener("keydown", (e) => {
 </script>
 
  </body>
+<script src="https://mayarembed.r2.mayar.id/mayarEmbed.min.js"></script>
 </html>
