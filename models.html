@@ -346,16 +346,6 @@ p {
   gap: 16px;
 }
 
-.model-card {
-  position: relative;
-  background: white;
-  border-radius: 15px;
-  overflow: hidden;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s ease;
-  aspect-ratio: 4 / 5; /* bisa lo ubah */
-}
 
 .model-link {
   text-decoration: none;
@@ -462,9 +452,254 @@ p {
   margin-left: 10px;
 }
 
+ul > li {
+  list-style: none;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+/* =========================
+   MODEL CARD (GRID)
+========================= */
+
+.model-card {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  aspect-ratio: 4 / 5;
+
+  /* 🔥 BACKGROUND GLOBAL */
+  background: url('https://images4.imagebam.com/27/ff/78/ME1CIX7S_o.jpg') center/cover no-repeat;
+}
+
+/* PNG IMAGE */
+.model-card img {
+  width: 100%;
+  height: 100%;
+  
+  display: block;
+  transition: 0.25s ease;
+  background-size: cover;        /* 🔥 isi penuh frame */
+  background-position: top center; /* 🔥 fokus ke atas */
+  background-repeat: no-repeat;
+}
+
+/* ACTIVE */
+.model-link[data-team="aktip"] .model-card img {
+  filter: none;
+}
+
+/* NON ACTIVE */
+.model-link[data-team="nonaktip"] .model-card img {
+  filter: grayscale(100%) brightness(0.75) contrast(0.9);
+}
+
+/* TEXT OVERLAY */
+.model-card p {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+
+  z-index: 3;
+}
+
+
+/* =========================
+   MODAL / POPUP
+========================= */
+
+/* BACKDROP BLUR */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(3px);
+}
+
+/* CONTENT WRAPPER */
+.modal-content {
+  display: flex;
+  flex-direction: column;   /* 🔥 stack ke bawah */
+  align-items: center;
+  gap: 15px;                /* jarak frame & button */
+}
+
+/* FRAME */
+.modal-frame {
+  position: relative;
+
+  width: 60vw;
+  max-width: 600px;
+  min-width: 320px;
+
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* isi ke bawah */
+}
+
+
+/* =========================
+   BACKGROUND LAYER
+========================= */
+
+.modal-custom-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: none;
+  background: url('https://images4.imagebam.com/27/ff/78/ME1CIX7S_o.jpg') center/cover no-repeat;
+
+  z-index: 0;
+
+  /* 🔥 optional premium blur */
+  transform: scale(1.1);
+}
+
+
+/* =========================
+   IMAGE LAYER (PNG)
+========================= */
+
+.modal-bg {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-size: cover;        /* 🔥 isi penuh frame */
+  background-position: top center; /* 🔥 fokus ke atas */
+  background-repeat: no-repeat;
+
+  z-index: 1;
+}
+
+
+
+
+/* =========================
+   INFO PANEL
+========================= */
+
+.modal-info {
+  position: relative;
+  padding: 15px;
+  width: 100%;
+
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(6px);
+
+  color: black;
+  z-index: 2;
+
+  /* 🔥 biar kontras selalu aman */
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.modal-action {
+  width: 60vw;
+  max-width: 600px;
+  min-width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+transform: translateY(-10px);
+
+  position: relative; /* 🔥 bukan absolute */
+  width: 100%;
+  padding: 10px 15px 20px; /* kasih jarak bawah */
+  flex-direction: column; /* 🔥 ini kunci */
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.subscribe-btn.alt {
+  background: linear-gradient(135deg, #a612e1, #222);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+#close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 3;
+  color: white;
+}
+
+
+/* =========================
+   MOBILE FIX
+========================= */
+
+@media (max-width: 768px) {
+
+  .modal {
+    padding: 20px;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
+
+  .modal-frame {
+    width: 90vw;
+  }
+
+  #close {
+    top: 8px;
+    right: 12px;
+  }
+}
+
 
 /* MOBILE */
 @media (max-width: 768px) {
+  .modal-action {
+    width: 90vw;
+  }
+
   .model-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
@@ -525,40 +760,112 @@ p {
 /* modal */
 .modal {
   display: none;
+padding-top: 10vh;
   position: fixed;
   z-index: 20000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-  background: white;
-  margin: 5% auto;
-  padding: 20px;
-  width: 50vw;
-  max-width: 700px;
-  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 90vh;
 
-  display: flex;           /* 🔥 */
-  gap: 20px;
-  align-items: flex-start;
-  max-height: 80vh;
-  overflow-y: auto;
 }
 
-.modal-left img {
-  width: 540px;
-  border-radius: 10px;
+/* FRAME 4:5 */
+.modal-frame {
+  position: relative;
+
+  width: 60vw;              /* 🔥 ini kunci (45–65% masuk sini) */
+  max-width: 600px;         /* biar gak kebablasan */
+  min-width: 320px;
+
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.modal-right {
-  flex: 1;
+/* BG IMAGE */
+
+
+/* layer ke-2 */
+.modal-bg.second {
+  opacity: 0;
 }
 
-/* tombol biar oval */
+.modal-frame {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+
+
+.modal-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+.modal-bg::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+.modal-info,
+.modal-action,
+#close {
+  position: relative;
+  z-index: 10;
+}
+
+.modal-frame,
+#close {
+  pointer-events: auto; /* tapi isi popup tetap bisa diklik */
+}
+
+/* INFO OVERLAY */
+.modal-info {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  padding: 15px;
+
+  background: linear-gradient(
+    to top,
+    rgba(255,255,255,0.85),
+    rgba(255,255,255,0.4),
+    transparent
+  );
+
+  backdrop-filter: blur(6px);
+
+  color: #111;
+}
+
+.modal-info h2,
+.modal-info p {
+  text-shadow: 0 1px 3px rgba(255,255,255,0.4);
+}
+
+/* BUTTON AREA */
+
 .subscribe-btn {
-  border-radius: 999px !important;
+  padding: 12px;
+  width: 100%;         /* full lebar */
+  text-align: center;
 }
 
 #close {
@@ -579,15 +886,17 @@ p {
   padding-top: 80px; /* biar gak ketiban topbar */
 }
 
-.modal-content {
-  position: relative;
-  flex-direction: column; /* 🔥 jadi vertikal */
-  width: 90vw;            /* biar gak kepotong */
-  max-width: 90vw;
-  max-height: 75vh;       /* biar bisa scroll */
-  overflow-y: auto;       /* 🔥 scroll vertikal */
+  .modal-content {
+    width: auto;
+    max-width: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-}
+  .modal-frame {
+    width: 90vw;
+  }
 
 .modal-left img {
   width: 200px;
@@ -595,11 +904,12 @@ p {
 
 #close {
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;   /* 🔥 gedein */
+  top: 12px;
+  right: 12px;
+  font-size: 28px;
   cursor: pointer;
-  z-index: 12000;
+  z-index: 10;
+  color: white;
 }
 
   .member-sidebar {
@@ -607,11 +917,7 @@ p {
     height: auto;
   }
 
-  .subscribe-btn {
-    width: 100%;         /* full lebar */
-    text-align: center;
-    padding: 12px;
-  }
+
 }  
 
 .subscribe-btn {
@@ -673,6 +979,133 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
   color: black;
   transform: translateY(-2px);
 }  
+
+
+
+/* ===================== */
+/* ABOUT MODAL DARK */
+/* ===================== */
+
+.about-modal {
+  display: none; /* default hidden */
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* box */
+.about-modal-content {
+  background: linear-gradient(135deg, #111, #1c1c1c);
+  color: #eee;
+
+  width: 90%;
+  max-width: 700px;
+  height: 80vh;              /* 🔥 BATAS TINGGI */
+  
+  margin: auto;
+  border-radius: 16px;
+
+  display: flex;             /* 🔥 FLEX */
+  flex-direction: column;    /* 🔥 BIAR ISI KE BAWAH */
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  position: relative;
+
+  animation: fadeIn 0.3s ease;
+}
+
+.about-body {
+  padding: 25px;
+  overflow-y: auto;   /* 🔥 SCROLL DI DALAM */
+  flex: 1;            /* 🔥 NGISI SISA RUANG */
+}
+
+/* optional: scrollbar biar cakep */
+.about-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+/* animasi */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-content h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.about-content h1 span {
+  display: block;
+  font-size: 14px;
+  color: #888;
+}
+
+.about-content p {
+  color: #bbb;
+  margin-bottom: 16px;
+}
+
+.about-content .highlight {
+  color: white;
+  font-weight: bold;
+}
+
+.about-content .quote {
+  margin: 25px 0;
+  padding-left: 15px;
+  border-left: 3px solid #444;
+  font-style: italic;
+  color: #aaa;
+}
+
+.about-content .closing {
+  margin-top: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+/* CLOSE BTN */
+.about-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.2s;
+}
+
+.about-close:hover {
+  color: white;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .about-content {
+    width: 90vw;
+    padding: 25px;
+    margin-top: 20%;
+  }
+}
 </style>
 
 <body>
@@ -681,7 +1114,7 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 <div class="topbar">
   <div class="left">
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    <a href="index.html" class="logo">
+    <a href="index.html" class="logo" target="_blank" rel="noopener noreferrer">
   <img src="https://files.catbox.moe/vpqdr9.png">
 </a>
   </div>
@@ -702,7 +1135,7 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
   
     <!-- MOBILE MENU -->
   <div class="menu mobile-menu">
-  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal" target="_blank" rel="noopener noreferrer">ABOUT US</a> 
+  <a href="#" id="aboutBtn">ABOUT US</a> 
     <br><br><br><br>
   <a href="https://javai.myr.id/portal" class="buyer-login" target="_blank" rel="noopener noreferrer">
   Buyer Login
@@ -716,14 +1149,14 @@ box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
 <div class="page-header">
   <p class="sub-title">DATA BASE STATUS</p>
   <h1 class="main-title">YTTA MODELS FAP</h1>
-  <p class="desc-text">
-Jumlah Gallery Konten akan terus berubah dan diupdate per bulan.<br><br><br>
 <ul class="desc-list">
-  <li>Active: Model memiliki subscriber</li>
-  <li>Inactive: Model tak memiliki subscriber (Locked)</li>
-  <li>Jumlah gallery adalah total data base dari model di seluruh tahun pembuatan</li>
-  <li>Kami mempersilahkan bila ingin Subscribe/Berlangganan model yang tak tersedia di list ini ataupun publik figur di luar dunia Idol</li>
-  <li>Seluruh inactive model tetap tersedia di database arsip lama, dapat diakses dengan mengambil tier Passion</li>
+  <li>Active & Non Active: Adalah keterangan status Thread Gallery pada konten membership</li>
+    <ul>
+      <li>✔Active: Memiliki subscriber</li>
+      <li>✘Non Active: Model tak memiliki subscriber(Locked)</li>
+    </ul>
+    <li>Jumlah gallery adalah total "Cloud" data base dari model di seluruh tahun pembuatan</li>
+
 </ul>
 </div>
 </div>
@@ -740,67 +1173,147 @@ Jumlah Gallery Konten akan terus berubah dan diupdate per bulan.<br><br><br>
 
 <div class="model-grid">
   
-<a href='#' class='model-link' data-name='ADEL' data-img='https://images4.imagebam.com/10/57/71/ME1CF8BJ_o.jpg' data-info='6' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/10/57/71/ME1CF8BJ_o.jpg'><p>6 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ANIN' data-img='https://images4.imagebam.com/ec/d9/db/ME1CF8R2_o.jpg' data-info='23' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ec/d9/db/ME1CF8R2_o.jpg'><p>23 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ANINDYA' data-img='https://images4.imagebam.com/71/4c/83/ME1CF8BN_o.jpg' data-info='12' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/71/4c/83/ME1CF8BN_o.jpg'><p>12 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ARALIE' data-img='https://images4.imagebam.com/69/7f/af/ME1CF8R7_o.jpg' data-info='27' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/69/7f/af/ME1CF8R7_o.jpg'><p>27 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ASHEL' data-img='https://images4.imagebam.com/5c/e5/11/ME1CF8BO_o.jpg' data-info='35' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/5c/e5/11/ME1CF8BO_o.jpg'><p>35 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CELINE' data-img='https://images4.imagebam.com/db/d6/b9/ME1CF8BR_o.jpg' data-info='54' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/db/d6/b9/ME1CF8BR_o.jpg'><p>54 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CHIKA' data-img='https://images4.imagebam.com/a9/86/d3/ME1CF8XV_o.jpg' data-info='408' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a9/86/d3/ME1CF8XV_o.jpg'><p>408 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CHRISELLE' data-img='https://images4.imagebam.com/e8/c1/ae/ME1CF8BT_o.jpg' data-info='6' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e8/c1/ae/ME1CF8BT_o.jpg'><p>6 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CHRISTY' data-img='https://images4.imagebam.com/4d/7a/8a/ME1CF8BW_o.jpg' data-info='108' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4d/7a/8a/ME1CF8BW_o.jpg'><p>108 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='CYNTHIA' data-img='https://images4.imagebam.com/92/80/2a/ME1CF8R9_o.jpg' data-info='76' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/92/80/2a/ME1CF8R9_o.jpg'><p>76 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='DELYNN' data-img='https://images4.imagebam.com/de/18/4e/ME1CF8BZ_o.jpg' data-info='40' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/de/18/4e/ME1CF8BZ_o.jpg'><p>40 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='DEVI' data-img='https://images4.imagebam.com/8f/90/88/ME1CF8E5_o.jpg' data-info='29' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/8f/90/88/ME1CF8E5_o.jpg'><p>29 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ELIN' data-img='https://images4.imagebam.com/4a/5d/9b/ME1CF8E6_o.jpg' data-info='57' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/4a/5d/9b/ME1CF8E6_o.jpg'><p>57 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ERINE' data-img='https://images4.imagebam.com/18/3f/b2/ME1CF8E7_o.jpg' data-info='15' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/18/3f/b2/ME1CF8E7_o.jpg'><p>15 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FIONY' data-img='https://images4.imagebam.com/a2/bc/37/ME1CF8XW_o.jpg' data-info='207' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a2/bc/37/ME1CF8XW_o.jpg'><p>207 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FLORA' data-img='https://images4.imagebam.com/bf/10/d6/ME1CF8E8_o.jpg' data-info='30' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/bf/10/d6/ME1CF8E8_o.jpg'><p>30 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FREYA' data-img='https://images4.imagebam.com/44/09/94/ME1CF8E9_o.jpg' data-info='151' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/44/09/94/ME1CF8E9_o.jpg'><p>151 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='FRITZY' data-img='https://images4.imagebam.com/51/8f/16/ME1CF8EA_o.jpg' data-info='151' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/51/8f/16/ME1CF8EA_o.jpg'><p>151 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GITA' data-img='https://images4.imagebam.com/36/67/2b/ME1CF8EB_o.jpg' data-info='53' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/36/67/2b/ME1CF8EB_o.jpg'><p>53 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GRACIA' data-img='https://images4.imagebam.com/56/1d/d2/ME1CF8XU_o.jpg' data-info='374' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/56/1d/d2/ME1CF8XU_o.jpg'><p>374 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='GREESEL' data-img='https://images4.imagebam.com/ee/b9/e0/ME1CF8XT_o.jpg' data-info='93' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ee/b9/e0/ME1CF8XT_o.jpg'><p>93 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='INDAH' data-img='https://images4.imagebam.com/bd/9d/82/ME1CF8XR_o.jpg' data-info='209' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/bd/9d/82/ME1CF8XR_o.jpg'><p>209 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='INDIRA' data-img='https://images4.imagebam.com/a0/c8/1c/ME1CF8HS_o.jpg' data-info='18' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/c8/1c/ME1CF8HS_o.jpg'><p>18 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='JESSI' data-img='https://images4.imagebam.com/e7/3a/d3/ME1CF8HT_o.jpg' data-info='148' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e7/3a/d3/ME1CF8HT_o.jpg'><p>148 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='KATHRINA' data-img='https://images4.imagebam.com/57/75/34/ME1CF8HW_o.jpg' data-info='42' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/57/75/34/ME1CF8HW_o.jpg'><p>42 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='LANA' data-img='https://images4.imagebam.com/ea/e2/6a/ME1CF8HZ_o.jpg' data-info='30' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ea/e2/6a/ME1CF8HZ_o.jpg'><p>30 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='LULU' data-img='https://images4.imagebam.com/6a/12/9f/ME1CF8RC_o.jpg' data-info='110' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/6a/12/9f/ME1CF8RC_o.jpg'><p>110 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MARSHA' data-img='https://images4.imagebam.com/7b/b1/83/ME1CF8XY_o.jpg' data-info='208' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/7b/b1/83/ME1CF8XY_o.jpg'><p>208 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MELATI' data-img='https://images4.imagebam.com/fe/45/7b/ME1CF8I1_o.jpg' data-info='37' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/fe/45/7b/ME1CF8I1_o.jpg'><p>37 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MELODY' data-img='https://images4.imagebam.com/dd/3f/45/ME1CF8I3_o.jpg' data-info='100' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/dd/3f/45/ME1CF8I3_o.jpg'><p>100 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MICHIE' data-img='https://images4.imagebam.com/a6/97/00/ME1CF8HQ_o.jpg' data-info='34' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a6/97/00/ME1CF8HQ_o.jpg'><p>34 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='MIRA' data-img='https://images4.imagebam.com/c5/a9/9b/ME1CF8QY_o.jpg' data-info='150' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/c5/a9/9b/ME1CF8QY_o.jpg'><p>150 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='NAOMI' data-img='https://images4.imagebam.com/3d/f7/5d/ME1CF8XX_o.jpg' data-info='249' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/3d/f7/5d/ME1CF8XX_o.jpg'><p>249 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ONIEL' data-img='https://images4.imagebam.com/a0/ec/79/ME1CF8XS_o.jpg' data-info='216' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/ec/79/ME1CF8XS_o.jpg'><p>216 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='SHANI' data-img='https://images4.imagebam.com/f2/3e/a0/ME1CF8R1_o.jpg' data-info='436' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/f2/3e/a0/ME1CF8R1_o.jpg'><p>436 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='TRISHA' data-img='https://images4.imagebam.com/07/19/94/ME1CF8XZ_o.jpg' data-info='73' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/07/19/94/ME1CF8XZ_o.jpg'><p>73 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='VERANDA' data-img='https://images4.imagebam.com/16/31/d3/ME1CF8R5_o.jpg' data-info='156' data-status='aktip' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/16/31/d3/ME1CF8R5_o.jpg'><p>156 Galleries</p></div></a>
-<a href='#' class='model-link' data-name='ZEE' data-img='https://images4.imagebam.com/0d/1b/5b/ME1CF8Y0_o.jpg' data-info='181' data-status='nonaktip' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/0d/1b/5b/ME1CF8Y0_o.jpg'><p>181 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ADEL' data-img='https://images4.imagebam.com/72/00/53/ME1CMD4V_o.png' data-img2='https://images4.imagebam.com/5a/da/0c/ME1CMD4W_o.png' data-info='105' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/72/00/53/ME1CMD4V_o.png'><p>105 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='AMANDA' data-img='https://images4.imagebam.com/f7/a5/62/ME1CMDKT_o.png' data-img2='https://images4.imagebam.com/97/d4/23/ME1CMDKW_o.png' data-info='11' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/f7/a5/62/ME1CMDKT_o.png'><p>11 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ANIN' data-img='https://images4.imagebam.com/15/ec/b8/ME1CMD4Y_o.png' data-img2='https://images4.imagebam.com/6b/6f/aa/ME1CMD51_o.png' data-info='57' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/15/ec/b8/ME1CMD4Y_o.png'><p>57 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ANINDYA' data-img='https://images4.imagebam.com/17/e5/44/ME1CMD52_o.png' data-img2='https://images4.imagebam.com/75/bd/3e/ME1CMD53_o.png' data-info='35' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/17/e5/44/ME1CMD52_o.png'><p>35 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ARALIE' data-img='https://images4.imagebam.com/20/aa/e2/ME1CMD54_o.png' data-img2='https://images4.imagebam.com/67/9b/80/ME1CMDAT_o.png' data-info='28' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/20/aa/e2/ME1CMD54_o.png'><p>28 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ASHEL' data-img='https://images4.imagebam.com/5e/7d/55/ME1CMD56_o.png' data-img2='https://images4.imagebam.com/e5/eb/42/ME1CMD57_o.png' data-info='65' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/5e/7d/55/ME1CMD56_o.png'><p>65 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CELINE' data-img='https://images4.imagebam.com/76/12/5f/ME1CMD58_o.png' data-img2='https://images4.imagebam.com/b5/55/35/ME1CMD59_o.png' data-info='85' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/76/12/5f/ME1CMD58_o.png'><p>85 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CHIKA' data-img='https://images4.imagebam.com/f1/2b/df/ME1CMD5A_o.png' data-img2='https://images4.imagebam.com/55/98/82/ME1CMD5B_o.png' data-info='453' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/f1/2b/df/ME1CMD5A_o.png'><p>453 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CHRISELLE' data-img='https://images4.imagebam.com/6d/8d/27/ME1CMDAU_o.png' data-img2='https://images4.imagebam.com/0c/e3/9c/ME1CMDAW_o.png' data-info='6' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/6d/8d/27/ME1CMDAU_o.png'><p>6 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CHRISTY' data-img='https://images4.imagebam.com/d5/24/35/ME1CMDAX_o.png' data-img2='https://images4.imagebam.com/f3/47/8c/ME1CMDAZ_o.png' data-info='157' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/d5/24/35/ME1CMDAX_o.png'><p>157 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CINHAP' data-img='https://images4.imagebam.com/38/bb/23/ME1CME5I_o.png' data-img2='https://images4.imagebam.com/39/43/bd/ME1CME5K_o.png' data-info='30' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/38/bb/23/ME1CME5I_o.png'><p>30 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='CYNTHIA' data-img='https://images4.imagebam.com/8c/55/22/ME1CMDB0_o.png' data-img2='https://images4.imagebam.com/ad/54/6e/ME1CMDB1_o.png' data-info='99' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/8c/55/22/ME1CMDB0_o.png'><p>99 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='DELYNN' data-img='https://images4.imagebam.com/ed/48/51/ME1CMDB3_o.png' data-img2='https://images4.imagebam.com/b6/f7/f2/ME1CMDB4_o.png' data-info='57' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ed/48/51/ME1CMDB3_o.png'><p>57 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='DEVI' data-img='https://images4.imagebam.com/37/31/8e/ME1CMDB5_o.png' data-img2='https://images4.imagebam.com/b5/9a/17/ME1CMDB6_o.png' data-info='29' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/37/31/8e/ME1CMDB5_o.png'><p>29 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ELIN' data-img='https://images4.imagebam.com/cc/9c/3b/ME1CMDB7_o.png' data-img2='https://images4.imagebam.com/fc/fb/6f/ME1CMDB8_o.png' data-info='80' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/cc/9c/3b/ME1CMDB7_o.png'><p>80 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ELLA' data-img='https://images4.imagebam.com/a2/17/7c/ME1CME5F_o.png' data-img2='https://images4.imagebam.com/51/a3/0c/ME1CME5G_o.png' data-info='54' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a2/17/7c/ME1CME5F_o.png'><p>54 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ERINE' data-img='https://images4.imagebam.com/95/f0/ce/ME1CMDB9_o.png' data-img2='https://images4.imagebam.com/91/bc/8f/ME1CMDBB_o.png' data-info='19' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/95/f0/ce/ME1CMDB9_o.png'><p>19 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FENI' data-img='https://images4.imagebam.com/ae/7e/5f/ME1CME5A_o.png' data-img2='https://images4.imagebam.com/f5/54/3d/ME1CME5C_o.png' data-info='22' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ae/7e/5f/ME1CME5A_o.png'><p>22 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FIONY' data-img='https://images4.imagebam.com/a0/79/1a/ME1CMDBU_o.png' data-img2='https://images4.imagebam.com/09/8d/b0/ME1CMDBV_o.png' data-info='267' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/79/1a/ME1CMDBU_o.png'><p>267 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FLORA' data-img='https://images4.imagebam.com/07/d1/6d/ME1CMDBW_o.png' data-img2='https://images4.imagebam.com/26/f5/02/ME1CMDBX_o.png' data-info='33' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/07/d1/6d/ME1CMDBW_o.png'><p>33 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FREYA' data-img='https://images4.imagebam.com/23/89/25/ME1CMJVI_o.png' data-img2='https://images4.imagebam.com/b4/64/7e/ME1CMJVH_o.png' data-info='232' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/23/89/25/ME1CMJVI_o.png'><p>232 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FRIESKA' data-img='https://images4.imagebam.com/ca/0c/90/ME1CMJVG_o.png' data-img2='https://images4.imagebam.com/fa/8d/76/ME1CMJVF_o.png' data-info='16' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ca/0c/90/ME1CMJVG_o.png'><p>16 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='FRITZY' data-img='https://images4.imagebam.com/b2/c9/93/ME1CMJVD_o.png' data-img2='https://images4.imagebam.com/5b/76/7e/ME1CMJVE_o.png' data-info='182' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/b2/c9/93/ME1CMJVD_o.png'><p>182 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GENDIS' data-img='https://images4.imagebam.com/ba/d4/25/ME1CMJVB_o.png' data-img2='https://images4.imagebam.com/a8/06/dc/ME1CMJV9_o.png' data-info='24' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ba/d4/25/ME1CMJVB_o.png'><p>24 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GITA' data-img='https://images4.imagebam.com/a9/70/66/ME1CNA4M_o.png' data-img2='https://images4.imagebam.com/d8/b8/a8/ME1CNA4Q_o.png' data-info='78' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a9/70/66/ME1CNA4M_o.png'><p>78 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GRACIA' data-img='https://images4.imagebam.com/0b/4f/72/ME1CMJVA_o.png' data-img2='https://images4.imagebam.com/3f/81/1c/ME1CMJVC_o.png' data-info='428' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/0b/4f/72/ME1CMJVA_o.png'><p>428 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='GREESEL' data-img='https://images4.imagebam.com/87/b1/3f/ME1CMJV6_o.png' data-img2='https://images4.imagebam.com/93/4f/e9/ME1CMJV7_o.png' data-info='118' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/87/b1/3f/ME1CMJV6_o.png'><p>118 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='INDAH' data-img='https://images4.imagebam.com/c3/86/f4/ME1CNA4T_o.png' data-img2='https://images4.imagebam.com/6a/8a/9b/ME1CNA4O_o.png' data-info='230' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/c3/86/f4/ME1CNA4T_o.png'><p>230 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='INDIRA' data-img='https://images4.imagebam.com/ac/33/d9/ME1CNA4I_o.png' data-img2='https://images4.imagebam.com/6b/a5/af/ME1CNA4K_o.png' data-info='35' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ac/33/d9/ME1CNA4I_o.png'><p>35 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='JESSI' data-img='https://images4.imagebam.com/9d/09/76/ME1CNB6X_o.png' data-img2='https://images4.imagebam.com/39/32/ff/ME1CNB6W_o.png' data-info='183' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/9d/09/76/ME1CNB6X_o.png'><p>183 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='JINAN' data-img='https://images4.imagebam.com/7a/1a/d0/ME1CNCUI_o.png' data-img2='https://images4.imagebam.com/df/53/41/ME1CNCUJ_o.png' data-info='71' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/7a/1a/d0/ME1CNCUI_o.png'><p>71 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='KATHRINA' data-img='https://images4.imagebam.com/43/f4/86/ME1CNB6Q_o.png' data-img2='https://images4.imagebam.com/8b/c8/2b/ME1CNB6S_o.png' data-info='93' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/43/f4/86/ME1CNB6Q_o.png'><p>93 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='LANA' data-img='https://images4.imagebam.com/b3/cd/b1/ME1CNB6O_o.png' data-img2='https://images4.imagebam.com/1e/85/10/ME1CNB6N_o.png' data-info='38' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/b3/cd/b1/ME1CNB6O_o.png'><p>38 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='LULU' data-img='https://images4.imagebam.com/09/8e/4c/ME1CNB6G_o.png' data-img2='https://images4.imagebam.com/35/4a/6a/ME1CNB6L_o.png' data-info='130' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/09/8e/4c/ME1CNB6G_o.png'><p>130 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MARSHA' data-img='https://images4.imagebam.com/55/01/ec/ME1CNB6E_o.png' data-img2='https://images4.imagebam.com/fa/a0/46/ME1CNB6F_o.png' data-info='286' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/55/01/ec/ME1CNB6E_o.png'><p>286 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MELATI' data-img='https://images4.imagebam.com/7a/07/0a/ME1CNB6D_o.png' data-img2='https://images4.imagebam.com/84/f4/9c/ME1CNB6A_o.png' data-info='38' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/7a/07/0a/ME1CNB6D_o.png'><p>38 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MELODY' data-img='https://images4.imagebam.com/3f/ad/e3/ME1CNCV2_o.png' data-img2='https://images4.imagebam.com/c4/69/3d/ME1CNCV3_o.png' data-info='100' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/3f/ad/e3/ME1CNCV2_o.png'><p>100 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MICHIE' data-img='https://images4.imagebam.com/4b/7e/19/ME1CNCV0_o.png' data-img2='https://images4.imagebam.com/42/0e/db/ME1CNCV1_o.png' data-info='60' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4b/7e/19/ME1CNCV0_o.png'><p>60 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MIRA' data-img='https://images4.imagebam.com/67/f0/dc/ME1CNCUY_o.png' data-img2='https://images4.imagebam.com/e5/d1/9f/ME1CNCUZ_o.png' data-info='183' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/67/f0/dc/ME1CNCUY_o.png'><p>183 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='MUTHE' data-img='https://images4.imagebam.com/62/32/1e/ME1CNCUU_o.png' data-img2='https://images4.imagebam.com/13/7f/3d/ME1CNCUX_o.png' data-info='39' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/62/32/1e/ME1CNCUU_o.png'><p>39 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='NACHIA' data-img='https://images4.imagebam.com/45/65/7c/ME1CNCUV_o.png' data-img2='https://images4.imagebam.com/7e/02/01/ME1CNCUW_o.png' data-info='23' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/45/65/7c/ME1CNCUV_o.png'><p>23 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='NADILA' data-img='https://images4.imagebam.com/d3/1e/ad/ME1CNCUS_o.png' data-img2='https://images4.imagebam.com/9b/df/ca/ME1CNCUT_o.png' data-info='93' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/d3/1e/ad/ME1CNCUS_o.png'><p>93 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='NAOMI' data-img='https://images4.imagebam.com/a8/f1/f5/ME1CNCUQ_o.png' data-img2='https://images4.imagebam.com/e1/55/80/ME1CNCUR_o.png' data-info='251' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a8/f1/f5/ME1CNCUQ_o.png'><p>251 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='OLLA' data-img='https://images4.imagebam.com/06/9a/f4/ME1CNCUO_o.png' data-img2='https://images4.imagebam.com/db/19/c6/ME1CNCUP_o.png' data-info='73' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/06/9a/f4/ME1CNCUO_o.png'><p>73 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ONIEL' data-img='https://images4.imagebam.com/40/4f/9e/ME1CNCUM_o.png' data-img2='https://images4.imagebam.com/1c/63/38/ME1CNCUN_o.png' data-info='263' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/40/4f/9e/ME1CNCUM_o.png'><p>263 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='PUCHI' data-img='https://images4.imagebam.com/7c/17/1e/ME1CNCUK_o.png' data-img2='https://images4.imagebam.com/94/1b/31/ME1CNCUL_o.png' data-info='59' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/7c/17/1e/ME1CNCUK_o.png'><p>59 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='RIBKA' data-img='https://images4.imagebam.com/ce/e4/a6/ME1CMDKY_o.png' data-img2='https://images4.imagebam.com/4f/1c/10/ME1CMDKR_o.png' data-info='23' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ce/e4/a6/ME1CMDKY_o.png'><p>23 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='SHANI' data-img='https://images4.imagebam.com/4f/46/d7/ME1CMDBZ_o.png' data-img2='https://images4.imagebam.com/d3/c0/ba/ME1CMDC1_o.png' data-info='480' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/4f/46/d7/ME1CMDBZ_o.png'><p>480 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='SINKA' data-img='https://images4.imagebam.com/e8/73/02/ME1CMDC3_o.png' data-img2='https://images4.imagebam.com/94/83/62/ME1CMDC5_o.png' data-info='13' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e8/73/02/ME1CMDC3_o.png'><p>13 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='SISCA' data-img='https://images4.imagebam.com/b3/b0/ad/ME1CMDC7_o.png' data-img2='https://images4.imagebam.com/ad/bd/45/ME1CMDC9_o.png' data-info='34' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/b3/b0/ad/ME1CMDC7_o.png'><p>34 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='TRISHA' data-img='https://images4.imagebam.com/0d/a6/bd/ME1CMDCD_o.png' data-img2='https://images4.imagebam.com/82/5a/a8/ME1CMDCF_o.png' data-info='80' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/0d/a6/bd/ME1CMDCD_o.png'><p>80 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='VERANDA' data-img='https://images4.imagebam.com/d5/7a/7f/ME1CMDCH_o.png' data-img2='https://images4.imagebam.com/52/22/32/ME1CMDCJ_o.png' data-info='184' data-status='Active' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/d5/7a/7f/ME1CMDCH_o.png'><p>184 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='YUPI' data-img='https://images4.imagebam.com/a3/42/a4/ME1CMDCL_o.png' data-img2='https://images4.imagebam.com/76/cf/95/ME1CMDCS_o.png' data-info='109' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a3/42/a4/ME1CMDCL_o.png'><p>109 Galleries</p></div></a>
+<a href='#' class='model-link' data-name='ZEE' data-img='https://images4.imagebam.com/4d/d8/01/ME1CMDCV_o.png' data-img2='https://images4.imagebam.com/fb/b9/66/ME1CMDCX_o.png' data-info='204' data-status='Non Active' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4d/d8/01/ME1CMDCV_o.png'><p>204 Galleries</p></div></a>
   
 </div> <!-- model-grid -->
 </div> <!-- layout -->
 
 <div id="modal" class="modal">
-  <div class="modal-content">
-    
-    <span id="close">&times;</span>
+<div class="modal-content">
 
-    <div class="modal-left">
-      <img id="m-img" src="">
-    </div>
+  <span id="close">&times;</span>
 
-    <div class="modal-right">
+  <!-- FRAME FOTO -->
+  <div class="modal-frame">
+    <div class="modal-custom-bg"></div>
+    <div class="modal-bg second" id="m-bg2"></div>
+
+    <div class="modal-info">
       <h2 id="m-name"></h2>
-
-      <p><b>Status:</b> <span id="m-status"></span></p>
-      <p><b>Total Gallery:</b> <span id="m-info"></span></p>
-
-      <a href="https://javai.myr.id/m/ytta" class="login subscribe-btn" target="_blank" rel="noopener noreferrer">
-        SUBSCRIBE
-      </a>
+      <p>Status: <span id="m-status"></span></p>
+      <p>Total: <span id="m-info"></span></p>
     </div>
+  </div>
+
+  <!-- 🔥 PINDAH KE SINI -->
+  <div class="modal-action">
+    <a href="https://javai.myr.id/m/ytta" class="subscribe-btn" target="_blank">
+      SUBSCRIBE
+    </a>
+
+    <a href="https://javai.myr.id/pl/parody-by-request/" class="subscribe-btn alt" target="_blank">
+      MAKE A PRIVATE ORDER
+    </a>
+  </div>
+
+</div>
+
+  </div>
+
+</div>
+</div>
+</div>
+
+<!-- ABOUT MODAL -->
+<div id="aboutModal" class="about-modal">
+  <div class="about-modal-content">
+    <span class="about-close">&times;</span>
+
+    <div class="about-body">
+    <h1>
+      About Us
+      <span>YTTA — Yang Tau Tau Aja</span>
+    </h1>
+
+    <p class="highlight">
+      YTTA bukan untuk semua orang—dan memang tidak pernah ditujukan untuk itu.
+    </p>
+
+    <p>
+      Kami adalah ruang kreatif independen bagi komunitas tertutup yang menikmati eksplorasi visual berbasis AI, 
+      dikemas dalam format image gallery, photobook, hingga cerita dalam bentuk komik dan tulisan. 
+      Di sini, imajinasi tidak dibatasi norma umum—tapi tetap dikendalikan oleh kesadaran akan batas.
+    </p>
+
+    <p>
+      Lahir dari minimnya ruang aman untuk berekspresi tanpa mengganggu realita, YTTA menjadi tempat di mana 
+      ide-ide absurd, liar, dan eksperimental bisa hidup tanpa harus “menjelaskan diri” ke publik. 
+      Setiap karya dibangun dengan rasa, konsistensi visual, dan keberanian dalam konsep—bukan sekadar asal jadi.
+    </p>
+
+    <div class="quote">
+      Kami paham garisnya.<br>
+      Fiksi tetap fiksi, realita tetap realita.
+    </div>
+
+    <p>
+      Karena itu, seluruh konten di sini ditujukan untuk konsumsi privat, dalam lingkup yang memahami konteksnya. 
+      Tidak untuk menyerang, merendahkan, atau merusak citra individu di dunia nyata—melainkan sebagai bentuk 
+      apresiasi dalam realitas alternatif yang kami ciptakan sendiri.
+    </p>
+
+    <p class="closing">
+      Ini bukan sekadar tempat konten.<br>
+      Ini adalah ruang dengan rasa, batas, dan cara mainnya sendiri.
+    </p>
+
+    <div class="footer">
+      Kalau kamu paham, kamu di tempat yang tepat.
+    </div>
+  </div>
 
   </div>
 </div>
@@ -826,14 +1339,6 @@ function toggleMenu() {
 
 
 // modal
-function openModal(card) {
-  document.getElementById("m-name").innerText = card.dataset.name;
-  document.getElementById("m-img").src = card.dataset.img;
-  document.getElementById("m-info").innerText = card.dataset.info + " Galleries";
-  document.getElementById("m-status").innerText = card.dataset.status;
-
-  document.getElementById("modal").style.display = "block";
-}
 
 // close
 document.getElementById("close").onclick = () => {
@@ -885,12 +1390,79 @@ function applyFilter() {
   });
 }
 
-window.onclick = function(e) {
+window.addEventListener("click", function(e) {
   const modal = document.getElementById("modal");
-  if (e.target === modal) {
+
+  if (e.target.id === "modal") {
     modal.style.display = "none";
   }
-};
+});
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
+    document.getElementById("modal").style.display = "none";
+  }
+});
+
+
+
+function openModal(card) {
+  const bg = document.getElementById("m-bg2");
+
+  bg.style.opacity = "1";
+  bg.style.backgroundImage = `url(${card.dataset.img2})`;
+
+  document.getElementById("m-name").innerText = card.dataset.name;
+  document.getElementById("m-info").innerText = card.dataset.info + " Galleries";
+  document.getElementById("m-status").innerText = card.dataset.status;
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+
+// =====================
+// ABOUT MODAL
+// =====================
+const aboutModal = document.getElementById("aboutModal");
+const aboutClose = document.querySelector(".about-close");
+
+// 🔥 tombol trigger (pakai ID bebas)
+const aboutBtn = document.getElementById("aboutBtn");
+
+if (aboutBtn) {
+  aboutBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // 🔥 tutup sidebar dulu (biar clean)
+    document.getElementById("sidebar").classList.remove("active");
+
+    // 🔥 buka modal
+    document.getElementById("aboutModal").style.display = "block";
+  });
+}
+
+// close X
+if (aboutClose) {
+  aboutClose.onclick = () => {
+    aboutModal.style.display = "none";
+  };
+}
+
+// klik luar
+if (aboutModal) {
+  aboutModal.addEventListener("click", (e) => {
+    if (!e.target.closest(".about-content")) {
+      aboutModal.style.display = "none";
+    }
+  });
+}
+
+// ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    aboutModal.style.display = "none";
+  }
+});
 </script>
 
  </body>
