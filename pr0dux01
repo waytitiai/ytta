@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#0f1115;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* BG */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:
+    linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.82)),
+    url('https://images4.imagebam.com/33/40/05/ME1D2Z9K_o.jpg')
+    center/cover no-repeat;
+
+  z-index:-2;
+
+  transform:scale(1.05);
+  filter:blur(10px);
+}
+
+/* TOPBAR */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:999;
+
+  width:100%;
+
+  padding:24px;
+
+  background:rgba(255,255,255,.06);
+
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.top-inner{
+  max-width:1400px;
+  margin:auto;
+
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.logo{
+  height:20vh;
+  object-fit:contain;
+}
+
+.top-text h1{
+  font-size:32px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.top-text p{
+  opacity:.7;
+  line-height:1.5;
+  font-size:14px;
+}
+
+/* SEARCH */
+
+#searchBox{
+  width:100%;
+  padding:16px 20px;
+
+  border:none;
+  border-radius:18px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+  font-size:15px;
+
+  outline:none;
+}
+
+#searchBox::placeholder{
+  color:rgba(255,255,255,.5);
+}
+
+/* GRID */
+
+.gallery{
+  max-width:1400px;
+  margin:auto;
+
+  padding:30px 24px 60px;
+
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:18px;
+}
+
+/* CARD */
+
+.model-link{
+  text-decoration:none;
+  color:white;
+}
+
+.model-card{
+  position:relative;
+
+  border-radius:20px;
+  overflow:hidden;
+
+  aspect-ratio:4/5;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+  background:#1a1a1a;
+}
+
+.model-card:hover{
+  transform:translateY(-4px) scale(1.02);
+}
+
+.model-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  transition:.3s ease;
+}
+
+.model-card:hover img{
+  transform:scale(1.05);
+}
+
+.model-name{
+  position:absolute;
+
+  left:50%;
+  bottom:14px;
+
+  transform:translateX(-50%);
+
+  padding:8px 16px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.12);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  border:1px solid rgba(255,255,255,.18);
+
+  color:white;
+
+  font-size:13px;
+  font-weight:600;
+
+  letter-spacing:.3px;
+
+  white-space:nowrap;
+
+  z-index:2;
+
+  box-shadow:
+    0 4px 20px rgba(0,0,0,.25);
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  z-index:99999;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(8px);
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-box{
+  position:relative;
+
+  width:92vw;
+  max-width:1200px;
+
+  height:88vh;
+
+  border-radius:24px;
+  overflow:hidden;
+
+  background:#111;
+
+  box-shadow:0 20px 80px rgba(0,0,0,.5);
+}
+
+.modal iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+.close-btn{
+  position:absolute;
+  top:14px;
+  right:18px;
+
+  width:40px;
+  height:40px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(0,0,0,.5);
+
+  color:white;
+
+  font-size:20px;
+  cursor:pointer;
+
+  z-index:2;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .top-text h1{
+    font-size:22px;
+  }
+
+  .gallery{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    padding:18px;
+  }
+
+  .logo{
+    height:15vh;
+  }
+
+  .modal-box{
+    width:100vw;
+    height:100dvh;
+    border-radius:0;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+  <div class="top-inner">
+
+    <img class="logo"
+      src="https://files.catbox.moe/l1d56y.webp">
+
+    <div class="top-text">
+      <h1>Photocard Gallery Access</h1>
+
+      <p>
+        Klik pada foto untuk membuka konten yang sudah kamu beli sesuai akun Google saat transaksi.
+      </p>
+    </div>
+
+    <input
+      type="text"
+      id="searchBox"
+      placeholder="Cari model..."
+    >
+
+  </div>
+</div>
+
+<!-- GALLERY -->
+
+<div class="gallery" id="gallery">
+
+<!-- INJECT SHEET -->
+<a href='#' class='model-link' data-name='ARALIE' data-url='https://drive.google.com/file/d/1KmSW7f27t38NTcwXTx0xjLT-V0vOa5on/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1KmSW7f27t38NTcwXTx0xjLT-V0vOa5on/view?usp=drivesdk'><div class='model-name'>ARALIE</div></div></a>
+<a href='#' class='model-link' data-name='CHRISTY' data-url='https://drive.google.com/file/d/1M-YxEjG7v5gIiaT8OBiy1zaWHeDPML3Q/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1M-YxEjG7v5gIiaT8OBiy1zaWHeDPML3Q/view?usp=drivesdk'><div class='model-name'>CHRISTY</div></div></a>
+<a href='#' class='model-link' data-name='DAISY' data-url='https://drive.google.com/file/d/1ZX2735_83xTaSnyBXGkdPQq81ynVW2Pm/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1ZX2735_83xTaSnyBXGkdPQq81ynVW2Pm/view?usp=drivesdk'><div class='model-name'>DAISY</div></div></a>
+<a href='#' class='model-link' data-name='DANELLA' data-url='https://drive.google.com/file/d/1qFiEQ8N2PFyXIuKVcgRoIEPdsV00MV2K/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1qFiEQ8N2PFyXIuKVcgRoIEPdsV00MV2K/view?usp=drivesdk'><div class='model-name'>DANELLA</div></div></a>
+<a href='#' class='model-link' data-name='ERINE' data-url='https://drive.google.com/file/d/13oIW5QIMGfdEXWZALCCZGbbQusaLCi5r/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/13oIW5QIMGfdEXWZALCCZGbbQusaLCi5r/view?usp=drivesdk'><div class='model-name'>ERINE</div></div></a>
+<a href='#' class='model-link' data-name='JESSI' data-url='https://drive.google.com/file/d/1TnITygzHZPoeG-Ji-WhAAuctO_tqD3yG/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1TnITygzHZPoeG-Ji-WhAAuctO_tqD3yG/view?usp=drivesdk'><div class='model-name'>JESSI</div></div></a>
+<a href='#' class='model-link' data-name='KATHRIN' data-url='https://drive.google.com/file/d/1gbcaYqjmpLQ5IkqpXrVD03WFvdR4b7dV/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1gbcaYqjmpLQ5IkqpXrVD03WFvdR4b7dV/view?usp=drivesdk'><div class='model-name'>KATHRIN</div></div></a>
+<a href='#' class='model-link' data-name='KIMMY' data-url='https://drive.google.com/file/d/1EK0M9iTfuXzEI1hG_xUkhHIwthRCI_DW/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1EK0M9iTfuXzEI1hG_xUkhHIwthRCI_DW/view?usp=drivesdk'><div class='model-name'>KIMMY</div></div></a>
+<a href='#' class='model-link' data-name='LEVI' data-url='https://drive.google.com/file/d/1s8FLPl47nsk4yEec8XfqQOGd85tfbfkN/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1s8FLPl47nsk4yEec8XfqQOGd85tfbfkN/view?usp=drivesdk'><div class='model-name'>LEVI</div></div></a>
+<a href='#' class='model-link' data-name='LULU' data-url='https://drive.google.com/file/d/1QeSIN_SQklXmiwWoUtTxycVS5B_s5n9H/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1QeSIN_SQklXmiwWoUtTxycVS5B_s5n9H/view?usp=drivesdk'><div class='model-name'>LULU</div></div></a>
+<a href='#' class='model-link' data-name='MUTHE' data-url='https://drive.google.com/file/d/1bv4ZJNwDAtZrl-msrL25uF8RSNbUPZvE/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1bv4ZJNwDAtZrl-msrL25uF8RSNbUPZvE/view?usp=drivesdk'><div class='model-name'>MUTHE</div></div></a>
+<a href='#' class='model-link' data-name='ONIEL' data-url='https://drive.google.com/file/d/1ZS2YHBGLBgLJwqSI__O8Xd53fYHsRn2M/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1ZS2YHBGLBgLJwqSI__O8Xd53fYHsRn2M/view?usp=drivesdk'><div class='model-name'>ONIEL</div></div></a>
+<a href='#' class='model-link' data-name='RAISHA' data-url='https://drive.google.com/file/d/1CHzmkJQrpULJFAHEb-EwCHesk9eWNn1F/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/1CHzmkJQrpULJFAHEb-EwCHesk9eWNn1F/view?usp=drivesdk'><div class='model-name'>RAISHA</div></div></a>
+<a href='#' class='model-link' data-name='RIBKA' data-url='https://drive.google.com/file/d/14NuTage81y9ble6kxqmDA5t3tmPliy4_/preview?rm=minimal'><div class='model-card'><img src='https://drive.google.com/file/d/14NuTage81y9ble6kxqmDA5t3tmPliy4_/view?usp=drivesdk'><div class='model-name'>RIBKA</div></div></a>
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <button class="close-btn" id="closeBtn">
+      ✕
+    </button>
+
+    <iframe
+      id="viewer"
+      allow="autoplay"
+      referrerpolicy="no-referrer">
+    </iframe>
+
+  </div>
+
+</div>
+
+<script>
+
+/* SEARCH */
+
+const searchBox =
+  document.getElementById("searchBox");
+
+searchBox.addEventListener("input",()=>{
+
+  const keyword =
+    searchBox.value.toLowerCase();
+
+  document
+    .querySelectorAll(".model-link")
+    .forEach(card=>{
+
+      const name =
+        card.dataset.name.toLowerCase();
+
+      card.style.display =
+        name.includes(keyword)
+          ? "block"
+          : "none";
+
+    });
+
+});
+
+/* MODAL */
+
+const modal =
+  document.getElementById("modal");
+
+const viewer =
+  document.getElementById("viewer");
+
+document.addEventListener("click",(e)=>{
+
+  const card =
+    e.target.closest(".model-link");
+
+  if(card){
+
+    viewer.src = card.dataset.url;
+
+    modal.classList.add("active");
+  }
+
+});
+
+/* CLOSE */
+
+function closeModal(){
+
+  modal.classList.remove("active");
+
+  viewer.src = "";
+
+}
+
+document
+  .getElementById("closeBtn")
+  .onclick = closeModal;
+
+modal.addEventListener("click",(e)=>{
+
+  if(e.target === modal){
+    closeModal();
+  }
+
+});
+
+document.addEventListener("keydown",(e)=>{
+
+  if(e.key === "Escape"){
+    closeModal();
+  }
+
+});
+
+</script>
+
+</body>
+</html>
