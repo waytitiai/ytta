@@ -119,6 +119,18 @@ body::before{
   object-fit:contain;
 }
 
+.logo-link{
+  display:flex;
+  justify-content:center;
+  width:100%;
+  transition:.25s ease;
+}
+
+.logo-link:hover{
+  transform:scale(1.02);
+  opacity:.92;
+}
+
 .top-text h1{
   font-size:32px;
   font-weight:700;
@@ -347,8 +359,15 @@ body::before{
 <div class="topbar">
   <div class="top-inner">
 
-    <img class="logo"
-      src="https://files.catbox.moe/l1d56y.webp">
+    <a
+  href="https://javai.myr.id/pl/flash-spread-kabesha-photopack"
+  class="logo-link">
+
+  <img
+    class="logo"
+    src="https://files.catbox.moe/l1d56y.webp">
+
+</a> 
 
     <div class="top-text">
       <h1>Photocard Gallery Access</h1>
