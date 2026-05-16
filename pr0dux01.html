@@ -143,6 +143,21 @@ body::before{
   font-size:14px;
 }
 
+.drive-link{
+  color:white;
+  font-weight:600;
+  text-decoration:none;
+
+  border-bottom:1px solid rgba(255,255,255,.35);
+
+  transition:.2s ease;
+}
+
+.drive-link:hover{
+  opacity:.75;
+  border-color:white;
+}
+
 /* SEARCH */
 
 #searchBox{
@@ -370,12 +385,21 @@ body::before{
 </a> 
 
     <div class="top-text">
-      <h1>Photocard Gallery Access</h1>
 
-      <p>
-        Klik pada foto untuk membuka konten yang sudah kamu beli sesuai akun Google saat transaksi.
-      </p>
-    </div>
+  <h1>Photocard Gallery Access</h1>
+
+  <p>
+    Klik pada foto untuk membuka konten sesuai akun Google saat transaksi,
+    atau akses langsung melalui
+    <a
+      href="https://drive.google.com/drive/home"
+      target="_blank"
+      class="drive-link">
+      Google Drive
+    </a>.
+  </p>
+
+</div>
 
     <input
       type="text"
