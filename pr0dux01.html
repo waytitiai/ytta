@@ -21,7 +21,55 @@ body{
   overflow-x:hidden;
 }
 
+/* ================= SPLASH ================= */
+
+#splash{
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:#000;
+
+  z-index:999999;
+
+  opacity:1;
+
+  transition:
+    opacity .6s ease,
+    visibility .6s ease;
+}
+
+#splash.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+#splash img{
+  width:min(320px,70vw);
+  object-fit:contain;
+
+  animation:logoPop .6s ease;
+}
+
+@keyframes logoPop{
+
+  from{
+    opacity:0;
+    transform:scale(.92);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+
+}
+
 /* BG */
+
 body::before{
   content:"";
   position:fixed;
@@ -284,6 +332,16 @@ body::before{
 
 <body>
 
+<!-- SPLASH -->
+
+<div id="splash">
+
+  <img
+    src="https://files.catbox.moe/l1d56y.webp"
+    alt="Logo">
+
+</div>
+
 <!-- TOPBAR -->
 
 <div class="topbar">
@@ -338,6 +396,25 @@ body::before{
 </div>
 
 <script>
+
+/* ================= SPLASH ================= */
+
+window.addEventListener("load",()=>{
+
+  const splash =
+    document.getElementById("splash");
+
+  setTimeout(()=>{
+
+    splash.classList.add("hide");
+
+    setTimeout(()=>{
+      splash.remove();
+    },700);
+
+  },500);
+
+});
 
 /* SEARCH */
 
@@ -417,8 +494,6 @@ document.addEventListener("keydown",(e)=>{
 
 });
 
-
-
 const CSV_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTnkj5mQfZ9eu1h-QL9trKNGGMkkUBFxXebzEzC4lgdwB9rl1c0m7NALwNa2H-MwpW95ANscUkb7EhT/pub?gid=2101710729&single=true&output=csv";
 
@@ -430,7 +505,7 @@ async function loadGallery(){
 
   const rows = text.trim().split("\n");
 
-  rows.shift(); // buang header
+  rows.shift();
 
   const gallery =
     document.getElementById("gallery");
@@ -439,7 +514,6 @@ async function loadGallery(){
 
   rows.forEach(row=>{
 
-    // split csv sederhana
     const cols = row.split(",");
 
     const name =
