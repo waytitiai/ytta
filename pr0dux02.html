@@ -354,6 +354,28 @@ body::before{
 
 }
 
+
+  @media print {
+    /* Sembunyikan tombol unduh atau tombol navigasi web */
+    .tombol-download, .nav-bar, .footer-web {
+        display: none !important;
+    }
+    /* Pastikan tidak ada animasi yang berhenti di posisi aneh */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    /* Mengatur ukuran halaman PDF menjadi A4 atau ukuran khusus */
+    @page {
+        size: A4;
+        margin: 0; /* Menghilangkan margin bawaan browser (header/footer tanggal) */
+    }
+    body {
+        margin: 10mm; /* Berikan margin manual agar konten tidak terpotong */
+    }
+}
+
+
 </style>
 </head>
 
