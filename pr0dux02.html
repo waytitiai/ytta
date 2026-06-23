@@ -355,39 +355,73 @@ body::before{
 }
 
 
- @media print {
-    /* 1. Paksa browser untuk mencetak warna dan gambar latar belakang */
-    html, body {
-        background-color: #ffffff !important; /* Sesuaikan dengan warna background web Anda */
-        -webkit-print-color-adjust: exact !important; /* Untuk Chrome, Safari, Edge */
-        print-color-adjust: exact !important;         /* Standar universal */
-    }
-
-    /* 2. Pertahankan sistem Grid / Flexbox galeri agar tidak turun ke bawah */
-    .container-galeri, .gallery-grid { 
-        display: grid !important; /* atau flex !important, sesuaikan dengan class CSS Anda */
-        grid-template-columns: repeat(3, 1fr) !important; /* Jaga agar tetap berkolom, misal 3 kolom */
-        gap: 15px !important;
-    }
-
-    /* 3. Atur halaman PDF agar pas (Tanpa Margin Bawaan Browser) */
+/* =================================================== */
+/*             CSS PRINT FIX PENYELAMAT DESAIN         */
+/* =================================================== */
+@media print {
     @page {
-        size: A4 portrait; /* Bisa diganti 'landscape' jika model galeri Anda melebar */
-        margin: 0; /* Menghilangkan margin bawaan yang bikin layout menciut */
+        size: A4 landscape; /* Wajib pakai tidur/landscape agar pas muat 5 kolom */
+        margin: 0; /* Hapus margin default browser agar tidak menciut */
     }
 
+    html, body {
+        background-color: #0f1115 !important; /* Kembalikan ke warna gelap aslinya */
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important; /* Paksa Chrome cetak background warna */
+        print-color-adjust: exact !important;
+    }
+
+    /* Akali background image blur karena printer tidak bisa baca ::before fixed */
     body {
-        margin: 15mm; /* Berikan margin manual yang aman agar konten tidak terpotong tepi kertas */
+        background-image: linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.85)), url('https://cdn.corenexis.com/f/wTJZN8fS8ZK.webp') !important;
+        background-position: center !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        padding: 15mm !important; /* Beri margin aman di sini */
+    }
+    
+    body::before {
+        display: none !important; /* Matikan efek pseudo-element asli yang bikin kotak putih */
     }
 
-    /* 4. Sembunyikan tombol-tombol web yang tidak perlu ada di PDF */
-    .tombol-download, .navbar, .footer {
+    /* Sembunyikan elemen web yang tidak diperlukan dalam PDF */
+    #splash, #searchBox, .modal {
         display: none !important;
     }
+
+    /* Rapikan Topbar */
+    .topbar {
+        background: rgba(255,255,255,.06) !important;
+        border-bottom: 1px solid rgba(255,255,255,.08) !important;
+        padding: 0 0 20px 0 !important;
+        position: relative !important;
+    }
+    
+    .logo {
+        height: 12vh !important; /* Kecilkan sedikit logo agar hemat ruang kertas */
+    }
+
+    /* FIX GRID GALERI: Kunci paksa 5 kolom sesuai kelas HTML asli Anda */
+    .gallery {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important; 
+        gap: 15px !important;
+        padding: 20px 0 0 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* Jaga keindahan card dan teks nama model */
+    .model-card {
+        background: #1a1a1a !important;
+        page-break-inside: avoid !important; /* Cegah card terpotong garis halaman */
+    }
+
+    .model-name {
+        background: rgba(255,255,255,.15) !important;
+        border: 1px solid rgba(255,255,255,.2) !important;
+        box-shadow: none !important;
+    }
 }
-
-
-
 </style>
 </head>
 
