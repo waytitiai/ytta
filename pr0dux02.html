@@ -355,25 +355,37 @@ body::before{
 }
 
 
-  @media print {
-    /* Sembunyikan tombol unduh atau tombol navigasi web */
-    .tombol-download, .nav-bar, .footer-web {
+ @media print {
+    /* 1. Paksa browser untuk mencetak warna dan gambar latar belakang */
+    html, body {
+        background-color: #ffffff !important; /* Sesuaikan dengan warna background web Anda */
+        -webkit-print-color-adjust: exact !important; /* Untuk Chrome, Safari, Edge */
+        print-color-adjust: exact !important;         /* Standar universal */
+    }
+
+    /* 2. Pertahankan sistem Grid / Flexbox galeri agar tidak turun ke bawah */
+    .container-galeri, .gallery-grid { 
+        display: grid !important; /* atau flex !important, sesuaikan dengan class CSS Anda */
+        grid-template-columns: repeat(3, 1fr) !important; /* Jaga agar tetap berkolom, misal 3 kolom */
+        gap: 15px !important;
+    }
+
+    /* 3. Atur halaman PDF agar pas (Tanpa Margin Bawaan Browser) */
+    @page {
+        size: A4 portrait; /* Bisa diganti 'landscape' jika model galeri Anda melebar */
+        margin: 0; /* Menghilangkan margin bawaan yang bikin layout menciut */
+    }
+
+    body {
+        margin: 15mm; /* Berikan margin manual yang aman agar konten tidak terpotong tepi kertas */
+    }
+
+    /* 4. Sembunyikan tombol-tombol web yang tidak perlu ada di PDF */
+    .tombol-download, .navbar, .footer {
         display: none !important;
     }
-    /* Pastikan tidak ada animasi yang berhenti di posisi aneh */
-    * {
-        animation: none !important;
-        transition: none !important;
-    }
-    /* Mengatur ukuran halaman PDF menjadi A4 atau ukuran khusus */
-    @page {
-        size: A4;
-        margin: 0; /* Menghilangkan margin bawaan browser (header/footer tanggal) */
-    }
-    body {
-        margin: 10mm; /* Berikan margin manual agar konten tidak terpotong */
-    }
 }
+
 
 
 </style>
