@@ -1,1 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#0f1115;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* ================= SPLASH ================= */
+
+#splash{
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:#000;
+
+  z-index:999999;
+
+  opacity:1;
+
+  transition:
+    opacity .6s ease,
+    visibility .6s ease;
+}
+
+#splash.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+#splash img{
+  width:min(320px,70vw);
+  object-fit:contain;
+
+  animation:logoPop .6s ease;
+}
+
+@keyframes logoPop{
+
+  from{
+    opacity:0;
+    transform:scale(.92);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+
+}
+
+/* BG */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:
+    linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.82)),
+    url('https://cdn.corenexis.com/f/wTJZN8fS8ZK.webp')
+    center/cover no-repeat;
+
+  z-index:-2;
+
+  transform:scale(1.05);
+  filter:blur(10px);
+}
+
+/* TOPBAR */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:999;
+
+  width:100%;
+
+  padding:24px;
+
+  background:rgba(255,255,255,.06);
+
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.top-inner{
+  max-width:1400px;
+  margin:auto;
+
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.logo{
+  height:20vh;
+  object-fit:contain;
+}
+
+.logo-link{
+  display:flex;
+  justify-content:center;
+  width:100%;
+  transition:.25s ease;
+}
+
+.logo-link:hover{
+  transform:scale(1.02);
+  opacity:.92;
+}
+
+.top-text h1{
+  font-size:32px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.top-text p{
+  opacity:.7;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.drive-link{
+  color:white;
+  font-weight:600;
+  text-decoration:none;
+
+  border-bottom:1px solid rgba(255,255,255,.35);
+
+  transition:.2s ease;
+}
+
+.drive-link:hover{
+  opacity:.75;
+  border-color:white;
+}
+
+/* SEARCH */
+
+#searchBox{
+  width:100%;
+  padding:16px 20px;
+
+  border:none;
+  border-radius:18px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+  font-size:15px;
+
+  outline:none;
+}
+
+#searchBox::placeholder{
+  color:rgba(255,255,255,.5);
+}
+
+/* GRID */
+
+.gallery{
+  max-width:1400px;
+  margin:auto;
+
+  padding:30px 24px 60px;
+
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:18px;
+}
+
+/* CARD */
+
+.model-link{
+  text-decoration:none;
+  color:white;
+}
+
+.model-card{
+  position:relative;
+
+  border-radius:20px;
+  overflow:hidden;
+
+  aspect-ratio:4/5;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+  background:#1a1a1a;
+}
+
+.model-card:hover{
+  transform:translateY(-4px) scale(1.02);
+}
+
+.model-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  transition:.3s ease;
+}
+
+.model-card:hover img{
+  transform:scale(1.05);
+}
+
+.model-name{
+  position:absolute;
+
+  left:50%;
+  bottom:14px;
+
+  transform:translateX(-50%);
+
+  padding:8px 16px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.12);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  border:1px solid rgba(255,255,255,.18);
+
+  color:white;
+
+  font-size:13px;
+  font-weight:600;
+
+  letter-spacing:.3px;
+
+  white-space:nowrap;
+
+  z-index:2;
+
+  box-shadow:
+    0 4px 20px rgba(0,0,0,.25);
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  z-index:99999;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(8px);
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-box{
+  position:relative;
+
+  width:92vw;
+  max-width:1200px;
+
+  height:88vh;
+
+  border-radius:24px;
+  overflow:hidden;
+
+  background:#111;
+
+  box-shadow:0 20px 80px rgba(0,0,0,.5);
+}
+
+.modal iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+.close-btn{
+  position:absolute;
+  top:14px;
+  right:18px;
+
+  width:40px;
+  height:40px;
+
+  border:none;
+  border-radius:50%;
+
+  background:rgba(0,0,0,.5);
+
+  color:white;
+
+  font-size:20px;
+  cursor:pointer;
+
+  z-index:2;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .top-text h1{
+    font-size:22px;
+  }
+
+  .gallery{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    padding:18px;
+  }
+
+  .logo{
+    height:15vh;
+  }
+
+  .modal-box{
+    width:100vw;
+    height:100dvh;
+    border-radius:0;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+
+<div id="splash">
+
+  <img
+    src="https://files.catbox.moe/l1d56y.webp"
+    alt="Logo">
+
+</div>
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+  <div class="top-inner">
+
+    <a
+  href="https://javai.myr.id/pl/flash-spread-kabesha-photopack"
+  class="logo-link">
+
+  <img
+    class="logo"
+    src="https://s6.imgcdn.dev/Ye28Vw.png">
+
+</a> 
+
+    <div class="top-text">
+
+  <h1>Photocard Gallery Access</h1>
+
+  <p>
+    Klik pada foto untuk membuka konten sesuai akun Google saat transaksi,
+    atau akses langsung melalui
+    <a
+      href="https://drive.google.com/drive/home"
+      target="_blank"
+      class="drive-link">
+      Google Drive
+    </a>.
+  </p>
+
+</div>
+
+    <input
+      type="text"
+      id="searchBox"
+      placeholder="Cari model..."
+    >
+
+  </div>
+</div>
+
+<!-- GALLERY -->
+
+<div class="gallery" id="gallery">
+
+<!-- INJECT SHEET -->
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <button class="close-btn" id="closeBtn">
+      ✕
+    </button>
+
+    <iframe
+      id="viewer"
+      allow="autoplay"
+      referrerpolicy="no-referrer">
+    </iframe>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ================= SPLASH ================= */
+
+window.addEventListener("load",()=>{
+
+  const splash =
+    document.getElementById("splash");
+
+  setTimeout(()=>{
+
+    splash.classList.add("hide");
+
+    setTimeout(()=>{
+      splash.remove();
+    },700);
+
+  },500);
+
+});
+
+/* SEARCH */
+
+const searchBox =
+  document.getElementById("searchBox");
+
+searchBox.addEventListener("input",()=>{
+
+  const keyword =
+    searchBox.value.toLowerCase();
+
+  document
+    .querySelectorAll(".model-link")
+    .forEach(card=>{
+
+      const name =
+        card.dataset.name.toLowerCase();
+
+      card.style.display =
+        name.includes(keyword)
+          ? "block"
+          : "none";
+
+    });
+
+});
+
+/* MODAL */
+
+const modal =
+  document.getElementById("modal");
+
+const viewer =
+  document.getElementById("viewer");
+
+document.addEventListener("click",(e)=>{
+
+  const card =
+    e.target.closest(".model-link");
+
+  if(card){
+
+    viewer.src = card.dataset.url;
+
+    modal.classList.add("active");
+  }
+
+});
+
+/* CLOSE */
+
+function closeModal(){
+
+  modal.classList.remove("active");
+
+  viewer.src = "";
+
+}
+
+document
+  .getElementById("closeBtn")
+  .onclick = closeModal;
+
+modal.addEventListener("click",(e)=>{
+
+  if(e.target === modal){
+    closeModal();
+  }
+
+});
+
+document.addEventListener("keydown",(e)=>{
+
+  if(e.key === "Escape"){
+    closeModal();
+  }
+
+});
+
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTnkj5mQfZ9eu1h-QL9trKNGGMkkUBFxXebzEzC4lgdwB9rl1c0m7NALwNa2H-MwpW95ANscUkb7EhT/pub?gid=2101710729&single=true&output=csv";
+
+async function loadGallery(){
+
+  const res = await fetch(CSV_URL);
+
+  const text = await res.text();
+
+  const rows = text.trim().split("\n");
+
+  rows.shift();
+
+  const gallery =
+    document.getElementById("gallery");
+
+  gallery.innerHTML = "";
+
+  rows.forEach(row=>{
+
+    const cols = row.split(",");
+
+    const name =
+      cols[0]?.replace(/"/g,"").trim();
+
+    const image =
+      cols[1]?.replace(/"/g,"").trim();
+
+    const url =
+      cols[2]?.replace(/"/g,"").trim();
+
+    if(!name || !image || !url) return;
+
+    gallery.innerHTML += `
+    
+    <a href="#"
+       class="model-link"
+       data-name="${name}"
+       data-url="${url}">
+
+      <div class="model-card">
+
+        <img src="${image}">
+
+        <div class="model-name">
+          ${name}
+        </div>
+
+      </div>
+
+    </a>
+
+    `;
+
+  });
+
+}
+
+loadGallery();
+
+</script>
+
+</body>
+</html>
