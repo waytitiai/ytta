@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  
+<style>
+    
+header, footer, .widget, .post {
+  display: none !important;
+}
+
+/* default = desktop */
+.mobile-menu {
+  display: none;
+}
+  
+#navbar-iframe {
+  display: none !important;
+}
+
+/* === BG MODE (VIDEO OFF) === */
+#bg-video,
+.overlay {
+  display: none !important;
+}
+
+body {
+  background: #f5f6fa; /* default putih */
+  /* kalau mau pakai gambar:
+  background: url('URL_GAMBAR_LO') no-repeat center/cover;
+  */
+  font-family: 'Inter', Arial, sans-serif;
+
+}
+
+/* LOGO */
+.logo img {
+    height: 12vw;
+    width: auto;
+    object-fit: contain;
+}
+.center {
+  display: none !important;
+}
+
+/* VIDEO */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* TOPBAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 12.5vh;
+  min-height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  z-index: 1000;
+
+  /* ✨ GLASS BASE */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+  transition: 0.3s ease;
+}
+
+.topbar.scrolled {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 6.5vh;
+}
+
+.menu-btn {
+  font-size: 4.5vh;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  gap: 15px;
+  margin-left: auto;
+}
+
+/* BUTTON */
+.right a {
+  text-decoration: none;
+  color: black !important;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 20px;
+}
+
+.login {
+  background: red;
+}
+
+.buyer {
+  background: #eee;
+  color: black !important;
+}
+  
+/* SIDEBAR (CLICK ONLY, NO HOVER NGINTIP) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100vh; /* FULL HIDE */
+  width: 50vh;
+  height: 100%;
+
+  /* 🔥 GRADIENT */
+  background: linear-gradient(
+    to bottom right,
+    #76869F,
+    rgb(31, 33, 54)
+  );
+
+  padding-top: 13vh;
+  z-index: 999;
+
+  transition: 0.3s ease;
+}
+
+.sidebar.active {
+  left: 0;
+}
+  
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 30px;
+}
+
+.center a {
+  text-decoration: none;
+  color: white;
+  padding: 0.6em 1.2em;
+  font-size: 1.6vh;
+  border-radius: 20px;
+
+}
+
+/* MENU STYLE */
+.sidebar a {
+  display: block;
+  padding: 16px 30px;
+  color: white;
+  text-decoration: none;
+  font-size: 32px;
+
+  position: relative;
+  transition: 0.25s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.05);
+  padding-left: 40px;
+}
+
+/* 🔥 GARIS BAWAH */
+.sidebar a::after {
+  content: "";
+  position: absolute;
+  left: 30px;          /* ikut padding */
+  bottom: 10px;
+
+  width: calc(100% - 60px); /* biar gak nabrak kanan */
+  height: 2px;
+
+  background: white;
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 0.3s ease;
+}
+
+/* hover → muncul */
+.sidebar a:hover::after {
+  transform: scaleX(1);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  #bg-video {
+    object-position: center 30%;
+    height: 100%;
+  }
+
+  .center,
+  .right {
+    display: none !important;
+  }
+    .mobile-menu {
+    display: block;
+  }
+
+
+  .topbar {
+    height: 10vh;
+    min-height: 60px;
+  }
+  
+  .menu-btn {
+    font-size: 26px;
+  }
+  
+  .sidebar {
+  width: 35vh;
+  height: 100%;
+  padding-top: 12vh;
+
+}
+  
+  .sidebar a {
+    display: block;
+    padding: 16px 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 2vh;
+    position: relative;
+    transition: 0.25s ease;
+}
+
+  
+  .left {
+    gap: 1.5vh;
+}
+
+  .logo img {
+    height: 12vh;
+  }
+  
+  .menu-btn {
+    font-size: 3.5vh;
+    cursor: pointer;
+}
+  .login, .buyer {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .overlay {
+    backdrop-filter: blur(2px);
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.2) 40%,
+      rgba(0,0,0,0.8) 100%
+    );
+  }
+}
+
+/* === MODEL GRID === */
+.model-container {
+  margin-top: 15vh;
+  padding: 40px;
+}
+
+.filter-bar {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.filter-bar button {
+  border: 2px solid #ddd;
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-bar button:hover,
+.filter-bar .active {
+  background: red;
+  color: white;
+  border-color: red;
+}
+
+.main-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  
+}
+
+.sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  
+}
+
+
+
+button,
+a,
+p {
+  font-family: 'Inter', sans-serif;
+}
+
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.model-card {
+  position: relative;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  aspect-ratio: 4 / 5; /* bisa lo ubah */
+}
+
+.model-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}  
+
+/* base image */
+.model-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.25s ease;
+}
+
+/* ACTIVE = normal */
+.model-link[data-team="aktip"] .model-card img {
+  filter: none;
+}
+
+/* NON AKTIF = BW */
+.model-link[data-team="nonaktip"] .model-card img {
+  filter: grayscale(100%) brightness(0.75) contrast(0.9);
+}
+  
+.page-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.sub-title {
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #888;
+  margin: 0;
+}
+
+.main-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 6px 0 6px;
+  background: linear-gradient(90deg, red, hotpink);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desc-text {
+  font-size: 13px;
+  color: #888;
+  margin: 0 auto;
+  max-width: 420px;
+  line-height: 1.4;
+}
+
+.desc-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px auto 0;
+  max-width: 420px;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.desc-list li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+}
+
+/* bullet custom kecil biar premium */
+.desc-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #aaa;
+}
+  
+  
+.model-card p {
+  padding: 10px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: 0.3s;
+  margin: 0;
+  padding: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+
+  z-index: 2;
+}
+
+
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .model-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .model-container {
+    padding: 16px;
+  }
+  
+   .main-title {
+    font-size: 24px;
+  }
+
+  .sub-title {
+    font-size: 12px;
+  }
+
+}
+  
+  
+</style>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="left">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <a href="https://waytitiai.netlify.app/" class="logo">
+  <img src="https://files.catbox.moe/vpqdr9.png">
+</a>
+  </div>
+  
+
+  <div class="right">
+  <a href="https://javai.myr.id/m/ytta" class="login">DISCORD</a>
+  <a href="https://javai.myr.id/portal" class="buyer">BUYER LOGIN ▼</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <a href="https://javai.myr.id/m/ytta">Membership</a>
+  <a href="https://javai.myr.id/pl/parody-by-request/">Parody Order</a>
+  <a href="https://javashop.framer.ai/photobooksa">Parody Products</a>
+  <a href="https://javashop.framer.ai/photoset-aia">Photosets Products</a>
+  <a href="https://javashop.framer.ai/storiesa">Stories Products</a>
+  
+    <!-- MOBILE MENU -->
+  <div class="menu mobile-menu">
+  <a href="https://javai.myr.id/portal">Buyer Login</a>
+  <a href="https://waytitiai-fap.netlify.app/">Models</a>  
+    <br><br><br><br>
+  <a href="https://drive.google.com/file/d/1PP9nC4MBOTAEA2C_K--EMkKOeCC3U_Mr/preview?rm=minimal">ABOUT US</a>
+  </div>
+</div> <!-- ⬅️ INI PENUTUP SIDEBAR -->
+
+<!-- CONTENT -->
+<div class="model-container">
+
+<div class="page-header">
+  <p class="sub-title">DATA BASE STATUS</p>
+  <h1 class="main-title">YTTA MODELS FAP</h1>
+  <p class="desc-text">
+Jumlah Gallery Konten akan terus berubah dan diupdate per bulan.<br><br><br>
+<ul class="desc-list">
+  <li>Active: Model memiliki subscriber</li>
+  <li>Inactive: Model tak memiliki subscriber (Locked)</li>
+  <li>Jumlah gallery adalah total data base dari model di seluruh tahun pembuatan</li>
+  <li>Kami mempersilahkan bila ingin Subscribe/Berlangganan model yang tak tersedia di list ini ataupun publik figur di luar dunia Idol</li>
+  <li>Seluruh inactive model tetap tersedia di database arsip lama, dapat diakses dengan mengambil tier Passion</li>
+</ul>
+</div>
+</div>
+
+<div class="filter-bar">
+  <button class="active" data-filter="all">Semua Model</button>
+  <button data-filter="aktip">Active</button>
+  <button data-filter="nonaktip">Inactive</button>
+</div>
+
+<div class="model-grid">
+  
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/f2/3e/a0/ME1CF8R1_o.jpg'><p>433 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a9/86/d3/ME1CF8XV_o.jpg'><p>408 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/56/1d/d2/ME1CF8XU_o.jpg'><p>370 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/3d/f7/5d/ME1CF8XX_o.jpg'><p>249 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/ec/79/ME1CF8XS_o.jpg'><p>209 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/bd/9d/82/ME1CF8XR_o.jpg'><p>203 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/7b/b1/83/ME1CF8XY_o.jpg'><p>203 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/a2/bc/37/ME1CF8XW_o.jpg'><p>201 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/0d/1b/5b/ME1CF8Y0_o.jpg'><p>181 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/51/8f/16/ME1CF8EA_o.jpg'><p>151 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/16/31/d3/ME1CF8R5_o.jpg'><p>149 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e7/3a/d3/ME1CF8HT_o.jpg'><p>148 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/44/09/94/ME1CF8E9_o.jpg'><p>145 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/c5/a9/9b/ME1CF8QY_o.jpg'><p>145 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/6a/12/9f/ME1CF8RC_o.jpg'><p>109 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/4d/7a/8a/ME1CF8BW_o.jpg'><p>108 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/dd/3f/45/ME1CF8I3_o.jpg'><p>100 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ee/b9/e0/ME1CF8XT_o.jpg'><p>86 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/07/19/94/ME1CF8XZ_o.jpg'><p>73 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/92/80/2a/ME1CF8R9_o.jpg'><p>72 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/db/d6/b9/ME1CF8BR_o.jpg'><p>54 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/4a/5d/9b/ME1CF8E6_o.jpg'><p>53 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/36/67/2b/ME1CF8EB_o.jpg'><p>53 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/57/75/34/ME1CF8HW_o.jpg'><p>42 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/de/18/4e/ME1CF8BZ_o.jpg'><p>40 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/fe/45/7b/ME1CF8I1_o.jpg'><p>37 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/5c/e5/11/ME1CF8BO_o.jpg'><p>35 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a6/97/00/ME1CF8HQ_o.jpg'><p>34 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/bf/10/d6/ME1CF8E8_o.jpg'><p>30 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/ea/e2/6a/ME1CF8HZ_o.jpg'><p>30 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/8f/90/88/ME1CF8E5_o.jpg'><p>29 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/69/7f/af/ME1CF8R7_o.jpg'><p>27 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='aktip'><div class='model-card'><img src='https://images4.imagebam.com/ec/d9/db/ME1CF8R2_o.jpg'><p>21 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/a0/c8/1c/ME1CF8HS_o.jpg'><p>18 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/18/3f/b2/ME1CF8E7_o.jpg'><p>15 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/71/4c/83/ME1CF8BN_o.jpg'><p>12 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/10/57/71/ME1CF8BJ_o.jpg'><p>6 Galleries</p></div></a>
+<a href='https://javai.myr.id/m/ytta' class='model-link' data-team='nonaktip'><div class='model-card'><img src='https://images4.imagebam.com/e8/c1/ae/ME1CF8BT_o.jpg'><p>6 Galleries</p></div></a>  
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+window.addEventListener("scroll", function () {
+  const topbar = document.querySelector(".topbar");
+
+  if (window.scrollY > 10) {
+    topbar.classList.add("scrolled");
+  } else {
+    topbar.classList.remove("scrolled");
+  }
+});
+
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+const buttons = document.querySelectorAll(".filter-bar button");
+const cards = document.querySelectorAll(".model-link");
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    // tombol aktif
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const filter = btn.dataset.filter;
+
+    cards.forEach(card => {
+      const team = card.dataset.team;
+
+      if (filter === "all" || team === filter) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+  });
+});
+</script>
+
+ </body>
+</html>
