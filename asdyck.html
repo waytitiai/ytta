@@ -13,29 +13,41 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+                     
+            background-image: url('https://waytitiai.github.io/ytta/images/aggweg.webp'); 
+            background-size: cover;      
+            background-position: center; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
        
-        .container {
+.container {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 400px; /* Batas maksimal lebar di PC */
+            max-width: 400px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.25); 
+            backdrop-filter: blur(10px);          
+            -webkit-backdrop-filter: blur(10px);  
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
        
         .image-wrapper {
             position: relative;
             width: 100%;
-            padding-bottom: 100%; /* Membuat aspek rasio 1:1 */
+            padding-bottom: 100%;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
