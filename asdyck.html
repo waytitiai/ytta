@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Sederhana</title>
+    <style>
+        /* Mengatur halaman agar konten selalu di tengah */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Wadah utama konten */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px; /* Batas maksimal lebar di PC */
+            text-align: center;
+        }
+
+        /* Pembungkus Iframe untuk menjaga rasio 1:1 (Kotak) */
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%; /* Membuat aspek rasio 1:1 */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background-color: #ffffff; 
+        }
+
+        /* REVISI: Mengatur iframe Google Drive agar fleksibel dan rapi */
+        .image-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; /* Menghilangkan garis tepi bawaan iframe */
+        }
+
+        /* Desain tombol */
+        .cta-button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Efek saat tombol diarahkan cursor / ditekan */
+        .cta-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .cta-button:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+     <div class="image-wrapper">
+            <!-- REVISI: Menggunakan iframe dengan link preview Google Drive Anda -->
+            <iframe src="https://drive.google.com/file/d/1P__7sFVDfECTghOBUfMX-OfT_CRC9y3V/preview?rm=minimal" allow="autoplay"></iframe>
+        </div>
+
+        
+        <a href="https://drive.google.com/file/d/1PZc9jEACsWT7TCaoxT1oj_CJadVMMqfL/preview?rm=minimal" class="cta-button">AKSES DISINI!</a>
+    </div>
+
+</body>
+</html>
